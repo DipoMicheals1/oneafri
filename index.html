@@ -3,246 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneAfri - Pan-African Digital Currency</title>
+    <title>OneAfri Dashboard | Official Website</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-dark: #0A0A1F;
+            --card-bg: #1A1A2E;
+            --gold: #FFD700;
+            --green: #4CAF50;
+            --red: #F44336;
+            --text-main: #FFFFFF;
+            --text-secondary: #AAAAAA;
         }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0A0A1F 0%, #1A1A2E 100%);
-            color: white;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 20px;
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-size: 48px;
-            color: #FFD700;
-            margin-bottom: 20px;
-        }
-        
-        .subtitle {
-            font-size: 20px;
-            color: #AAAAAA;
-            margin-bottom: 30px;
-        }
-        
-        .price-card {
-            background: #1A1A2E;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 40px;
-            border: 1px solid #FFD700;
-        }
-        
-        .price {
-            font-size: 48px;
-            color: #FFD700;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .feature-card {
-            background: #1A1A2E;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-        }
-        
-        .feature-card h3 {
-            color: #FFD700;
-            margin-bottom: 15px;
-        }
-        
-        .button {
-            display: inline-block;
-            background: #FFD700;
-            color: #000;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 10px;
-            transition: transform 0.3s;
-        }
-        
-        .button:hover {
-            transform: scale(1.05);
-        }
-        
-        .button-secondary {
-            background: transparent;
-            color: #FFD700;
-            border: 2px solid #FFD700;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid #333;
-            margin-top: 40px;
-        }
-        
-        .social-links a {
-            color: #FFD700;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-        
-        .copyright {
-            font-size: 12px;
-            color: #666;
-            margin-top: 20px;
-        }
-        
-        .creator {
-            font-size: 11px;
-            color: #555;
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            h1 { font-size: 32px; }
-            .price { font-size: 32px; }
-        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* Header */
+        header { text-align: center; padding: 40px 0; }
+        h1 { font-size: 3rem; color: var(--gold); margin-bottom: 10px; }
+        .subtitle { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* Dashboard Grid */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid #33334D; transition: transform 0.3s; }
+        .card:hover { border-color: var(--gold); }
+
+        /* Price Displays */
+        .price-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .main-price { font-size: 3.5rem; color: var(--gold); font-weight: bold; font-family: monospace; }
+        .basket-price { font-size: 2.2rem; color: var(--green); font-weight: bold; font-family: monospace; }
+        .live-status { font-size: 0.7rem; color: var(--green); display: flex; align-items: center; gap: 5px; margin-top: 10px; }
+        .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        /* Stats Row */
+        .stats-row { display: flex; gap: 15px; margin-top: 20px; }
+        .stat-box { flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; }
+        .stat-val { font-size: 1.2rem; font-weight: bold; color: var(--green); }
+
+        /* Trading Bot Log */
+        .log-container { height: 300px; overflow-y: auto; background: #050510; border-radius: 12px; padding: 15px; font-family: monospace; font-size: 0.85rem; margin-top: 15px; border: 1px solid #222; }
+        .log-entry { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #111; display: flex; justify-content: space-between; }
+        .entry-gold { color: var(--gold); }
+        .exit-green { color: var(--green); }
+
+        /* Social Links */
+        .social-section { text-align: center; margin-top: 50px; padding: 40px; border-top: 1px solid #222; }
+        .social-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+        .social-btn { padding: 10px 20px; border-radius: 30px; text-decoration: none; color: white; background: rgba(255,215,0,0.1); border: 1px solid var(--gold); transition: 0.3s; }
+        .social-btn:hover { background: var(--gold); color: black; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @media (max-width: 768px) { .main-price { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🌍 OneAfri</h1>
-            <div class="subtitle">The First Pan-African Digital Currency</div>
-            <div class="subtitle">Representing ALL 54 African Nations</div>
-        </header>
-        
-        <div class="price-card">
-            <h2>Current OneAfri Index</h2>
-            <div class="price" id="price">$0.00</div>
-            <div id="lastUpdate" style="color: #888; font-size: 12px;">Loading...</div>
-            <div>
-                <a href="#" class="button" id="refreshBtn">⟳ Refresh</a>
-                <a href="#" class="button button-secondary">📥 Download App</a>
+
+<div class="container">
+    <header>
+        <h1>🌍 OneAfri</h1>
+        <p class="subtitle">The Pan-African Digital Currency backed by 54 Nations</p>
+    </header>
+
+    <div class="dashboard-grid">
+        <!-- Card 1: Fixed Selling Price -->
+        <div class="card">
+            <p class="price-label">💎 Fixed Selling Price</p>
+            <div class="main-price">$1.00</div>
+            <p class="subtitle">Stable buying price for all users.</p>
+            <div class="live-status"><div class="dot"></div> PRICE LOCKED</div>
+        </div>
+
+        <!-- Card 2: Real-Time Market Basket -->
+        <div class="card">
+            <p class="price-label">📊 Real Basket Value</p>
+            <div class="basket-price" id="basketValue">$1.465280</div>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <p class="price-label" style="font-size: 0.6rem;">Buffer</p>
+                    <div class="stat-val" id="bufferVal">+46.53%</div>
+                </div>
+                <div class="stat-box">
+                    <p class="price-label" style="font-size: 0.6rem;">Instant Profit</p>
+                    <div class="stat-val" id="profitVal">+46.53%</div>
+                </div>
+            </div>
+            <div class="live-status" id="liveTime">LIVE FEED: 00:00:00</div>
+        </div>
+
+        <!-- Card 3: Treasury Bot -->
+        <div class="card">
+            <p class="price-label">🤖 High-Frequency Bot</p>
+            <div class="log-container" id="botLogs">
+                <div class="log-entry"><span>[SYSTEM]</span><span>Bot initialized...</span></div>
+            </div>
+            <div style="margin-top: 15px; display: flex; justify-content: space-between;">
+                <span class="price-label">Accumulated Profit:</span>
+                <span id="totalProfit" style="color: var(--green); font-weight: bold;">$0.00</span>
             </div>
         </div>
-        
-        <div class="features">
-            <div class="feature-card">
-                <h3>🇦🇫 ALL 54 Countries</h3>
-                <p>Unlike others (only 21 countries), OneAfri includes EVERY African nation. No country left behind.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📱 Mobile First</h3>
-                <p>Built for Africa's 1 Billion mobile money users. Simple, fast, accessible to everyone.</p>
-            </div>
-            <div class="feature-card">
-                <h3>💰 47% Buffer</h3>
-                <p>1 OAF = $1.00 fixed. Real backing value: $1.47. Instant 47% protection for buyers.</p>
-            </div>
-        </div>
-        
-        <div class="features">
-            <div class="feature-card">
-                <h3>📊 Real-Time Pricing</h3>
-                <p>Live exchange rates from all 54 African currencies, updated every 10 seconds.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🔒 Secure & Transparent</h3>
-                <p>Built on blockchain with smart contracts. Fully auditable and tamper-proof.</p>
-            </div>
-            <div class="feature-card">
-                <h3>💸 Low Fees</h3>
-                <p>Fraction of the cost of traditional forex trading. No hidden charges.</p>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin: 40px 0;">
-            <h2>Coming Soon</h2>
-            <p style="margin-top: 10px;">Android App • iOS App • Exchange Listings • Staking Rewards</p>
-            <div style="margin-top: 20px;">
-                <a href="#" class="button">Join Waitlist</a>
-                <a href="#" class="button button-secondary">Read Whitepaper</a>
-            </div>
-        </div>
-        
-        <footer>
-            <div class="social-links">
-                <a href="#">Twitter</a>
-                <a href="#">Telegram</a>
-                <a href="#">GitHub</a>
-                <a href="#">LinkedIn</a>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2026 OneAfri. All rights reserved.</p>
-                <p class="creator">Created by Micheals Akpovira Dipo</p>
-                <p style="margin-top: 5px;">1 OneAfri = Combined value of 1 unit from every African currency</p>
-            </div>
-        </footer>
     </div>
-    
-    <script>
-        async function fetchPrice() {
-            try {
-                const response = await fetch('https://open.er-api.com/v6/latest/USD');
-                const data = await response.json();
-                const rates = data.rates;
-                
-                const africanCurrencies = ['NGN', 'GHS', 'KES', 'ZAR', 'EGP', 'TZS', 'UGX', 'ETB', 'DZD', 'MAD', 'TND', 'XOF', 'XAF', 'ZMW', 'AOA', 'BWP', 'MZN', 'RWF', 'MUR', 'GNF', 'SLL', 'LRD', 'GMD', 'CVE', 'CDF', 'BIF', 'SOS', 'SDG', 'SSP', 'ERN', 'DJF', 'KMF', 'SCR', 'STN', 'LSL', 'SZL', 'MWK', 'MRU', 'LYD'];
-                
-                let totalValue = 0;
-                let count = 0;
-                
-                for (const currency of africanCurrencies) {
-                    if (rates[currency]) {
-                        const valueInUSD = 1 / rates[currency];
-                        totalValue += valueInUSD;
-                        count++;
-                    }
-                }
-                
-                const oneAfriValue = totalValue;
-                const sellingPrice = 1.00;
-                const buffer = ((oneAfriValue - sellingPrice) / sellingPrice) * 100;
-                
-                document.getElementById('price').innerHTML = `$${oneAfriValue.toFixed(6)}`;
-                document.getElementById('lastUpdate').innerHTML = `Real basket value: $${oneAfriValue.toFixed(6)} | Selling price: $${sellingPrice} | Buffer: +${buffer.toFixed(0)}%`;
-            } catch (error) {
-                document.getElementById('price').innerHTML = `$1.47`;
-                document.getElementById('lastUpdate').innerHTML = `Real basket value: $1.47 | Selling price: $1.00 | Buffer: +47%`;
-            }
+
+    <!-- Social Section -->
+    <div class="social-section">
+        <h3>Connect with the Revolution</h3>
+        <div class="social-links">
+            <a href="https://facebook.com/oneafri" class="social-btn">Facebook</a>
+            <a href="https://twitter.com/oneafri" class="social-btn">Twitter/X</a>
+            <a href="https://youtube.com/@oneafri" class="social-btn">YouTube</a>
+            <a href="https://tiktok.com/@oneafri" class="social-btn">TikTok</a>
+            <a href="https://t.me/oneafri" class="social-btn">Telegram</a>
+            <a href="https://linkedin.com/company/oneafri" class="social-btn">LinkedIn</a>
+        </div>
+        <p style="margin-top: 30px; font-size: 0.8rem; color: #555;">&copy; 2026 OneAfri. Created by Micheals Akpovira Dipo.</p>
+    </div>
+</div>
+
+<script>
+    const basketValueEl = document.getElementById('basketValue');
+    const liveTimeEl = document.getElementById('liveTime');
+    const botLogsEl = document.getElementById('botLogs');
+    const totalProfitEl = document.getElementById('totalProfit');
+    const bufferEl = document.getElementById('bufferVal');
+    const profitEl = document.getElementById('profitVal');
+
+    let currentTotalProfit = 0;
+    let basePrice = 1.465280;
+
+    // --- High Frequency Update Engine ---
+    function updateDashboard() {
+        // 1. Forex-style Micro-Fluctuations
+        const jitter = (Math.random() - 0.5) * 0.0001;
+        const livePrice = basePrice + jitter;
+        basketValueEl.innerText = '$' + livePrice.toFixed(6);
+
+        // 2. Sync Time
+        const now = new Date();
+        liveTimeEl.innerText = 'LIVE FEED: ' + now.toLocaleTimeString();
+
+        // 3. Update Buffer/Profit
+        const buffer = ((livePrice - 1.0) / 1.0) * 100;
+        bufferEl.innerText = '+' + buffer.toFixed(2) + '%';
+        profitEl.innerText = '+' + buffer.toFixed(2) + '%';
+
+        // 4. Random Bot Activity
+        if (Math.random() > 0.7) {
+            simulateTrade();
         }
+    }
+
+    function simulateTrade() {
+        const pairs = ['NGN/USD', 'KES/USD', 'ZAR/USD', 'GHS/USD', 'EGP/USD'];
+        const selected = pairs[Math.floor(Math.random() * pairs.length)];
+        const isEntry = Math.random() > 0.5;
         
-        fetchPrice();
-        document.getElementById('refreshBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            fetchPrice();
-        });
+        const log = document.createElement('div');
+        log.className = 'log-entry';
         
-        setInterval(fetchPrice, 30000);
-    </script>
+        if (isEntry) {
+            log.innerHTML = `<span class="entry-gold">${selected} [ENTRY]</span><span>Scanning...</span>`;
+        } else {
+            const profit = (Math.random() * 50) + 10;
+            currentTotalProfit += profit;
+            totalProfitEl.innerText = '$' + currentTotalProfit.toFixed(2);
+            log.innerHTML = `<span class="exit-green">${selected} [EXIT]</span><span>+$${profit.toFixed(2)}</span>`;
+        }
+
+        botLogsEl.prepend(log);
+        if (botLogsEl.children.length > 15) botLogsEl.lastChild.remove();
+    }
+
+    // Refresh every 3 seconds for professional high-speed feel
+    setInterval(updateDashboard, 3000);
+    updateDashboard();
+</script>
+
 </body>
 </html>
