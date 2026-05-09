@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneAfri - Two Truths Dashboard | Live Market Data</title>
-    <meta name="description" content="Real-time basket value of 54 African currencies vs market price. Complete transparency.">
+    <title>OneAfri - Sovereign Economic Ledger | Three Truths Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -21,14 +20,13 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
-        /* Header */
         .header {
             text-align: center;
-            padding: 40px 0;
+            padding: 40px 0 20px;
         }
         
         .logo {
@@ -58,10 +56,9 @@
             color: #4CAF50;
         }
         
-        /* Two Truths Grid */
-        .two-truths {
+        .three-truths {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             margin-bottom: 40px;
         }
@@ -95,19 +92,15 @@
         }
         
         .truth-value {
-            font-size: 64px;
+            font-size: 48px;
             font-weight: bold;
             font-family: monospace;
             margin: 20px 0;
         }
         
-        .basket-value {
-            color: #4CAF50;
-        }
-        
-        .market-price {
-            color: #FF9800;
-        }
+        .truth-1-value { color: #4CAF50; }
+        .truth-2-value { color: #FF9800; }
+        .truth-3-value { color: #FFD700; }
         
         .truth-description {
             font-size: 12px;
@@ -115,17 +108,12 @@
             line-height: 1.6;
         }
         
-        .opportunity-badge {
-            background: rgba(255, 152, 0, 0.2);
-            border: 1px solid #FF9800;
-            border-radius: 30px;
-            padding: 8px 16px;
-            font-size: 12px;
-            margin-top: 20px;
-            display: inline-block;
+        .source-badge {
+            font-size: 10px;
+            color: #666;
+            margin-top: 15px;
         }
         
-        /* Stats Row */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -152,7 +140,34 @@
             color: #FFD700;
         }
         
-        /* Currency List */
+        .broadcast-section {
+            background: linear-gradient(135deg, #1A1A2E 0%, #2A2A3E 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FFD700;
+        }
+        
+        .broadcast-title {
+            font-size: 12px;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .broadcast-message {
+            font-size: 16px;
+            color: #FFFFFF;
+            font-style: italic;
+        }
+        
+        .broadcast-author {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
         .currencies-section {
             background: #1A1A2E;
             border-radius: 20px;
@@ -171,62 +186,53 @@
         
         .currency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 10px;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
         .currency-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            align-items: center;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             font-size: 13px;
         }
         
-        .currency-name {
-            color: #FFFFFF;
-        }
-        
-        .currency-value {
-            color: #4CAF50;
-            font-family: monospace;
-        }
-        
-        /* Risk Indicator */
-        .risk-section {
-            background: #1A1A2E;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .risk-bar {
-            height: 8px;
-            background: #333;
-            border-radius: 4px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-        
-        .risk-fill {
-            height: 100%;
-            width: 0%;
-            border-radius: 4px;
-            transition: width 0.5s;
-        }
-        
-        .risk-labels {
+        .currency-info {
             display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #888;
-            margin-top: 8px;
+            align-items: center;
+            gap: 8px;
         }
         
-        /* Footer */
+        .currency-flag { font-size: 16px; }
+        .currency-name { color: #FFFFFF; }
+        .currency-code { color: #888; font-size: 10px; }
+        .currency-value { color: #4CAF50; font-family: monospace; font-weight: bold; }
+        .currency-source { font-size: 9px; color: #666; margin-left: 8px; }
+        
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .status-bullish { color: #4CAF50; }
+        .status-bearish { color: #F44336; }
+        .status-neutral { color: #FFC107; }
+        
         .footer {
             text-align: center;
             padding: 30px;
@@ -241,322 +247,173 @@
             color: #555;
         }
         
-        @media (max-width: 768px) {
-            .two-truths {
-                grid-template-columns: 1fr;
-            }
-            .stats-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .truth-value {
-                font-size: 40px;
-            }
+        .loader {
+            text-align: center;
+            padding: 40px;
+            color: #FFD700;
         }
         
-        /* Status Colors */
-        .status-bullish { color: #4CAF50; }
-        .status-bearish { color: #F44336; }
-        .status-neutral { color: #FFC107; }
-        
-        .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #4CAF50;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-            margin-right: 8px;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+        @media (max-width: 900px) {
+            .three-truths { grid-template-columns: 1fr; gap: 20px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .truth-value { font-size: 36px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo">🌍</div>
-            <h1>OneAfri Two Truths Dashboard</h1>
-            <div class="tagline">Complete Transparency. No Hidden Numbers.</div>
-            <div class="transparency-badge">🔓 100% TRANSPARENT</div>
+            <h1>OneAfri Sovereign Economic Ledger</h1>
+            <div class="tagline">The Three Truths. Complete Transparency. No Hidden Numbers.</div>
+            <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
         </div>
 
-        <!-- Two Truths Grid -->
-        <div class="two-truths">
-            <!-- Truth 1: Basket Value -->
+        <div class="broadcast-section" id="broadcastSection" style="display: none;">
+            <div class="broadcast-title">📢 FOUNDER'S DIGITAL CLONE PULSE</div>
+            <div class="broadcast-message" id="broadcastMessage"></div>
+            <div class="broadcast-author">— Dipo Akpovira Micheals</div>
+        </div>
+
+        <div class="three-truths">
             <div class="truth-card">
                 <div class="truth-title">📊 TRUTH #1</div>
-                <div class="truth-subtitle">INTRINSIC VALUE</div>
-                <div class="truth-value basket-value" id="basketValue">$1.47</div>
-                <div class="truth-description">
-                    The real backing value of 54 African currencies combined.<br>
-                    This is what OneAfri is WORTH.
-                </div>
-                <div class="opportunity-badge" id="basketOpportunity">💰 Buying opportunity: +0%</div>
+                <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
+                <div class="truth-value truth-1-value" id="truth1Value">$--</div>
+                <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br>No multipliers. No inflation.</div>
+                <div class="source-badge" id="truth1Source">Source: Sovereign Ledger</div>
             </div>
 
-            <!-- Truth 2: Market Price -->
             <div class="truth-card">
-                <div class="truth-title">📈 TRUTH #2</div>
-                <div class="truth-subtitle">LIQUIDITY VALUE</div>
-                <div class="truth-value market-price" id="marketPrice">$1.00</div>
-                <div class="truth-description">
-                    What people are currently willing to pay.<br>
-                    This is what you can SELL for today.
-                </div>
-                <div class="opportunity-badge" id="marketOpportunity">📊 Market price: $1.00</div>
+                <div class="truth-title">⚡ TRUTH #2</div>
+                <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
+                <div class="truth-value truth-2-value" id="truth2Value">$--</div>
+                <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br>Trading value. Moves with the market.</div>
+                <div class="source-badge" id="truth2Source">Source: Live Forex Feed</div>
+            </div>
+
+            <div class="truth-card">
+                <div class="truth-title">⚓ TRUTH #3</div>
+                <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
+                <div class="truth-value truth-3-value" id="truth3Value">$--</div>
+                <div class="truth-description">Fixed monthly anchor value.<br>Locked for 30 days. Your stability guarantee.</div>
+                <div class="source-badge" id="truth3Source">Source: Hardware Vault</div>
             </div>
         </div>
 
-        <!-- Stats Row -->
         <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-label">🛡️ BUFFER</div>
-                <div class="stat-value" id="buffer">+47%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">💰 SPREAD</div>
-                <div class="stat-value" id="spread">$0.47</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">📊 MARKET STATUS</div>
-                <div class="stat-value" id="marketStatus">BULLISH</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">🕐 LAST UPDATE</div>
-                <div class="stat-value" id="lastUpdate">--:--:--</div>
-            </div>
+            <div class="stat-card"><div class="stat-label">🛡️ SYSTEM BUFFER</div><div class="stat-value" id="buffer">--</div></div>
+            <div class="stat-card"><div class="stat-label">💰 UNREALIZED GAIN</div><div class="stat-value" id="instantProfit">--</div></div>
+            <div class="stat-card"><div class="stat-label">📊 MARKET STATUS</div><div class="stat-value" id="marketStatus">--</div></div>
+            <div class="stat-card"><div class="stat-label">🕐 LAST PULSE</div><div class="stat-value" id="lastUpdate">--:--:--</div></div>
         </div>
 
-        <!-- Risk Indicator -->
-        <div class="risk-section">
-            <div class="section-title">
-                <span class="live-dot"></span> RISK INDICATOR
-            </div>
-            <div class="risk-bar">
-                <div class="risk-fill" id="riskFill" style="width: 0%; background: #4CAF50;"></div>
-            </div>
-            <div class="risk-labels">
-                <span>🔴 DISTRESS</span>
-                <span>🟡 CAUTION</span>
-                <span>🟢 STRONG</span>
-            </div>
-            <div style="margin-top: 15px; font-size: 13px; color: #888;" id="riskMessage">
-                Basket value is $1.47. You have 47% protection.
-            </div>
-        </div>
-
-        <!-- Currency List -->
         <div class="currencies-section">
-            <div class="section-title">
-                <span>🇦🇫</span> 54 African Currencies (1 Unit = USD)
-            </div>
-            <div class="currency-grid" id="currencyList">
-                <div style="text-align: center; padding: 20px;">Loading 54 currencies...</div>
-            </div>
+            <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — 54 African Nations (1 Unit = USD)</div>
+            <div class="currency-grid" id="currencyList"><div class="loader">🌀 Loading sovereign ledger from Render Cloud...</div></div>
+            <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend | Absolute Transparency Protocol</div>
         </div>
 
-        <!-- Disclaimer -->
-        <div class="risk-section">
+        <div class="currencies-section">
             <div class="section-title">⚠️ IMPORTANT DISCLAIMER</div>
             <div style="font-size: 12px; color: #888; line-height: 1.6;">
                 <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
                 <p>• You can only sell to other users on exchanges.</p>
-                <p>• The $1.00 price applies ONLY to the initial sale.</p>
-                <p>• After public supply is sold, the market determines the price.</p>
+                <p>• The $1.00 selling price applies ONLY to the initial sale from the company.</p>
+                <p>• After the 300M public supply is sold, the market determines the price.</p>
                 <p>• You could lose money. Only invest what you can afford to lose.</p>
-                <p style="margin-top: 10px;">This dashboard shows REAL-TIME data from live exchange rates.</p>
+                <p style="margin-top: 10px;">✓ This dashboard shows REAL-TIME data from the OneAfri Sovereign Backend.</p>
             </div>
         </div>
 
         <div class="footer">
             <p>© 2026 OneAfri. All rights reserved.</p>
-            <p>Created by Micheals Akpovira Dipo</p>
-            <div class="refresh-info">
-                Data updates every 30 seconds from live exchange rates.
-                <span id="dataSource">Source: ExchangeRate-API</span>
-            </div>
+            <p>Created by Micheals Akpovira Dipo | Founder: Dipo Micheals Concepts | Skenoo International | Robotical Africana</p>
+            <div class="refresh-info">Data syncs directly from <strong>OneAfri Render Cloud Brain</strong>. Updates every 30 seconds.</div>
         </div>
     </div>
 
     <script>
-        // 54 African currency codes
-        const africanCurrencies = [
-            'NGN', 'GHS', 'KES', 'ZAR', 'EGP', 'TND', 'MAD', 'DZD', 'LYD', 'SDG',
-            'MRU', 'XOF', 'XAF', 'GNF', 'SLL', 'LRD', 'GMD', 'CVE', 'STN', 'CDF',
-            'BIF', 'RWF', 'SSP', 'ERN', 'DJF', 'SOS', 'KMF', 'SCR', 'MUR', 'MGA',
-            'MWK', 'MZN', 'ZMW', 'ZWL', 'AOA', 'BWP', 'NAD', 'LSL', 'SZL', 'ETB',
-            'UGX', 'TZS', 'CVE', 'KMF', 'MRU', 'LYD', 'ERN', 'DJF', 'SSP', 'SDG'
-        ];
-
-        // Currency names for display
-        const currencyNames = {
-            'NGN': 'Nigerian Naira', 'GHS': 'Ghanaian Cedi', 'KES': 'Kenyan Shilling',
-            'ZAR': 'South African Rand', 'EGP': 'Egyptian Pound', 'TND': 'Tunisian Dinar',
-            'MAD': 'Moroccan Dirham', 'DZD': 'Algerian Dinar', 'LYD': 'Libyan Dinar',
-            'SDG': 'Sudanese Pound', 'MRU': 'Mauritanian Ouguiya', 'XOF': 'West African CFA',
-            'XAF': 'Central African CFA', 'GNF': 'Guinean Franc', 'SLL': 'Sierra Leonean Leone',
-            'LRD': 'Liberian Dollar', 'GMD': 'Gambian Dalasi', 'CVE': 'Cape Verdean Escudo',
-            'STN': 'Sao Tome Dobra', 'CDF': 'Congolese Franc', 'BIF': 'Burundian Franc',
-            'RWF': 'Rwandan Franc', 'SSP': 'South Sudanese Pound', 'ERN': 'Eritrean Nakfa',
-            'DJF': 'Djiboutian Franc', 'SOS': 'Somali Shilling', 'KMF': 'Comorian Franc',
-            'SCR': 'Seychellois Rupee', 'MUR': 'Mauritian Rupee', 'MGA': 'Malagasy Ariary',
-            'MWK': 'Malawian Kwacha', 'MZN': 'Mozambican Metical', 'ZMW': 'Zambian Kwacha',
-            'ZWL': 'Zimbabwean Dollar', 'AOA': 'Angolan Kwanza', 'BWP': 'Botswana Pula',
-            'NAD': 'Namibian Dollar', 'LSL': 'Lesotho Loti', 'SZL': 'Eswatini Lilangeni',
-            'ETB': 'Ethiopian Birr', 'UGX': 'Ugandan Shilling', 'TZS': 'Tanzanian Shilling'
-        };
-
-        let currentBasketValue = 1.47;
-        let currentMarketPrice = 1.00;
-
-        async function fetchExchangeRates() {
+        const RENDER_API = 'https://oneafri-backend.onrender.com';
+        
+        async function fetchMarketData() {
             try {
-                // Try primary API
-                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const response = await fetch(`${RENDER_API}/api/v1/market-pulse`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                updateDashboard(data);
+                document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE SOVEREIGN SYNC';
+            } catch (error) {
+                console.error('Render API error:', error);
+                document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
+            }
+        }
+        
+        async function fetchBroadcast() {
+            try {
+                const response = await fetch(`${RENDER_API}/api/v1/broadcast`);
                 if (response.ok) {
                     const data = await response.json();
-                    const rates = data.rates;
-                    
-                    let totalValue = 0;
-                    let validCount = 0;
-                    const currencyValues = [];
-                    
-                    for (const code of africanCurrencies) {
-                        if (rates[code]) {
-                            const rateToUsd = rates[code];
-                            const valueInUsd = 1 / rateToUsd;
-                            totalValue += valueInUsd;
-                            validCount++;
-                            currencyValues.push({ code, name: currencyNames[code] || code, value: valueInUsd });
-                        }
+                    if (data && data.message) {
+                        document.getElementById('broadcastMessage').innerHTML = data.message;
+                        document.getElementById('broadcastSection').style.display = 'block';
                     }
-                    
-                    currentBasketValue = totalValue;
-                    document.getElementById('dataSource').innerHTML = 'Source: ExchangeRate-API (Live)';
-                    updateDashboard(currencyValues);
-                } else {
-                    throw new Error('API failed');
                 }
-            } catch (error) {
-                console.log('API failed, using simulated data');
-                document.getElementById('dataSource').innerHTML = 'Source: Simulated (Offline Mode)';
-                useSimulatedData();
-            }
+            } catch (error) {}
         }
         
-        function useSimulatedData() {
-            currentBasketValue = 1.47;
-            currentMarketPrice = 1.00;
-            
-            const simulatedValues = [
-                { code: 'NGN', name: 'Nigerian Naira', value: 0.000736 },
-                { code: 'GHS', name: 'Ghanaian Cedi', value: 0.09 },
-                { code: 'KES', name: 'Kenyan Shilling', value: 0.00775 },
-                { code: 'ZAR', name: 'South African Rand', value: 0.0608 },
-                { code: 'EGP', name: 'Egyptian Pound', value: 0.0186 },
-                { code: 'TND', name: 'Tunisian Dinar', value: 0.32 },
-                { code: 'MAD', name: 'Moroccan Dirham', value: 0.10 },
-                { code: 'DZD', name: 'Algerian Dinar', value: 0.0074 },
-                { code: 'XOF', name: 'West African CFA', value: 0.00164 },
-                { code: 'XAF', name: 'Central African CFA', value: 0.00164 }
-            ];
-            
-            updateDashboard(simulatedValues);
-        }
-        
-        function updateDashboard(currencyValues) {
-            // Update basket value
-            document.getElementById('basketValue').innerHTML = '$' + currentBasketValue.toFixed(6);
-            
-            // Update market price (simulated fluctuation)
-            currentMarketPrice = 1.00 + (Math.random() - 0.5) * 0.05;
-            document.getElementById('marketPrice').innerHTML = '$' + currentMarketPrice.toFixed(6);
-            
-            // Calculate buffer
-            const buffer = ((currentBasketValue - 1.00) / 1.00) * 100;
-            document.getElementById('buffer').innerHTML = (buffer > 0 ? '+' : '') + buffer.toFixed(0) + '%';
-            
-            // Calculate spread
-            const spread = currentBasketValue - currentMarketPrice;
-            document.getElementById('spread').innerHTML = '$' + spread.toFixed(4);
-            
-            // Market status
-            let statusText = 'NEUTRAL';
-            let statusClass = 'status-neutral';
-            let riskWidth = 50;
-            let riskColor = '#FFC107';
-            let riskMessage = '';
-            
-            if (currentBasketValue >= 1.30) {
-                statusText = 'BULLISH';
-                statusClass = 'status-bullish';
-                riskWidth = 90;
-                riskColor = '#4CAF50';
-                riskMessage = 'Basket value is $' + currentBasketValue.toFixed(4) + '. Strong backing.';
-            } else if (currentBasketValue >= 1.00) {
-                statusText = 'GOOD';
-                statusClass = 'status-bullish';
-                riskWidth = 70;
-                riskColor = '#4CAF50';
-                riskMessage = 'Basket value is $' + currentBasketValue.toFixed(4) + '. Good backing.';
-            } else if (currentBasketValue >= 0.90) {
-                statusText = 'CAUTION';
-                statusClass = 'status-neutral';
-                riskWidth = 40;
-                riskColor = '#FFC107';
-                riskMessage = '⚠️ Basket value is below $1.00. Proceed with caution.';
-            } else {
-                statusText = 'DISTRESS';
-                statusClass = 'status-bearish';
-                riskWidth = 20;
-                riskColor = '#F44336';
-                riskMessage = '🔴 Basket value is significantly below $1.00. High risk.';
+        function updateDashboard(data) {
+            if (data.rawSum) {
+                document.getElementById('truth1Value').innerHTML = `$${data.rawSum.toFixed(6)}`;
+                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${data.rawSum.toFixed(4)} | Source: ${data.currencyList?.length || 54} Nations`;
+            }
+            if (data.livePulse) {
+                document.getElementById('truth2Value').innerHTML = `$${data.livePulse.toFixed(4)}`;
+                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: ${data.syncStatus || 'LIVE'}`;
+            }
+            if (data.monthlyAnchor) {
+                document.getElementById('truth3Value').innerHTML = `$${data.monthlyAnchor.toFixed(4)}`;
+                document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked for 30 days`;
             }
             
-            document.getElementById('marketStatus').innerHTML = statusText;
-            document.getElementById('marketStatus').className = 'stat-value ' + statusClass;
-            document.getElementById('riskFill').style.width = riskWidth + '%';
-            document.getElementById('riskFill').style.background = riskColor;
-            document.getElementById('riskMessage').innerHTML = riskMessage;
-            
-            // Update opportunity badges
-            const opportunityPercent = ((currentBasketValue - currentMarketPrice) / currentMarketPrice) * 100;
-            if (opportunityPercent > 10) {
-                document.getElementById('basketOpportunity').innerHTML = '💰 Buying opportunity: +' + opportunityPercent.toFixed(0) + '% discount!';
-                document.getElementById('basketOpportunity').style.background = 'rgba(76, 175, 80, 0.3)';
-                document.getElementById('basketOpportunity').style.borderColor = '#4CAF50';
-            } else {
-                document.getElementById('basketOpportunity').innerHTML = '💎 Fair value: ' + (opportunityPercent > 0 ? '+' : '') + opportunityPercent.toFixed(0) + '% premium';
+            const sellingPrice = 1.00;
+            if (data.livePulse) {
+                const bufferPercent = ((data.livePulse - sellingPrice) / sellingPrice) * 100;
+                document.getElementById('buffer').innerHTML = (bufferPercent > 0 ? '+' : '') + bufferPercent.toFixed(1) + '%';
+                document.getElementById('instantProfit').innerHTML = (bufferPercent > 0 ? '+' : '') + bufferPercent.toFixed(1) + '%';
             }
             
-            // Update time
+            if (data.livePulse) {
+                let status = 'NEUTRAL';
+                let statusClass = 'status-neutral';
+                if (data.livePulse >= 1.47) { status = 'BULLISH 🔥'; statusClass = 'status-bullish'; }
+                else if (data.livePulse >= 1.30) { status = 'STRONG ✅'; statusClass = 'status-bullish'; }
+                else if (data.livePulse >= 1.00) { status = 'STABLE 📊'; statusClass = 'status-neutral'; }
+                else { status = 'CAUTION ⚠️'; statusClass = 'status-bearish'; }
+                const statusEl = document.getElementById('marketStatus');
+                statusEl.innerHTML = status;
+                statusEl.className = `stat-value ${statusClass}`;
+            }
+            
             document.getElementById('lastUpdate').innerHTML = new Date().toLocaleTimeString();
             
-            // Update currency list
-            const container = document.getElementById('currencyList');
-            container.innerHTML = '';
-            
-            currencyValues.sort((a, b) => b.value - a.value).forEach(currency => {
-                const div = document.createElement('div');
-                div.className = 'currency-item';
-                div.innerHTML = `
-                    <span class="currency-name">${currency.name} (${currency.code})</span>
-                    <span class="currency-value">$${currency.value.toFixed(6)}</span>
-                `;
-                container.appendChild(div);
-            });
+            if (data.currencyList && data.currencyList.length > 0) {
+                const container = document.getElementById('currencyList');
+                container.innerHTML = '';
+                const sorted = [...data.currencyList].sort((a, b) => b.streetRate - a.streetRate);
+                for (const currency of sorted) {
+                    const div = document.createElement('div');
+                    div.className = 'currency-item';
+                    div.innerHTML = `<div class="currency-info"><span class="currency-flag">${currency.flag || '🌍'}</span><span class="currency-name">${currency.country || currency.code}</span><span class="currency-code">(${currency.code})</span><span class="currency-source">${currency.sourceName || 'Market'}</span></div><span class="currency-value">$${(currency.streetRate || currency.officialRate || 0).toFixed(6)}</span>`;
+                    container.appendChild(div);
+                }
+            }
         }
         
-        // Initial fetch
-        fetchExchangeRates();
-        
-        // Refresh every 30 seconds
-        setInterval(fetchExchangeRates, 30000);
+        fetchMarketData();
+        fetchBroadcast();
+        setInterval(fetchMarketData, 30000);
+        setInterval(fetchBroadcast, 60000);
     </script>
 </body>
 </html>
