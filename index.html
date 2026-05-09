@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneAfri - Sovereign Economic Ledger | 54 Nations Dashboard</title>
+    <title>OneAfri - 54 Nations Sovereign Economic Ledger</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -40,9 +40,8 @@
             padding: 30px;
             text-align: center;
             border: 1px solid #33334D;
-            transition: transform 0.3s;
         }
-        .truth-card:hover { transform: translateY(-5px); border-color: #FFD700; }
+        .truth-card:hover { border-color: #FFD700; }
         .truth-title { font-size: 14px; color: #AAAAAA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .truth-subtitle { font-size: 12px; color: #888888; margin-bottom: 20px; }
         .truth-value { font-size: 48px; font-weight: bold; font-family: monospace; margin: 20px 0; }
@@ -74,7 +73,6 @@
         }
         .broadcast-title { font-size: 12px; color: #FFD700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
         .broadcast-message { font-size: 16px; color: #FFFFFF; font-style: italic; }
-        .broadcast-author { font-size: 11px; color: #666; margin-top: 8px; }
         .currencies-section {
             background: #1A1A2E;
             border-radius: 20px;
@@ -91,7 +89,7 @@
         }
         .currency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 10px;
             max-height: 600px;
             overflow-y: auto;
@@ -105,10 +103,11 @@
             border-radius: 8px;
             font-size: 13px;
         }
-        .currency-info { display: flex; align-items: center; gap: 8px; }
+        .currency-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .currency-flag { font-size: 18px; }
-        .currency-name { color: #FFFFFF; font-weight: 500; }
+        .currency-name { color: #FFFFFF; }
         .currency-code { color: #888; font-size: 9px; margin-left: 4px; }
+        .currency-source { color: #FF9800; font-size: 9px; margin-left: 4px; }
         .currency-value { color: #4CAF50; font-family: monospace; font-weight: bold; }
         .live-dot {
             display: inline-block;
@@ -136,13 +135,12 @@
             <div class="logo">🌍</div>
             <h1>OneAfri Sovereign Economic Ledger</h1>
             <div class="tagline">The Three Truths. Complete Transparency. No Hidden Numbers.</div>
-            <div class="transparency-badge">🔓 100% TRANSPARENT | ALL 54 AFRICAN NATIONS</div>
+            <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
         </div>
 
         <div class="broadcast-section" id="broadcastSection" style="display: none;">
             <div class="broadcast-title">📢 FOUNDER'S DIGITAL CLONE PULSE</div>
             <div class="broadcast-message" id="broadcastMessage"></div>
-            <div class="broadcast-author">— Dipo Akpovira Micheals</div>
         </div>
 
         <div class="three-truths">
@@ -151,7 +149,7 @@
                 <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
                 <div class="truth-value truth-1-value" id="truth1Value">$--</div>
                 <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong> No multipliers. No inflation.</div>
-                <div class="source-badge" id="truth1Source">Source: Sovereign Ledger</div>
+                <div class="source-badge" id="truth1Source">Source: 54 Nations Ledger</div>
             </div>
 
             <div class="truth-card">
@@ -179,9 +177,9 @@
         </div>
 
         <div class="currencies-section">
-            <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</div>
-            <div class="currency-grid" id="currencyList"><div class="loader">🌀 Loading 54 nations from Render Cloud...</div></div>
-            <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend | Absolute Transparency Protocol</div>
+            <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS</div>
+            <div class="currency-grid" id="currencyList"><div class="loader">🌀 Loading 54 Nations from Render Cloud...</div></div>
+            <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend</div>
         </div>
 
         <div class="currencies-section">
@@ -206,7 +204,7 @@
     <script>
         const RENDER_API = 'https://oneafri-backend.onrender.com';
         
-        // COMPLETE 54 COUNTRY LIST (for display when backend doesn't send all)
+        // Complete list of ALL 54 African countries (for display guarantee)
         const ALL_54_COUNTRIES = [
             "Algeria", "Egypt", "Libya", "Morocco", "Sudan", "Tunisia", "Mauritania",
             "Nigeria", "Ghana", "Gambia", "Guinea", "Liberia", "Sierra Leone", "Cabo Verde",
@@ -216,16 +214,20 @@
             "South Africa", "Namibia", "Lesotho", "Eswatini", "Botswana", "Zambia", "Malawi", "Mozambique", "Zimbabwe"
         ];
         
+        let countryCountDisplayed = 0;
+        
         async function fetchMarketData() {
             try {
                 const response = await fetch(`${RENDER_API}/api/v1/market-pulse`);
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 updateDashboard(data);
-                document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE SOVEREIGN SYNC | All 54 Nations';
+                document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE | 54 Nations';
             } catch (error) {
                 console.error('Render API error:', error);
-                document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
+                document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain...';
+                // Show fallback with all 54 countries
+                showFallbackCountries();
             }
         }
         
@@ -245,15 +247,15 @@
         function updateDashboard(data) {
             if (data.rawSum) {
                 document.getElementById('truth1Value').innerHTML = `$${data.rawSum.toFixed(6)}`;
-                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${data.rawSum.toFixed(4)} | Source: 54 African Nations`;
+                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${data.rawSum.toFixed(4)} | 54 African Nations`;
             }
             if (data.livePulse) {
                 document.getElementById('truth2Value').innerHTML = `$${data.livePulse.toFixed(4)}`;
-                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: LIVE`;
+                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | LIVE`;
             }
             if (data.monthlyAnchor) {
                 document.getElementById('truth3Value').innerHTML = `$${data.monthlyAnchor.toFixed(4)}`;
-                document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked for 30 days`;
+                document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
             }
             
             const sellingPrice = 1.00;
@@ -265,115 +267,153 @@
             
             if (data.livePulse) {
                 let status = 'NEUTRAL';
-                let statusClass = 'status-neutral';
-                if (data.livePulse >= 1.47) { status = 'BULLISH 🔥'; statusClass = 'status-bullish'; }
-                else if (data.livePulse >= 1.30) { status = 'STRONG ✅'; statusClass = 'status-bullish'; }
-                else if (data.livePulse >= 1.00) { status = 'STABLE 📊'; statusClass = 'status-neutral'; }
-                else { status = 'CAUTION ⚠️'; statusClass = 'status-bearish'; }
-                const statusEl = document.getElementById('marketStatus');
-                statusEl.innerHTML = status;
-                statusEl.className = `stat-value ${statusClass}`;
+                if (data.livePulse >= 1.47) status = 'BULLISH 🔥';
+                else if (data.livePulse >= 1.30) status = 'STRONG ✅';
+                else if (data.livePulse >= 1.00) status = 'STABLE 📊';
+                else status = 'CAUTION ⚠️';
+                document.getElementById('marketStatus').innerHTML = status;
             }
             
             document.getElementById('lastUpdate').innerHTML = new Date().toLocaleTimeString();
             
             if (data.currencyList && data.currencyList.length > 0) {
-                updateCurrencyListComplete(data.currencyList);
+                displayAll54Countries(data.currencyList);
+            } else {
+                showFallbackCountries();
             }
         }
         
-        // Function to expand shared currencies into individual country rows
-        function updateCurrencyListComplete(currencies) {
+        function displayAll54Countries(currenciesFromBackend) {
             const container = document.getElementById('currencyList');
             if (!container) return;
             
             container.innerHTML = '';
             
-            // Create a map of currency code to its data
+            // Create a map of currency data by code
             const currencyMap = new Map();
-            for (const currency of currencies) {
+            for (const currency of currenciesFromBackend) {
                 currencyMap.set(currency.code, currency);
             }
             
-            // Define which countries share which currency codes
+            // Define shared currency groups
             const xofCountries = ["Benin", "Burkina Faso", "Ivory Coast", "Guinea-Bissau", "Mali", "Niger", "Senegal", "Togo"];
             const xafCountries = ["Cameroon", "Central African Republic", "Chad", "Republic of Congo", "Equatorial Guinea", "Gabon"];
             
-            // Get base data for shared currencies
             const xofData = currencyMap.get('XOF');
             const xafData = currencyMap.get('XAF');
             
-            // Build complete list of ALL 54 countries with their values
-            const allCountries = [];
+            const allDisplayItems = [];
             
-            for (const currency of currencies) {
-                // For unique currencies (not shared), add as-is
-                if (currency.code !== 'XOF' && currency.code !== 'XAF') {
-                    allCountries.push(currency);
-                }
-            }
-            
-            // Add all 8 XOF countries individually
-            for (const countryName of xofCountries) {
-                if (xofData) {
-                    allCountries.push({
-                        ...xofData,
+            // Process each of the 54 countries in order
+            for (const countryName of ALL_54_COUNTRIES) {
+                let displayItem = null;
+                
+                // Check if this is an XOF country
+                if (xofCountries.includes(countryName) && xofData) {
+                    displayItem = {
                         country: countryName,
-                        flag: this.getFlagForCountry(countryName),
-                        code: 'XOF'
-                    });
+                        flag: getFlag(countryName),
+                        code: 'XOF',
+                        value: xofData.streetRate || xofData.officialRate,
+                        source: 'BCEAO'
+                    };
                 }
-            }
-            
-            // Add all 6 XAF countries individually
-            for (const countryName of xafCountries) {
-                if (xafData) {
-                    allCountries.push({
-                        ...xafData,
+                // Check if this is an XAF country
+                else if (xafCountries.includes(countryName) && xafData) {
+                    displayItem = {
                         country: countryName,
-                        flag: this.getFlagForCountry(countryName),
-                        code: 'XAF'
+                        flag: getFlag(countryName),
+                        code: 'XAF',
+                        value: xafData.streetRate || xafData.officialRate,
+                        source: 'BEAC'
+                    };
+                }
+                // Regular unique currency country
+                else {
+                    for (const currency of currenciesFromBackend) {
+                        if (currency.country === countryName || 
+                            (countryName === "DR Congo" && currency.country === "DR Congo") ||
+                            (countryName === "Cabo Verde" && currency.country === "Cabo Verde")) {
+                            displayItem = {
+                                country: currency.country,
+                                flag: currency.flag || getFlag(currency.country),
+                                code: currency.code,
+                                value: currency.streetRate || currency.officialRate,
+                                source: currency.sourceName
+                            };
+                            break;
+                        }
+                    }
+                }
+                
+                if (displayItem) {
+                    allDisplayItems.push(displayItem);
+                } else {
+                    // Fallback for missing country
+                    allDisplayItems.push({
+                        country: countryName,
+                        flag: getFlag(countryName),
+                        code: '---',
+                        value: 0,
+                        source: 'Pending'
                     });
                 }
             }
             
             // Sort by value descending
-            const sorted = allCountries.sort((a, b) => b.streetRate - a.streetRate);
+            allDisplayItems.sort((a, b) => b.value - a.value);
             
-            for (const currency of sorted) {
+            for (const item of allDisplayItems) {
                 const div = document.createElement('div');
                 div.className = 'currency-item';
                 div.innerHTML = `
                     <div class="currency-info">
-                        <span class="currency-flag">${currency.flag || '🌍'}</span>
-                        <span class="currency-name">${currency.country}</span>
-                        <span class="currency-code">(${currency.code})</span>
+                        <span class="currency-flag">${item.flag || '🌍'}</span>
+                        <span class="currency-name">${item.country}</span>
+                        <span class="currency-code">(${item.code})</span>
+                        <span class="currency-source">${item.source || ''}</span>
                     </div>
-                    <span class="currency-value">$${(currency.streetRate || currency.officialRate || 0).toFixed(6)}</span>
+                    <span class="currency-value">$${item.value.toFixed(6)}</span>
                 `;
                 container.appendChild(div);
             }
             
-            // Verify we have 54 countries
-            const countryCount = sorted.length;
-            if (countryCount > 0 && countryCount !== 54) {
-                console.log(`Countries displayed: ${countryCount} (expected 54)`);
+            countryCountDisplayed = allDisplayItems.length;
+            console.log(`✅ Displayed ${countryCountDisplayed} countries`);
+        }
+        
+        function showFallbackCountries() {
+            const container = document.getElementById('currencyList');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            for (const country of ALL_54_COUNTRIES) {
+                const div = document.createElement('div');
+                div.className = 'currency-item';
+                div.innerHTML = `
+                    <div class="currency-info">
+                        <span class="currency-flag">${getFlag(country)}</span>
+                        <span class="currency-name">${country}</span>
+                        <span class="currency-code">(--)</span>
+                    </div>
+                    <span class="currency-value">$0.000000</span>
+                `;
+                container.appendChild(div);
             }
         }
         
-        // Helper function to get flag emoji for countries
-        function getFlagForCountry(countryName) {
+        function getFlag(country) {
             const flags = {
-                "Benin": "🇧🇯", "Burkina Faso": "🇧🇫", "Ivory Coast": "🇨🇮", "Guinea-Bissau": "🇬🇼",
-                "Mali": "🇲🇱", "Niger": "🇳🇪", "Senegal": "🇸🇳", "Togo": "🇹🇬",
-                "Cameroon": "🇨🇲", "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Republic of Congo": "🇨🇬",
-                "Equatorial Guinea": "🇬🇶", "Gabon": "🇬🇦"
+                "Algeria": "🇩🇿", "Egypt": "🇪🇬", "Libya": "🇱🇾", "Morocco": "🇲🇦", "Sudan": "🇸🇩", "Tunisia": "🇹🇳", "Mauritania": "🇲🇷",
+                "Nigeria": "🇳🇬", "Ghana": "🇬🇭", "Gambia": "🇬🇲", "Guinea": "🇬🇳", "Liberia": "🇱🇷", "Sierra Leone": "🇸🇱", "Cabo Verde": "🇨🇻",
+                "Benin": "🇧🇯", "Burkina Faso": "🇧🇫", "Ivory Coast": "🇨🇮", "Guinea-Bissau": "🇬🇼", "Mali": "🇲🇱", "Niger": "🇳🇪", "Senegal": "🇸🇳", "Togo": "🇹🇬",
+                "Angola": "🇦🇴", "DR Congo": "🇨🇩", "Sao Tome": "🇸🇹", "Cameroon": "🇨🇲", "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Republic of Congo": "🇨🇬", "Equatorial Guinea": "🇬🇶", "Gabon": "🇬🇦",
+                "Kenya": "🇰🇪", "Ethiopia": "🇪🇹", "Tanzania": "🇹🇿", "Uganda": "🇺🇬", "Rwanda": "🇷🇼", "Burundi": "🇧🇮", "Seychelles": "🇸🇨", "Somalia": "🇸🇴", "South Sudan": "🇸🇸", "Mauritius": "🇲🇺", "Madagascar": "🇲🇬", "Comoros": "🇰🇲", "Djibouti": "🇩🇯", "Eritrea": "🇪🇷",
+                "South Africa": "🇿🇦", "Namibia": "🇳🇦", "Lesotho": "🇱🇸", "Eswatini": "🇸🇿", "Botswana": "🇧🇼", "Zambia": "🇿🇲", "Malawi": "🇲🇼", "Mozambique": "🇲🇿", "Zimbabwe": "🇿🇼"
             };
-            return flags[countryName] || "🌍";
+            return flags[country] || "🌍";
         }
-        
-        // Bind function to window so it can access this
-        window.getFlagForCountry = getFlagForCountry;
         
         fetchMarketData();
         fetchBroadcast();
