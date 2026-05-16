@@ -112,7 +112,6 @@
     </div>
 
     <div class="four-truths">
-        <!-- FIXED ENTRY PRICE -->
         <div class="truth-card entry-card">
             <div class="truth-title">💰 FIXED ENTRY PRICE</div>
             <div class="truth-subtitle">WHAT YOU PAY</div>
@@ -121,7 +120,6 @@
             <div class="source-badge">🔒 Locked by Smart Contract | Forever $1.00 for new purchases</div>
         </div>
 
-        <!-- TRUTH #1 -->
         <div class="truth-card">
             <div class="truth-title">📊 TRUTH #1</div>
             <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
@@ -130,7 +128,6 @@
             <div class="source-badge" id="truth1Source">Loading...</div>
         </div>
 
-        <!-- TRUTH #2 -->
         <div class="truth-card">
             <div class="truth-title">⚡ TRUTH #2</div>
             <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
@@ -139,7 +136,6 @@
             <div class="source-badge" id="truth2Source">Loading...</div>
         </div>
 
-        <!-- TRUTH #3 -->
         <div class="truth-card">
             <div class="truth-title">⚓ TRUTH #3</div>
             <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
@@ -221,12 +217,28 @@
         if (data.truth1_raw) {
             document.getElementById('truth1Value').innerHTML = `$${parseFloat(data.truth1_raw).toFixed(6)}`;
             document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
+            
+            // 🔥 FIXED: Calculate raw profit if not provided
+            let rawProfit = data.rawProfit;
+            if (!rawProfit || rawProfit === '+0.00%') {
+                const profit = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
+                rawProfit = `${profit >= 0 ? '+' : ''}${profit.toFixed(2)}%`;
+            }
+            document.getElementById('rawProfit').innerHTML = rawProfit;
         }
         
         // TRUTH #2
         if (data.truth2_pulse) {
             document.getElementById('truth2Value').innerHTML = `$${parseFloat(data.truth2_pulse).toFixed(6)}`;
             document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: ${data.syncStatus || 'LIVE'}`;
+            
+            // 🔥 FIXED: Calculate pulse profit if not provided
+            let pulseProfit = data.pulseProfit;
+            if (!pulseProfit || pulseProfit === '+0.00%') {
+                const profit = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
+                pulseProfit = `${profit >= 0 ? '+' : ''}${profit.toFixed(2)}%`;
+            }
+            document.getElementById('pulseProfit').innerHTML = pulseProfit;
         }
         
         // TRUTH #3
@@ -238,8 +250,6 @@
         // STATUS VALUES
         document.getElementById('buffer').innerHTML = data.calculatedBuffer || '+0.00%';
         document.getElementById('instantProfit').innerHTML = data.instantProfit || '+0.00%';
-        document.getElementById('rawProfit').innerHTML = data.rawProfit || '+0.00%';
-        document.getElementById('pulseProfit').innerHTML = data.pulseProfit || '+0.00%';
         
         // 54 NATIONS LIST
         if (data.currencyList && data.currencyList.length > 0) {
