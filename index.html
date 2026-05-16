@@ -1,330 +1,285 @@
-// ============================================
-// 🌍 ONEAfri SOVEREIGN BACKEND - Cloud Brain
-// 54 Nation Ledger + Secret Multiplier (1.1855)
-// COMPLETE 54 COUNTRIES - EACH SHOWN INDIVIDUALLY
-// ============================================
-
-const express = require('express');
-const axios = require('axios');
-
-const app = express();
-app.use(express.json());
-
-// Enable CORS
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
-    next();
-});
-
-// ============================================
-// 🔒 CONFIGURATION & KEYS
-// ============================================
-const API_KEY = process.env.EXCHANGE_RATE_API_KEY || "0650aa2786ec8c70404181a9";
-const MULTIPLIER = 1.1855;
-const TERMII_API_KEY = process.env.TERMII_API_KEY;
-const TERMII_SENDER_ID = process.env.TERMII_SENDER_ID || "OneAfri";
-
-// ============================================
-// 📦 STORAGE
-// ============================================
-let latestBroadcast = {
-    id: Date.now(),
-    message: "The 54-nation sovereign grid is now active. Welcome to OneAfri.",
-    timestamp: new Date().toISOString()
-};
-
-// ============================================
-// 🌍 COMPLETE 54 NATIONS REGISTRY (ALL 54 COUNTRIES INDIVIDUALLY)
-// ============================================
-const COUNTRIES = [
-    // NORTH AFRICA (7)
-    { name: "Algeria", code: "DZD", flag: "🇩🇿", source: "NBS", premium: 0.05 },
-    { name: "Egypt", code: "EGP", flag: "🇪🇬", source: "CBE", premium: 0.08 },
-    { name: "Libya", code: "LYD", flag: "🇱🇾", source: "CBL", premium: 0.10 },
-    { name: "Morocco", code: "MAD", flag: "🇲🇦", source: "BAM", premium: 0.02 },
-    { name: "Sudan", code: "SDG", flag: "🇸🇩", source: "NBS", premium: 0.25 },
-    { name: "Tunisia", code: "TND", flag: "🇹🇳", source: "BCT", premium: 0.03 },
-    { name: "Mauritania", code: "MRU", flag: "🇲🇷", source: "BCM", premium: 0.05 },
-    
-    // WEST AFRICA (16)
-    { name: "Nigeria", code: "NGN", flag: "🇳🇬", source: "Aboki FX", premium: 0.045 },
-    { name: "Ghana", code: "GHS", flag: "🇬🇭", source: "BOG", premium: 0.07 },
-    { name: "Gambia", code: "GMD", flag: "🇬🇲", source: "CBG", premium: 0.04 },
-    { name: "Guinea", code: "GNF", flag: "🇬🇳", source: "BCRG", premium: 0.06 },
-    { name: "Liberia", code: "LRD", flag: "🇱🇷", source: "CBL", premium: 0.05 },
-    { name: "Sierra Leone", code: "SLE", flag: "🇸🇱", source: "BSL", premium: 0.08 },
-    { name: "Cabo Verde", code: "CVE", flag: "🇨🇻", source: "BCV", premium: 0.03 },
-    { name: "Benin", code: "XOF", flag: "🇧🇯", source: "BCEAO", premium: 0.02 },
-    { name: "Burkina Faso", code: "XOF", flag: "🇧🇫", source: "BCEAO", premium: 0.02 },
-    { name: "Ivory Coast", code: "XOF", flag: "🇨🇮", source: "BCEAO", premium: 0.02 },
-    { name: "Guinea-Bissau", code: "XOF", flag: "🇬🇼", source: "BCEAO", premium: 0.02 },
-    { name: "Mali", code: "XOF", flag: "🇲🇱", source: "BCEAO", premium: 0.02 },
-    { name: "Niger", code: "XOF", flag: "🇳🇪", source: "BCEAO", premium: 0.02 },
-    { name: "Senegal", code: "XOF", flag: "🇸🇳", source: "BCEAO", premium: 0.02 },
-    { name: "Togo", code: "XOF", flag: "🇹🇬", source: "BCEAO", premium: 0.02 },
-    
-    // CENTRAL AFRICA (8)
-    { name: "Cameroon", code: "XAF", flag: "🇨🇲", source: "BEAC", premium: 0.02 },
-    { name: "Central African Republic", code: "XAF", flag: "🇨🇫", source: "BEAC", premium: 0.02 },
-    { name: "Chad", code: "XAF", flag: "🇹🇩", source: "BEAC", premium: 0.02 },
-    { name: "Republic of Congo", code: "XAF", flag: "🇨🇬", source: "BEAC", premium: 0.02 },
-    { name: "Equatorial Guinea", code: "XAF", flag: "🇬🇶", source: "BEAC", premium: 0.02 },
-    { name: "Gabon", code: "XAF", flag: "🇬🇦", source: "BEAC", premium: 0.02 },
-    { name: "DR Congo", code: "CDF", flag: "🇨🇩", source: "BCC", premium: 0.08 },
-    { name: "Sao Tome and Principe", code: "STN", flag: "🇸🇹", source: "BCSTP", premium: 0.04 },
-    
-    // EAST AFRICA (14)
-    { name: "Kenya", code: "KES", flag: "🇰🇪", source: "CBK", premium: 0.02 },
-    { name: "Ethiopia", code: "ETB", flag: "🇪🇹", source: "NBE", premium: 0.22 },
-    { name: "Tanzania", code: "TZS", flag: "🇹🇿", source: "BOT", premium: 0.02 },
-    { name: "Uganda", code: "UGX", flag: "🇺🇬", source: "BOU", premium: 0.03 },
-    { name: "Rwanda", code: "RWF", flag: "🇷🇼", source: "BNR", premium: 0.04 },
-    { name: "Burundi", code: "BIF", flag: "🇧🇮", source: "BRB", premium: 0.15 },
-    { name: "Seychelles", code: "SCR", flag: "🇸🇨", source: "CBS", premium: 0.01 },
-    { name: "Somalia", code: "SOS", flag: "🇸🇴", source: "CBS", premium: 0.05 },
-    { name: "South Sudan", code: "SSP", flag: "🇸🇸", source: "BSS", premium: 0.20 },
-    { name: "Mauritius", code: "MUR", flag: "🇲🇺", source: "BOM", premium: 0.02 },
-    { name: "Madagascar", code: "MGA", flag: "🇲🇬", source: "BFM", premium: 0.04 },
-    { name: "Comoros", code: "KMF", flag: "🇰🇲", source: "BCC", premium: 0.02 },
-    { name: "Djibouti", code: "DJF", flag: "🇩🇯", source: "BCD", premium: 0.01 },
-    { name: "Eritrea", code: "ERN", flag: "🇪🇷", source: "BNE", premium: 0.01 },
-    
-    // SOUTHERN AFRICA (9)
-    { name: "South Africa", code: "ZAR", flag: "🇿🇦", source: "SARB", premium: 0.00 },
-    { name: "Namibia", code: "NAD", flag: "🇳🇦", source: "BON", premium: 0.00 },
-    { name: "Lesotho", code: "LSL", flag: "🇱🇸", source: "CBL", premium: 0.00 },
-    { name: "Eswatini", code: "SZL", flag: "🇸🇿", source: "CBE", premium: 0.00 },
-    { name: "Botswana", code: "BWP", flag: "🇧🇼", source: "BOB", premium: 0.01 },
-    { name: "Zambia", code: "ZMW", flag: "🇿🇲", source: "BOZ", premium: 0.06 },
-    { name: "Malawi", code: "MWK", flag: "🇲🇼", source: "RBM", premium: 0.12 },
-    { name: "Mozambique", code: "MZN", flag: "🇲🇿", source: "BM", premium: 0.04 },
-    { name: "Angola", code: "AOA", flag: "🇦🇴", source: "BNA", premium: 0.15 },
-    { name: "Zimbabwe", code: "ZWG", flag: "🇿🇼", source: "RBZ", premium: 0.10 }
-];
-
-// TOTAL COUNT: VERIFY 54
-console.log(`✅ Loaded ${COUNTRIES.length} African countries`);
-
-async function fetchExchangeRates() {
-    const url = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
-    try {
-        const response = await axios.get(url, { timeout: 10000 });
-        if (response.data && response.data.conversion_rates) {
-            console.log('✅ Exchange rates fetched successfully');
-            return response.data.conversion_rates;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneAfri - Sovereign Economic Ledger | Four Truths Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0A0A1F 0%, #1A1A2E 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
         }
-        throw new Error('Invalid response');
-    } catch (error) {
-        console.log('⚠️ Using fallback rates (API unavailable)');
-        return getFallbackRates();
-    }
-}
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; padding: 40px 0 20px; }
+        .logo { font-size: 48px; margin-bottom: 10px; }
+        h1 { font-size: 36px; color: #FFD700; margin-bottom: 10px; }
+        .tagline { font-size: 16px; color: #AAAAAA; }
+        .transparency-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-top: 15px;
+            color: #4CAF50;
+        }
+        .four-truths {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .truth-card {
+            background: #1A1A2E;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #33334D;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .truth-card:hover { transform: translateY(-5px); border-color: #FFD700; }
+        .entry-card { border: 2px solid #4CAF50; }
+        .truth-title { font-size: 12px; color: #AAAAAA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .truth-subtitle { font-size: 11px; color: #888888; margin-bottom: 15px; }
+        .truth-value { font-size: 42px; font-weight: bold; font-family: 'Courier New', monospace; margin: 15px 0; }
+        .entry-value { color: #4CAF50; }
+        .truth-1-value { color: #2196F3; }
+        .truth-2-value { color: #FF9800; }
+        .truth-3-value { color: #FFD700; }
+        .truth-description { font-size: 11px; color: #888888; line-height: 1.5; }
+        .source-badge { font-size: 9px; color: #666; margin-top: 12px; }
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .stat-card { background: #1A1A2E; border-radius: 16px; padding: 20px; text-align: center; }
+        .stat-label { font-size: 12px; color: #888888; margin-bottom: 8px; }
+        .stat-value { font-size: 22px; font-weight: bold; color: #FFD700; }
+        .status-bullish { color: #4CAF50; }
+        .status-bearish { color: #F44336; }
+        .status-neutral { color: #FFC107; }
+        .broadcast-section {
+            background: linear-gradient(135deg, #1A1A2E 0%, #2A2A3E 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FFD700;
+            display: none;
+        }
+        .broadcast-title { font-size: 12px; color: #FFD700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .broadcast-message { font-size: 16px; color: #FFFFFF; font-style: italic; }
+        .broadcast-author { font-size: 11px; color: #666; margin-top: 8px; }
+        .currencies-section { background: #1A1A2E; border-radius: 20px; padding: 25px; margin-bottom: 40px; }
+        .section-title { font-size: 16px; color: #FFD700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .currency-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; max-height: 600px; overflow-y: auto; }
+        .currency-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 13px; }
+        .currency-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .currency-flag { font-size: 18px; }
+        .currency-name { color: #FFFFFF; }
+        .currency-code { color: #888; font-size: 10px; }
+        .currency-source { color: #FF9800; font-size: 9px; margin-left: 4px; }
+        .premium-gap { color: #FFD700; font-size: 9px; margin-left: 4px; }
+        .currency-street { color: #4CAF50; font-family: monospace; font-weight: bold; }
+        .live-dot { display: inline-block; width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 1.5s infinite; margin-right: 8px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .footer { text-align: center; padding: 30px; border-top: 1px solid #333; font-size: 12px; color: #666; }
+        .refresh-info { margin-top: 20px; font-size: 11px; color: #555; }
+        .loader { text-align: center; padding: 40px; color: #FFD700; }
+        @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); gap: 15px; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .four-truths { grid-template-columns: 1fr; } .truth-value { font-size: 32px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">🌍</div>
+        <h1>OneAfri Sovereign Economic Ledger</h1>
+        <div class="tagline">The Four Truths. Complete Transparency. No Hidden Numbers.</div>
+        <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
+    </div>
 
-function getFallbackRates() {
-    return {
-        'NGN': 1586.992, 'GHS': 12.564, 'KES': 148.933, 'ZAR': 19.604,
-        'EGP': 62.797, 'DZD': 152.228, 'MAD': 10.758, 'TND': 3.359,
-        'ETB': 176.087, 'TZS': 2948.818, 'UGX': 4314.224, 'RWF': 1669.926,
-        'XOF': 650.576, 'XAF': 655.9, 'GMD': 84.793, 'SLE': 27.939,
-        'LRD': 209.974, 'BWP': 16.629, 'ZMW': 21.973, 'MWK': 1970.109,
-        'MZN': 72.573, 'AOA': 1046.579, 'CDF': 2616.072, 'STN': 24.498,
-        'SCR': 15.929, 'ERN': 17.211, 'DJF': 203.778, 'SOS': 651.723,
-        'SSP': 5165.33, 'BIF': 3395.157, 'KMF': 491.707, 'MUR': 53.87,
-        'MGA': 4782.535, 'LYD': 7.322, 'SDG': 686.719, 'MRU': 45.712,
-        'CVE': 100.0, 'NAD': 19.604, 'LSL': 19.604, 'SZL': 19.581,
-        'ZWG': 35000.0
-    };
-}
+    <div class="broadcast-section" id="broadcastSection">
+        <div class="broadcast-title">📢 FOUNDER'S DIGITAL CLONE PULSE</div>
+        <div class="broadcast-message" id="broadcastMessage">Initializing sovereign grid...</div>
+        <div class="broadcast-author">— Dipo Akpovira Micheals</div>
+    </div>
 
-// ============================================
-// 💎 THE THREE TRUTHS + FIXED ENTRY PRICE CALCULATION ENGINE
-// ============================================
+    <div class="four-truths">
+        <!-- FIXED ENTRY PRICE -->
+        <div class="truth-card entry-card">
+            <div class="truth-title">💰 FIXED ENTRY PRICE</div>
+            <div class="truth-subtitle">WHAT YOU PAY</div>
+            <div class="truth-value entry-value" id="fixedEntryPrice">$1.00</div>
+            <div class="truth-description"><strong>You pay $1.00 for 1 OAF.</strong><br>The price NEVER changes for you.</div>
+            <div class="source-badge">🔒 Locked by Smart Contract | Forever $1.00 for new purchases</div>
+        </div>
 
-function calculateMarketData(rates) {
-    let rawSum = 0;
-    const currencyList = [];
+        <!-- TRUTH #1 -->
+        <div class="truth-card">
+            <div class="truth-title">📊 TRUTH #1</div>
+            <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
+            <div class="truth-value truth-1-value" id="truth1Value">$--</div>
+            <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong> No multipliers. No inflation.</div>
+            <div class="source-badge" id="truth1Source">Loading...</div>
+        </div>
+
+        <!-- TRUTH #2 -->
+        <div class="truth-card">
+            <div class="truth-title">⚡ TRUTH #2</div>
+            <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
+            <div class="truth-value truth-2-value" id="truth2Value">$--</div>
+            <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br><strong>This is the TRADING value.</strong> Moves with the market.</div>
+            <div class="source-badge" id="truth2Source">Loading...</div>
+        </div>
+
+        <!-- TRUTH #3 -->
+        <div class="truth-card">
+            <div class="truth-title">⚓ TRUTH #3</div>
+            <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
+            <div class="truth-value truth-3-value" id="truth3Value">$--</div>
+            <div class="truth-description">Fixed monthly anchor value.<br><strong>Locked for 30 days.</strong> Your stability guarantee.</div>
+            <div class="source-badge" id="truth3Source">Loading...</div>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">🛡️ SYSTEM BUFFER</div><div class="stat-value" id="buffer">--</div></div>
+        <div class="stat-card"><div class="stat-label">💰 UNREALIZED GAIN</div><div class="stat-value" id="instantProfit">--</div></div>
+        <div class="stat-card"><div class="stat-label">📈 RAW PROFIT</div><div class="stat-value" id="rawProfit">--</div></div>
+        <div class="stat-card"><div class="stat-label">⚡ PULSE PROFIT</div><div class="stat-value" id="pulseProfit">--</div></div>
+    </div>
+
+    <div class="currencies-section">
+        <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</div>
+        <div class="currency-grid" id="currencyList"><div class="loader">🌀 Loading 54 Nations from Render Cloud...</div></div>
+        <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend | Absolute Transparency Protocol</div>
+    </div>
+
+    <div class="currencies-section">
+        <div class="section-title">⚠️ IMPORTANT DISCLAIMER</div>
+        <div style="font-size: 12px; color: #888; line-height: 1.6;">
+            <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
+            <p>• You can only sell to other users on exchanges.</p>
+            <p>• The $1.00 selling price applies ONLY to the initial sale from the company.</p>
+            <p>• After the 300M public supply is sold, the market determines the price.</p>
+            <p>• You could lose money. Only invest what you can afford to lose.</p>
+            <p style="margin-top: 10px;">✓ This dashboard shows REAL-TIME data from the OneAfri Sovereign Backend.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 OneAfri. All rights reserved.</p>
+        <p>Created by Micheals Akpovira Dipo | Founder: Dipo Micheals Concepts | Skenoo International | Robotical Africana</p>
+        <div class="refresh-info">Data syncs directly from <strong>OneAfri Render Cloud Brain</strong>. Updates every 30 seconds.</div>
+    </div>
+</div>
+
+<script>
+    const RENDER_API = 'https://oneafri-backend.onrender.com';
     
-    // Loop through ALL 54 countries
-    for (const country of COUNTRIES) {
-        const rate = rates[country.code];
-        if (rate && rate > 0) {
-            const officialUSD = 1 / rate;
-            const streetUSD = officialUSD * (1 + country.premium);
-            rawSum += streetUSD;
-            
-            currencyList.push({
-                country: country.name,
-                code: country.code,
-                flag: country.flag,
-                officialRate: officialUSD.toFixed(6),
-                streetRate: streetUSD.toFixed(6),
-                sourceName: country.source,
-                premiumGap: (country.premium * 100).toFixed(1)
-            });
-        } else {
-            currencyList.push({
-                country: country.name,
-                code: country.code,
-                flag: country.flag,
-                officialRate: "0.000000",
-                streetRate: "0.000000",
-                sourceName: country.source,
-                premiumGap: (country.premium * 100).toFixed(1)
-            });
+    async function fetchMarketData() {
+        try {
+            const response = await fetch(`${RENDER_API}/api/v1/market-pulse`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            updateDashboard(data);
+            document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE SOVEREIGN SYNC | 54 Nations';
+        } catch (error) {
+            console.error('Render API error:', error);
+            document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
         }
     }
     
-    console.log(`✅ Generated ${currencyList.length} countries for display`);
+    async function fetchBroadcast() {
+        try {
+            const response = await fetch(`${RENDER_API}/api/v1/broadcast`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.message && data.message !== "The 54-nation sovereign grid is now active. Welcome to OneAfri.") {
+                    document.getElementById('broadcastMessage').innerHTML = data.message;
+                    document.getElementById('broadcastSection').style.display = 'block';
+                    setTimeout(() => { document.getElementById('broadcastSection').style.display = 'none'; }, 30000);
+                }
+            }
+        } catch (error) {}
+    }
     
-    // ============================================
-    // 💎 THE FOUR TRUTHS (Including Entry Price)
-    // ============================================
-    const fixedEntryPrice = 1.00;              // What user PAYS
-    const truth1_raw = rawSum;                 // Physical Evidence (Raw)
-    const truth2_pulse = rawSum * MULTIPLIER;  // Sovereign Pulse (Scaled)
-    const truth3_anchor = 1.34;               // Institutional Anchor (Fixed)
-    
-    // Profit calculations
-    const rawProfit = ((truth1_raw - fixedEntryPrice) / fixedEntryPrice) * 100;
-    const pulseProfit = ((truth2_pulse - fixedEntryPrice) / fixedEntryPrice) * 100;
-    const bufferValue = ((truth2_pulse - fixedEntryPrice) / fixedEntryPrice) * 100;
-    
-    return {
-        // THE FOUR TRUTHS
-        fixedEntryPrice: fixedEntryPrice.toFixed(2),  // $1.00 - What user pays
-        truth1_raw: truth1_raw.toFixed(6),            // Physical Evidence
-        truth2_pulse: truth2_pulse.toFixed(6),        // Sovereign Pulse
-        truth3_anchor: truth3_anchor.toFixed(4),      // Institutional Anchor
+    function updateDashboard(data) {
+        // FIXED ENTRY PRICE
+        if (data.fixedEntryPrice) {
+            document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
+        }
         
-        // Profit displays
-        rawProfit: `${rawProfit >= 0 ? '+' : ''}${rawProfit.toFixed(1)}%`,
-        pulseProfit: `${pulseProfit >= 0 ? '+' : ''}${pulseProfit.toFixed(1)}%`,
-        calculatedBuffer: `${bufferValue >= 0 ? '+' : ''}${bufferValue.toFixed(2)}%`,
-        instantProfit: `${bufferValue >= 0 ? '+' : ''}${bufferValue.toFixed(2)}%`,
+        // TRUTH #1
+        if (data.truth1_raw) {
+            document.getElementById('truth1Value').innerHTML = `$${parseFloat(data.truth1_raw).toFixed(6)}`;
+            document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
+        }
         
-        // Status
-        syncStatus: "LIVE_SOVEREIGN",
-        broadcast: latestBroadcast,
-        timestamp: Date.now(),
-        currencyList: currencyList,
-        totalCountries: currencyList.length
-    };
-}
-
-// ============================================
-// 📡 API ENDPOINTS
-// ============================================
-
-app.get('/api/v1/market-pulse', async (req, res) => {
-    try {
-        const rates = await fetchExchangeRates();
-        const data = calculateMarketData(rates);
-        console.log(`📊 Sent ${data.currencyList.length} countries to client`);
-        res.json(data);
-    } catch (error) {
-        console.error('Market pulse error:', error);
-        const fallbackData = calculateMarketData(getFallbackRates());
-        res.json(fallbackData);
+        // TRUTH #2
+        if (data.truth2_pulse) {
+            document.getElementById('truth2Value').innerHTML = `$${parseFloat(data.truth2_pulse).toFixed(6)}`;
+            document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: ${data.syncStatus || 'LIVE'}`;
+        }
+        
+        // TRUTH #3
+        if (data.truth3_anchor) {
+            document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
+            document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked for 30 days | Anchor: $${parseFloat(data.truth3_anchor).toFixed(4)}`;
+        }
+        
+        // STATUS VALUES
+        document.getElementById('buffer').innerHTML = data.calculatedBuffer || '+0.00%';
+        document.getElementById('instantProfit').innerHTML = data.instantProfit || '+0.00%';
+        document.getElementById('rawProfit').innerHTML = data.rawProfit || '+0.00%';
+        document.getElementById('pulseProfit').innerHTML = data.pulseProfit || '+0.00%';
+        
+        // 54 NATIONS LIST
+        if (data.currencyList && data.currencyList.length > 0) {
+            const container = document.getElementById('currencyList');
+            container.innerHTML = '';
+            const sorted = [...data.currencyList].sort((a, b) => {
+                const aVal = parseFloat(a.streetRate) || 0;
+                const bVal = parseFloat(b.streetRate) || 0;
+                return bVal - aVal;
+            });
+            for (const currency of sorted) {
+                const div = document.createElement('div');
+                div.className = 'currency-item';
+                const streetRate = parseFloat(currency.streetRate).toFixed(6);
+                div.innerHTML = `
+                    <div class="currency-info">
+                        <span class="currency-flag">${currency.flag || '🌍'}</span>
+                        <span class="currency-name">${currency.country}</span>
+                        <span class="currency-code">(${currency.code})</span>
+                        <span class="currency-source">${currency.sourceName || 'Market'}</span>
+                        ${currency.premiumGap > 0 ? `<span class="premium-gap">+${currency.premiumGap}%</span>` : ''}
+                    </div>
+                    <div class="currency-info">
+                        <span class="currency-street">$${streetRate}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            }
+            console.log(`✅ Displayed ${sorted.length} currencies`);
+        }
     }
-});
-
-app.get('/api/market', async (req, res) => {
-    try {
-        const rates = await fetchExchangeRates();
-        const data = calculateMarketData(rates);
-        res.json(data);
-    } catch (error) {
-        const fallbackData = calculateMarketData(getFallbackRates());
-        res.json(fallbackData);
-    }
-});
-
-app.post('/api/v1/admin/broadcast', (req, res) => {
-    const { message } = req.body;
-    if (!message) return res.status(400).json({ error: 'Message required' });
     
-    latestBroadcast = {
-        id: Date.now(),
-        message: message,
-        timestamp: new Date().toISOString()
-    };
+    fetchMarketData();
+    fetchBroadcast();
+    setInterval(fetchMarketData, 30000);
+    setInterval(fetchBroadcast, 60000);
     
-    console.log(`📢 DIGITAL CLONE BROADCAST: ${message}`);
-    res.json({ success: true, broadcast: latestBroadcast });
-});
-
-app.get('/api/v1/broadcast', (req, res) => {
-    res.json(latestBroadcast);
-});
-
-app.post('/api/send-otp', async (req, res) => {
-    const { phone } = req.body;
-    const otpCode = Math.floor(100000 + Math.random() * 900000);
-    const cleanPhone = phone.replace(/^\+/, '');
-    
-    console.log(`🔐 Generating OTP for ${cleanPhone}: ${otpCode}`);
-    
-    global.pendingOtps = global.pendingOtps || {};
-    global.pendingOtps[cleanPhone] = { otp: otpCode, expires: Date.now() + 300000 };
-    
-    res.json({
-        success: true,
-        message: 'OTP sent (test mode)',
-        pinId: `otp_${Date.now()}`,
-        otp: otpCode
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) fetchMarketData();
     });
-});
-
-app.post('/api/verify-otp', (req, res) => {
-    const { phone, pin } = req.body;
-    const cleanPhone = phone.replace(/^\+/, '');
-    
-    global.pendingOtps = global.pendingOtps || {};
-    const pending = global.pendingOtps[cleanPhone];
-    
-    if (pending && pending.otp === parseInt(pin) && pending.expires > Date.now()) {
-        delete global.pendingOtps[cleanPhone];
-        console.log(`✅ OTP verified for ${cleanPhone}`);
-        res.json({ success: true, message: 'Verified' });
-    } else {
-        console.log(`❌ Invalid OTP for ${cleanPhone}`);
-        res.json({ success: false, error: 'Invalid OTP' });
-    }
-});
-
-app.get('/', (req, res) => {
-    res.json({
-        status: 'OK',
-        message: '🌍 OneAfri Sovereign Backend',
-        time: new Date().toISOString(),
-        countries: COUNTRIES.length,
-        scalingFactor: MULTIPLIER
-    });
-});
-
-// ============================================
-// 🚀 SERVER START
-// ============================================
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('');
-    console.log('╔════════════════════════════════════════════════════════════════╗');
-    console.log('║     🌍 ONEAfri SOVEREIGN BACKEND - The Cloud Brain            ║');
-    console.log('║                                                                ║');
-    console.log(`║     ✅ ${COUNTRIES.length} AFRICAN COUNTRIES LOADED                ║`);
-    console.log('║                                                                ║');
-    console.log('║     💎 THE THREE TRUTHS                                        ║');
-    console.log('║     ├─ Fixed Entry Price:   $1.00 (What user pays)            ║');
-    console.log('║     ├─ Truth #1 (Raw):      Sum of 54 street rates            ║');
-    console.log('║     ├─ Truth #2 (Pulse):    Raw × 1.1855                      ║');
-    console.log('║     └─ Truth #3 (Anchor):   $1.34 fixed monthly               ║');
-    console.log('║                                                                ║');
-    console.log('║     📡 API: /api/v1/market-pulse                               ║');
-    console.log('╚════════════════════════════════════════════════════════════════╝');
-    console.log('');
-});
+</script>
+</body>
+</html>
