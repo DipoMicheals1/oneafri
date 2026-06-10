@@ -26,7 +26,6 @@
             width: 108px;
             height: 108px;
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-            transition: transform 0.3s ease;
         }
         
         h1 { font-size: 36px; color: #FFD700; margin-bottom: 10px; }
@@ -52,17 +51,8 @@
             margin-bottom: 20px;
             border-left: 4px solid #FFD700;
         }
-        .age-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .age-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
+        .age-indicator { display: flex; align-items: center; gap: 10px; }
+        .age-dot { width: 10px; height: 10px; border-radius: 50%; animation: pulse 1.5s infinite; }
         .age-dot.green { background: #4CAF50; }
         .age-dot.yellow { background: #FFC107; }
         .age-dot.red { background: #F44336; }
@@ -76,7 +66,6 @@
             color: #FFD700;
             cursor: pointer;
             font-size: 12px;
-            transition: all 0.3s;
         }
         .refresh-btn:hover { background: #FFD700; color: #000; }
         
@@ -92,7 +81,7 @@
             padding: 25px;
             text-align: center;
             border: 1px solid #33334D;
-            transition: transform 0.3s, border-color 0.3s;
+            transition: transform 0.3s;
         }
         .truth-card:hover { transform: translateY(-5px); border-color: #FFD700; }
         .entry-card { border: 2px solid #4CAF50; }
@@ -116,18 +105,6 @@
         .stat-label { font-size: 12px; color: #888888; margin-bottom: 8px; }
         .stat-value { font-size: 22px; font-weight: bold; color: #FFD700; }
         
-        .broadcast-section {
-            background: linear-gradient(135deg, #1A1A2E 0%, #2A2A3E 100%);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 4px solid #FFD700;
-            display: none;
-        }
-        .broadcast-title { font-size: 12px; color: #FFD700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-        .broadcast-message { font-size: 16px; color: #FFFFFF; font-style: italic; }
-        .broadcast-author { font-size: 11px; color: #666; margin-top: 8px; }
-        
         .currencies-section { background: #1A1A2E; border-radius: 20px; padding: 25px; margin-bottom: 40px; }
         .section-title { font-size: 16px; color: #FFD700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         
@@ -140,13 +117,11 @@
             font-weight: bold;
             color: #FFD700;
             font-size: 13px;
-            letter-spacing: 1px;
         }
         .currency-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 6px;
-            margin-bottom: 15px;
         }
         .currency-item {
             display: flex;
@@ -156,40 +131,21 @@
             background: rgba(255,255,255,0.03);
             border-radius: 8px;
             font-size: 12px;
-            transition: background 0.2s;
         }
         .currency-item:hover { background: rgba(255,255,255,0.08); }
         .currency-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .currency-flag { font-size: 16px; }
         .currency-name { color: #FFFFFF; font-weight: 500; }
         .currency-code { color: #888; font-size: 9px; }
-        .currency-source { color: #FF9800; font-size: 8px; margin-left: 4px; }
-        .premium-gap { 
-            color: #FFD700; 
-            font-size: 9px; 
-            margin-left: 4px;
-            padding: 2px 5px;
-            border-radius: 10px;
-            background: rgba(255, 215, 0, 0.15);
-        }
-        .premium-low { color: #4CAF50; }
-        .premium-medium { color: #FFC107; }
-        .premium-high { color: #F44336; }
-        .currency-street { 
-            color: #4CAF50; 
-            font-family: monospace; 
-            font-weight: bold;
-            font-size: 12px;
-        }
+        .currency-street { color: #4CAF50; font-family: monospace; font-weight: bold; font-size: 12px; }
         
         .live-dot { display: inline-block; width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 1.5s infinite; margin-right: 8px; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
         .footer { text-align: center; padding: 30px; border-top: 1px solid #333; font-size: 12px; color: #666; }
-        .refresh-info { margin-top: 20px; font-size: 11px; color: #555; }
         .loader { text-align: center; padding: 40px; color: #FFD700; }
         
-        @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); gap: 15px; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .four-truths { grid-template-columns: 1fr; } .truth-value { font-size: 32px; } }
     </style>
 </head>
@@ -215,13 +171,7 @@
             <span class="age-value" id="dataAgeSeconds">0</span>
             <span class="age-text">seconds</span>
         </div>
-        <button class="refresh-btn" onclick="manualRefresh()">⟳ Force Refresh</button>
-    </div>
-
-    <div class="broadcast-section" id="broadcastSection">
-        <div class="broadcast-title">📢 FOUNDER'S DIGITAL CLONE PULSE</div>
-        <div class="broadcast-message" id="broadcastMessage">Initializing sovereign grid...</div>
-        <div class="broadcast-author">— Dipo Akpovira Micheals</div>
+        <button class="refresh-btn" onclick="fetchMarketData()">⟳ Force Refresh</button>
     </div>
 
     <div class="four-truths">
@@ -237,7 +187,7 @@
             <div class="truth-title">📊 TRUTH #1</div>
             <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
             <div class="truth-value truth-1-value" id="truth1Value">$--</div>
-            <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong> No multipliers. No inflation.</div>
+            <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong></div>
             <div class="source-badge" id="truth1Source">Loading...</div>
         </div>
 
@@ -245,7 +195,7 @@
             <div class="truth-title">⚡ TRUTH #2</div>
             <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
             <div class="truth-value truth-2-value" id="truth2Value">$--</div>
-            <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br><strong>This is the TRADING value.</strong> Moves with the market.</div>
+            <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br><strong>This is the TRADING value.</strong></div>
             <div class="source-badge" id="truth2Source">Loading...</div>
         </div>
 
@@ -253,7 +203,7 @@
             <div class="truth-title">⚓ TRUTH #3</div>
             <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
             <div class="truth-value truth-3-value" id="truth3Value">$--</div>
-            <div class="truth-description">Fixed monthly anchor value.<br><strong>Locked for 30 days.</strong> Your stability guarantee.</div>
+            <div class="truth-description">Fixed monthly anchor value.<br><strong>Locked for 30 days.</strong></div>
             <div class="source-badge" id="truth3Source">Loading...</div>
         </div>
     </div>
@@ -279,14 +229,12 @@
             <p>• The $1.00 selling price applies ONLY to the initial sale from the company.</p>
             <p>• After the 300M public supply is sold, the market determines the price.</p>
             <p>• You could lose money. Only invest what you can afford to lose.</p>
-            <p style="margin-top: 10px;">✓ This dashboard shows REAL-TIME data from the OneAfri Sovereign Backend.</p>
         </div>
     </div>
 
     <div class="footer">
         <p>© 2026 OneAfri. All rights reserved.</p>
-        <p>Created by Micheals Akpovira Dipo | Founder: Dipo Micheals Concepts | Skenoo International | Robotical Africana</p>
-        <div class="refresh-info">Data syncs directly from <strong>OneAfri Render Cloud Brain</strong>. Updates every 30 seconds.</div>
+        <p>Created by Micheals Akpovira Dipo | Robotical Africana</p>
     </div>
 </div>
 
@@ -310,31 +258,15 @@
     const regionOrder = ['North', 'West', 'Central', 'East', 'South'];
     const regionNames = { 'North': 'NORTH AFRICA', 'West': 'WEST AFRICA', 'Central': 'CENTRAL AFRICA', 'East': 'EAST AFRICA', 'South': 'SOUTHERN AFRICA' };
     
-    function getPremiumClass(premium) {
-        const gap = parseFloat(premium);
-        if (gap < 5) return 'premium-low';
-        if (gap < 15) return 'premium-medium';
-        return 'premium-high';
-    }
-    
     function updateDataAge() {
         if (lastUpdateTime === 0) return;
-        const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
-        document.getElementById('dataAgeSeconds').innerText = secondsAgo;
-        const ageDot = document.getElementById('ageDot');
-        if (secondsAgo < 30) {
-            ageDot.className = 'age-dot green';
-            ageDot.style.background = '#4CAF50';
-        } else if (secondsAgo < 60) {
-            ageDot.className = 'age-dot yellow';
-            ageDot.style.background = '#FFC107';
-        } else {
-            ageDot.className = 'age-dot red';
-            ageDot.style.background = '#F44336';
-        }
+        const seconds = Math.floor((Date.now() - lastUpdateTime) / 1000);
+        document.getElementById('dataAgeSeconds').innerText = seconds;
+        const dot = document.getElementById('ageDot');
+        if (seconds < 30) { dot.className = 'age-dot green'; dot.style.background = '#4CAF50'; }
+        else if (seconds < 60) { dot.className = 'age-dot yellow'; dot.style.background = '#FFC107'; }
+        else { dot.className = 'age-dot red'; dot.style.background = '#F44336'; }
     }
-    
-    function manualRefresh() { fetchMarketData(); }
     
     async function fetchMarketData() {
         try {
@@ -343,39 +275,42 @@
             const data = await response.json();
             lastUpdateTime = Date.now();
             
-            // Update Truth values using CORRECT field names
-            if (data.fixedEntryPrice) {
-                document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
-            }
+            // ✅ USING CORRECT FIELD NAMES FROM NEW BACKEND
+            document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice || '1.00'}`;
+            
             if (data.truth1_raw) {
-                document.getElementById('truth1Value').innerHTML = `$${parseFloat(data.truth1_raw).toFixed(6)}`;
+                const val = parseFloat(data.truth1_raw).toFixed(6);
+                document.getElementById('truth1Value').innerHTML = `$${val}`;
                 document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | ${data.currencyList?.length || 54} Nations`;
                 const rawProfit = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
                 document.getElementById('rawProfit').innerHTML = `${rawProfit >= 0 ? '+' : ''}${rawProfit.toFixed(2)}%`;
             }
+            
             if (data.truth2_pulse) {
-                document.getElementById('truth2Value').innerHTML = `$${parseFloat(data.truth2_pulse).toFixed(6)}`;
-                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x)`;
+                const val = parseFloat(data.truth2_pulse).toFixed(6);
+                document.getElementById('truth2Value').innerHTML = `$${val}`;
+                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | LIVE`;
                 const pulseProfit = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
                 document.getElementById('pulseProfit').innerHTML = `${pulseProfit >= 0 ? '+' : ''}${pulseProfit.toFixed(2)}%`;
                 const buffer = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
                 document.getElementById('buffer').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
                 document.getElementById('instantProfit').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
             }
+            
             if (data.truth3_anchor) {
                 document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
                 document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
             }
             
-            // Display currency list
+            // Display 54 nations
             if (data.currencyList && data.currencyList.length > 0) {
                 const grouped = { North: [], West: [], Central: [], East: [], South: [] };
-                for (const currency of data.currencyList) {
-                    const region = regionMap[currency.country] || 'West';
-                    grouped[region].push(currency);
+                for (const c of data.currencyList) {
+                    const region = regionMap[c.country] || 'West';
+                    grouped[region].push(c);
                 }
-                for (const region of regionOrder) {
-                    grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
+                for (const r of regionOrder) {
+                    grouped[r].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
                 }
                 const container = document.getElementById('regionalCurrencyList');
                 container.innerHTML = '';
@@ -386,11 +321,10 @@
                     regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
                     const gridDiv = document.createElement('div');
                     gridDiv.className = 'currency-grid';
-                    for (const currency of grouped[region]) {
-                        const streetRate = parseFloat(currency.streetRate).toFixed(6);
+                    for (const c of grouped[region]) {
                         const item = document.createElement('div');
                         item.className = 'currency-item';
-                        item.innerHTML = `<div class="currency-info"><span class="currency-flag">${currency.flag || '🌍'}</span><span class="currency-name">${currency.country}</span><span class="currency-code">(${currency.code})</span><span class="currency-source">${currency.sourceName || 'Market'}</span></div><div class="currency-info"><span class="currency-street">$${streetRate}</span></div>`;
+                        item.innerHTML = `<div class="currency-info"><span class="currency-flag">${c.flag || '🌍'}</span><span class="currency-name">${c.country}</span><span class="currency-code">(${c.code})</span></div><span class="currency-street">$${parseFloat(c.streetRate).toFixed(6)}</span>`;
                         gridDiv.appendChild(item);
                     }
                     regionDiv.appendChild(gridDiv);
@@ -404,25 +338,9 @@
         }
     }
     
-    async function fetchBroadcast() {
-        try {
-            const response = await fetch(`${RENDER_API}/api/v1/market/broadcast`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data && data.message) {
-                    document.getElementById('broadcastMessage').innerHTML = data.message;
-                    document.getElementById('broadcastSection').style.display = 'block';
-                    setTimeout(() => document.getElementById('broadcastSection').style.display = 'none', 30000);
-                }
-            }
-        } catch (error) {}
-    }
-    
-    setInterval(updateDataAge, 1000);
     fetchMarketData();
-    fetchBroadcast();
     setInterval(fetchMarketData, 30000);
-    setInterval(fetchBroadcast, 60000);
+    setInterval(updateDataAge, 1000);
 </script>
 </body>
 </html>
