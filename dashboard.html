@@ -292,6 +292,7 @@
 </div>
 
 <script>
+    // ✅ FIXED: Using correct endpoint that works
     const RENDER_API = 'https://oneafri-backend.onrender.com';
     let lastUpdateTime = 0;
     let lastData = null;
@@ -347,6 +348,7 @@
         fetchMarketData();
     }
     
+    // ✅ FIXED: Using the CORRECT endpoint that returns data
     async function fetchMarketData() {
         try {
             const response = await fetch(`${RENDER_API}/api/v1/market/pulse`);
@@ -360,18 +362,6 @@
         } catch (error) {
             console.error('Render API error:', error);
             document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
-            // Try alias as fallback
-            try {
-                const response2 = await fetch(`${RENDER_API}/api/v1/market-pulse`);
-                if (response2.ok) {
-                    const data2 = await response2.json();
-                    lastData = data2;
-                    lastUpdateTime = Date.now();
-                    updateDashboard(data2);
-                    updateDataAge();
-                    document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE SOVEREIGN SYNC | 54 Nations';
-                }
-            } catch (e) {}
         }
     }
     
@@ -401,7 +391,6 @@
             document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
             document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
             
-            // Calculate raw profit
             const rawProfitPercent = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
             const rawProfitDisplay = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
             document.getElementById('rawProfit').innerHTML = rawProfitDisplay;
@@ -413,12 +402,10 @@
             document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
             document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: ${data.syncStatus || 'LIVE'}`;
             
-            // Calculate pulse profit
             const pulseProfitPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
             const pulseProfitDisplay = `${pulseProfitPercent >= 0 ? '+' : ''}${pulseProfitPercent.toFixed(2)}%`;
             document.getElementById('pulseProfit').innerHTML = pulseProfitDisplay;
             
-            // Buffer and Instant Profit
             const bufferPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
             document.getElementById('buffer').innerHTML = `${bufferPercent >= 0 ? '+' : ''}${bufferPercent.toFixed(2)}%`;
             document.getElementById('instantProfit').innerHTML = `${bufferPercent >= 0 ? '+' : ''}${bufferPercent.toFixed(2)}%`;
@@ -488,7 +475,7 @@
                 container.appendChild(regionDiv);
             }
             
-            console.log(`✅ Displayed ${data.currencyList.length} currencies in 5 regions`);
+            console.log(`✅ Displayed ${data.currencyList.length} currencies`);
         }
     }
     
