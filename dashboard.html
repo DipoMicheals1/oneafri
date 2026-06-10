@@ -28,7 +28,6 @@
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
             transition: transform 0.3s ease;
         }
-        .oneafri-logo:hover { transform: scale(1.05); }
         
         h1 { font-size: 36px; color: #FFD700; margin-bottom: 10px; }
         .tagline { font-size: 16px; color: #AAAAAA; }
@@ -292,28 +291,20 @@
 </div>
 
 <script>
-    // ✅ FIXED: Using correct endpoint that works
     const RENDER_API = 'https://oneafri-backend.onrender.com';
     let lastUpdateTime = 0;
-    let lastData = null;
     
     const regionMap = {
-        'Algeria': 'North', 'Egypt': 'North', 'Libya': 'North', 'Morocco': 'North',
-        'Sudan': 'North', 'Tunisia': 'North', 'Mauritania': 'North',
-        'Nigeria': 'West', 'Ghana': 'West', 'Gambia': 'West', 'Guinea': 'West',
-        'Liberia': 'West', 'Sierra Leone': 'West', 'Cabo Verde': 'West',
-        'Benin': 'West', 'Burkina Faso': 'West', 'Ivory Coast': 'West',
-        'Guinea-Bissau': 'West', 'Mali': 'West', 'Niger': 'West', 'Senegal': 'West', 'Togo': 'West',
-        'Cameroon': 'Central', 'Central African Republic': 'Central', 'Chad': 'Central',
-        'Republic of Congo': 'Central', 'Equatorial Guinea': 'Central', 'Gabon': 'Central',
-        'DR Congo': 'Central', 'Sao Tome': 'Central',
-        'Kenya': 'East', 'Ethiopia': 'East', 'Tanzania': 'East', 'Uganda': 'East',
-        'Rwanda': 'East', 'Burundi': 'East', 'Seychelles': 'East', 'Somalia': 'East',
-        'South Sudan': 'East', 'Mauritius': 'East', 'Madagascar': 'East', 'Comoros': 'East',
-        'Djibouti': 'East', 'Eritrea': 'East',
-        'South Africa': 'South', 'Namibia': 'South', 'Lesotho': 'South', 'Eswatini': 'South',
-        'Botswana': 'South', 'Zambia': 'South', 'Malawi': 'South', 'Mozambique': 'South',
-        'Angola': 'South', 'Zimbabwe': 'South'
+        'Nigeria': 'West', 'Ghana': 'West', 'Kenya': 'East', 'South Africa': 'South',
+        'Egypt': 'North', 'Algeria': 'North', 'Morocco': 'North', 'Tunisia': 'North',
+        'Ethiopia': 'East', 'Tanzania': 'East', 'Uganda': 'East', 'Rwanda': 'East',
+        'Sudan': 'North', 'Angola': 'South', 'Zambia': 'South', 'Zimbabwe': 'South',
+        'Mozambique': 'South', 'Botswana': 'South', 'Namibia': 'South', 'Senegal': 'West',
+        'Ivory Coast': 'West', 'Mali': 'West', 'Burkina Faso': 'West', 'Benin': 'West',
+        'Togo': 'West', 'Cameroon': 'Central', 'DR Congo': 'Central', 'Libya': 'North',
+        'Somalia': 'East', 'Chad': 'Central', 'Gabon': 'Central', 'Madagascar': 'East',
+        'Mauritius': 'East', 'Malawi': 'South', 'Sierra Leone': 'West', 'Liberia': 'West',
+        'Niger': 'West', 'Mauritania': 'West', 'Eswatini': 'South', 'Lesotho': 'South'
     };
     
     const regionOrder = ['North', 'West', 'Central', 'East', 'South'];
@@ -330,7 +321,6 @@
         if (lastUpdateTime === 0) return;
         const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
         document.getElementById('dataAgeSeconds').innerText = secondsAgo;
-        
         const ageDot = document.getElementById('ageDot');
         if (secondsAgo < 30) {
             ageDot.className = 'age-dot green';
@@ -344,23 +334,72 @@
         }
     }
     
-    function manualRefresh() {
-        fetchMarketData();
-    }
+    function manualRefresh() { fetchMarketData(); }
     
-    // ✅ FIXED: Using the CORRECT endpoint that returns data
     async function fetchMarketData() {
         try {
             const response = await fetch(`${RENDER_API}/api/v1/market/pulse`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            lastData = data;
             lastUpdateTime = Date.now();
-            updateDashboard(data);
+            
+            // Update Truth values using CORRECT field names
+            if (data.fixedEntryPrice) {
+                document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
+            }
+            if (data.truth1_raw) {
+                document.getElementById('truth1Value').innerHTML = `$${parseFloat(data.truth1_raw).toFixed(6)}`;
+                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | ${data.currencyList?.length || 54} Nations`;
+                const rawProfit = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
+                document.getElementById('rawProfit').innerHTML = `${rawProfit >= 0 ? '+' : ''}${rawProfit.toFixed(2)}%`;
+            }
+            if (data.truth2_pulse) {
+                document.getElementById('truth2Value').innerHTML = `$${parseFloat(data.truth2_pulse).toFixed(6)}`;
+                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x)`;
+                const pulseProfit = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
+                document.getElementById('pulseProfit').innerHTML = `${pulseProfit >= 0 ? '+' : ''}${pulseProfit.toFixed(2)}%`;
+                const buffer = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
+                document.getElementById('buffer').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
+                document.getElementById('instantProfit').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
+            }
+            if (data.truth3_anchor) {
+                document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
+                document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
+            }
+            
+            // Display currency list
+            if (data.currencyList && data.currencyList.length > 0) {
+                const grouped = { North: [], West: [], Central: [], East: [], South: [] };
+                for (const currency of data.currencyList) {
+                    const region = regionMap[currency.country] || 'West';
+                    grouped[region].push(currency);
+                }
+                for (const region of regionOrder) {
+                    grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
+                }
+                const container = document.getElementById('regionalCurrencyList');
+                container.innerHTML = '';
+                for (const region of regionOrder) {
+                    if (grouped[region].length === 0) continue;
+                    const regionDiv = document.createElement('div');
+                    regionDiv.className = 'region-group';
+                    regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'currency-grid';
+                    for (const currency of grouped[region]) {
+                        const streetRate = parseFloat(currency.streetRate).toFixed(6);
+                        const item = document.createElement('div');
+                        item.className = 'currency-item';
+                        item.innerHTML = `<div class="currency-info"><span class="currency-flag">${currency.flag || '🌍'}</span><span class="currency-name">${currency.country}</span><span class="currency-code">(${currency.code})</span><span class="currency-source">${currency.sourceName || 'Market'}</span></div><div class="currency-info"><span class="currency-street">$${streetRate}</span></div>`;
+                        gridDiv.appendChild(item);
+                    }
+                    regionDiv.appendChild(gridDiv);
+                    container.appendChild(regionDiv);
+                }
+                document.getElementById('dataSource').innerHTML = '✅ LIVE SOVEREIGN SYNC | 54 Nations';
+            }
             updateDataAge();
-            document.getElementById('dataSource').innerHTML = '✅ Source: OneAfri Render Backend | LIVE SOVEREIGN SYNC | 54 Nations';
         } catch (error) {
-            console.error('Render API error:', error);
             document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
         }
     }
@@ -370,125 +409,20 @@
             const response = await fetch(`${RENDER_API}/api/v1/market/broadcast`);
             if (response.ok) {
                 const data = await response.json();
-                if (data && data.message && data.message !== "The 54-nation sovereign grid is now active. Welcome to OneAfri.") {
+                if (data && data.message) {
                     document.getElementById('broadcastMessage').innerHTML = data.message;
                     document.getElementById('broadcastSection').style.display = 'block';
-                    setTimeout(() => { document.getElementById('broadcastSection').style.display = 'none'; }, 30000);
+                    setTimeout(() => document.getElementById('broadcastSection').style.display = 'none', 30000);
                 }
             }
         } catch (error) {}
     }
     
-    function updateDashboard(data) {
-        // Fixed Entry Price
-        if (data.fixedEntryPrice) {
-            document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
-        }
-        
-        // Truth #1 - using truth1_raw from backend
-        if (data.truth1_raw) {
-            const truth1Value = parseFloat(data.truth1_raw).toFixed(6);
-            document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
-            document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
-            
-            const rawProfitPercent = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
-            const rawProfitDisplay = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
-            document.getElementById('rawProfit').innerHTML = rawProfitDisplay;
-        }
-        
-        // Truth #2 - using truth2_pulse from backend
-        if (data.truth2_pulse) {
-            const truth2Value = parseFloat(data.truth2_pulse).toFixed(6);
-            document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
-            document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | Status: ${data.syncStatus || 'LIVE'}`;
-            
-            const pulseProfitPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
-            const pulseProfitDisplay = `${pulseProfitPercent >= 0 ? '+' : ''}${pulseProfitPercent.toFixed(2)}%`;
-            document.getElementById('pulseProfit').innerHTML = pulseProfitDisplay;
-            
-            const bufferPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
-            document.getElementById('buffer').innerHTML = `${bufferPercent >= 0 ? '+' : ''}${bufferPercent.toFixed(2)}%`;
-            document.getElementById('instantProfit').innerHTML = `${bufferPercent >= 0 ? '+' : ''}${bufferPercent.toFixed(2)}%`;
-        } else if (data.calculatedBuffer) {
-            document.getElementById('buffer').innerHTML = data.calculatedBuffer;
-            document.getElementById('instantProfit').innerHTML = data.instantProfit || data.calculatedBuffer;
-        }
-        
-        // Truth #3 - using truth3_anchor from backend
-        if (data.truth3_anchor) {
-            const truth3Value = parseFloat(data.truth3_anchor).toFixed(4);
-            document.getElementById('truth3Value').innerHTML = `$${truth3Value}`;
-            document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked for 30 days | Anchor: $${truth3Value}`;
-        }
-        
-        // 54 Nations List with REGIONAL GROUPING
-        if (data.currencyList && data.currencyList.length > 0) {
-            const grouped = {};
-            for (const region of regionOrder) { grouped[region] = []; }
-            
-            for (const currency of data.currencyList) {
-                const region = regionMap[currency.country] || 'West';
-                if (!grouped[region]) grouped[region] = [];
-                grouped[region].push(currency);
-            }
-            
-            for (const region of regionOrder) {
-                grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
-            }
-            
-            const container = document.getElementById('regionalCurrencyList');
-            container.innerHTML = '';
-            
-            for (const region of regionOrder) {
-                if (grouped[region].length === 0) continue;
-                
-                const regionDiv = document.createElement('div');
-                regionDiv.className = 'region-group';
-                regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
-                
-                const gridDiv = document.createElement('div');
-                gridDiv.className = 'currency-grid';
-                
-                for (const currency of grouped[region]) {
-                    const streetRate = parseFloat(currency.streetRate).toFixed(6);
-                    const premiumGap = parseFloat(currency.premiumGap);
-                    const premiumClass = getPremiumClass(premiumGap);
-                    
-                    const item = document.createElement('div');
-                    item.className = 'currency-item';
-                    item.innerHTML = `
-                        <div class="currency-info">
-                            <span class="currency-flag">${currency.flag || '🌍'}</span>
-                            <span class="currency-name">${currency.country}</span>
-                            <span class="currency-code">(${currency.code})</span>
-                            <span class="currency-source">${currency.sourceName || 'Market'}</span>
-                            ${premiumGap > 0 ? `<span class="premium-gap ${premiumClass}">+${premiumGap}%</span>` : ''}
-                        </div>
-                        <div class="currency-info">
-                            <span class="currency-street">$${streetRate}</span>
-                        </div>
-                    `;
-                    gridDiv.appendChild(item);
-                }
-                
-                regionDiv.appendChild(gridDiv);
-                container.appendChild(regionDiv);
-            }
-            
-            console.log(`✅ Displayed ${data.currencyList.length} currencies`);
-        }
-    }
-    
     setInterval(updateDataAge, 1000);
-    
     fetchMarketData();
     fetchBroadcast();
     setInterval(fetchMarketData, 30000);
     setInterval(fetchBroadcast, 60000);
-    
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) fetchMarketData();
-    });
 </script>
 </body>
 </html>
