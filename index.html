@@ -28,6 +28,16 @@
             margin-top: 15px;
             color: #4CAF50;
         }
+        .phase-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .phase-birthing { background: #2196F3; color: white; }
+        .phase-mature { background: #FF9800; color: white; }
         .data-age-bar {
             display: flex;
             justify-content: space-between;
@@ -140,6 +150,7 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .footer { text-align: center; padding: 30px; border-top: 1px solid #333; font-size: 12px; color: #666; }
         .loader { text-align: center; padding: 40px; color: #FFD700; }
+        .warning-text { color: #FF9800; font-size: 12px; margin-top: 5px; }
         @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); gap: 15px; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .four-truths { grid-template-columns: 1fr; } .truth-value { font-size: 32px; } }
     </style>
@@ -151,16 +162,20 @@
         <h1>OneAfri Sovereign Economic Ledger</h1>
         <div class="tagline">The Four Truths. Complete Transparency. No Hidden Numbers.</div>
         <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
+        <div id="phaseBadge" class="phase-badge phase-birthing">🌱 BIRTHING (AFRO = $1.00)</div>
+        <div id="phaseMessage" class="warning-text">0% of 300M OAF sold. AFRO is pegged at $1.00.</div>
     </div>
 
-    <!-- ECONOMIC MODEL DISPLAY -->
     <div class="economic-model">
-        <h3>🏛️ OAF_POLICY_100 ECONOMIC MODEL</h3>
+        <h3>🏛️ ONEAFRI ECONOMIC MODEL</h3>
         <div class="model-ratios">
             <span class="model-ratio"><strong>100 AFF</strong> = 1 AFRO</span>
             <span class="model-ratio"><strong>100 AFRO</strong> = 1 OAF</span>
-            <span class="model-ratio">OAF Policy Price: <strong>$100.00</strong></span>
-            <span class="model-ratio" id="afroValueDisplay">AFRO Value: $1.00 + Basket</span>
+            <span class="model-ratio" id="afroPriceDisplay">AFRO: <strong>$1.00</strong> (Fixed)</span>
+            <span class="model-ratio" id="oafPriceDisplay">OAF: <strong>$100.00</strong> (Policy)</span>
+        </div>
+        <div style="font-size: 11px; color: #888; margin-top: 8px;">
+            ⚠️ AFRO peg ends when 300M OAF sells out. Then market dictates both prices.
         </div>
     </div>
 
@@ -178,9 +193,9 @@
         <div class="truth-card entry-card">
             <div class="truth-title">💰 FIXED ENTRY PRICE</div>
             <div class="truth-subtitle">WHAT YOU PAY</div>
-            <div class="truth-value entry-value" id="fixedEntryPrice">$100.00</div>
-            <div class="truth-description"><strong>You pay $100.00 for 1 OAF.</strong><br>The price NEVER changes for you.</div>
-            <div class="source-badge">🔒 Locked by Smart Contract | $100.00 for new purchases</div>
+            <div class="truth-value entry-value" id="fixedEntryPrice">$1.00</div>
+            <div class="truth-description"><strong>1 AFRO = $1.00</strong><br>Fixed until 300M OAF sells out.</div>
+            <div class="source-badge" id="entrySource">🔒 Phase 1: AFRO Peg</div>
         </div>
 
         <div class="truth-card">
@@ -226,8 +241,8 @@
         <div style="font-size: 12px; color: #888; line-height: 1.6;">
             <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
             <p>• You can only sell to other users on exchanges.</p>
-            <p>• The $100.00 selling price applies ONLY to the initial sale from the company.</p>
-            <p>• After the 300M public supply is sold, the market determines the price.</p>
+            <p>• <strong>AFRO = $1.00</strong> ONLY until 300M OAF sells out.</p>
+            <p>• After 300M sells out, the market dictates BOTH AFRO and OAF prices.</p>
             <p>• You could lose money. Only invest what you can afford to lose.</p>
         </div>
     </div>
@@ -299,15 +314,35 @@
             const data = await response.json();
             lastUpdateTime = Date.now();
 
-            // === NEW: Display OAF Policy Price = $100.00 ===
-            document.getElementById('fixedEntryPrice').innerHTML = `$${data.oafPolicyPrice || '100.00'}`;
+            // === PHASE DISPLAY ===
+            const phase = data.phase || "BIRTHING";
+            const isMature = phase === "MATURE";
+            const phaseBadge = document.getElementById('phaseBadge');
+            const phaseMsg = document.getElementById('phaseMessage');
 
-            // === NEW: Display AFRO Value ===
-            if (data.afroIntrinsicValue) {
-                document.getElementById('afroValueDisplay').innerHTML = `AFRO Value: $${parseFloat(data.afroIntrinsicValue).toFixed(4)} (1.00 + Basket)`;
+            if (isMature) {
+                phaseBadge.className = 'phase-badge phase-mature';
+                phaseBadge.innerHTML = '🏛️ MATURE (Market Dictates Price)';
+                phaseMsg.innerHTML = '⚠️ 300M OAF SOLD. AFRO peg removed. Market price applies.';
+            } else {
+                phaseBadge.className = 'phase-badge phase-birthing';
+                phaseBadge.innerHTML = '🌱 BIRTHING (AFRO = $1.00)';
+                const afroPrice = data.afroPrice || 1.00;
+                phaseMsg.innerHTML = `${((data.publicSupplySold || 0) / 300000000 * 100).toFixed(2)}% of 300M OAF sold. AFRO = $1.00 fixed.`;
             }
 
-            // TRUTH #1
+            // === PRICING DISPLAY ===
+            const afroPrice = data.afroPrice || 1.00;
+            const oafPrice = data.oafPrice || 100.00;
+
+            document.getElementById('afroPriceDisplay').innerHTML = `AFRO: <strong>$${afroPrice.toFixed(2)}</strong> ${isMature ? '(Market)' : '(Fixed)'}`;
+            document.getElementById('oafPriceDisplay').innerHTML = `OAF: <strong>$${oafPrice.toFixed(2)}</strong> ${isMature ? '(Market)' : '(Policy)'}`;
+
+            // === FIXED ENTRY PRICE ===
+            document.getElementById('fixedEntryPrice').innerHTML = `$${afroPrice.toFixed(2)}`;
+            document.getElementById('entrySource').innerHTML = isMature ? '🔓 Phase 2: Market Price' : '🔒 Phase 1: AFRO Peg ($1.00)';
+
+            // === TRUTH #1 ===
             if (data.truth1_raw) {
                 const truth1Value = parseFloat(data.truth1_raw).toFixed(6);
                 document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
@@ -317,7 +352,7 @@
                 document.getElementById('rawProfit').innerHTML = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
             }
 
-            // TRUTH #2
+            // === TRUTH #2 ===
             if (data.truth2_pulse) {
                 const truth2Value = parseFloat(data.truth2_pulse).toFixed(6);
                 document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
@@ -330,13 +365,13 @@
                 document.getElementById('instantProfit').innerHTML = display;
             }
 
-            // TRUTH #3
+            // === TRUTH #3 ===
             if (data.truth3_anchor) {
                 document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
                 document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
             }
 
-            // Display 54 Nations
+            // === 54 NATIONS ===
             if (data.currencyList && data.currencyList.length > 0) {
                 const grouped = {};
                 for (const region of regionOrder) { grouped[region] = []; }
