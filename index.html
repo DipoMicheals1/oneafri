@@ -56,6 +56,18 @@
             transition: all 0.3s;
         }
         .refresh-btn:hover { background: #FFD700; color: #000; }
+        .economic-model {
+            background: #1A1A2E;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #FFD700;
+            text-align: center;
+        }
+        .economic-model h3 { color: #FFD700; margin-bottom: 10px; }
+        .model-ratios { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .model-ratio { font-size: 14px; color: #AAAAAA; }
+        .model-ratio strong { color: #4CAF50; }
         .four-truths {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -141,6 +153,17 @@
         <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
     </div>
 
+    <!-- ECONOMIC MODEL DISPLAY -->
+    <div class="economic-model">
+        <h3>🏛️ OAF_POLICY_100 ECONOMIC MODEL</h3>
+        <div class="model-ratios">
+            <span class="model-ratio"><strong>100 AFF</strong> = 1 AFRO</span>
+            <span class="model-ratio"><strong>100 AFRO</strong> = 1 OAF</span>
+            <span class="model-ratio">OAF Policy Price: <strong>$100.00</strong></span>
+            <span class="model-ratio" id="afroValueDisplay">AFRO Value: $1.00 + Basket</span>
+        </div>
+    </div>
+
     <div class="data-age-bar">
         <div class="age-indicator">
             <div class="age-dot green" id="ageDot"></div>
@@ -155,9 +178,9 @@
         <div class="truth-card entry-card">
             <div class="truth-title">💰 FIXED ENTRY PRICE</div>
             <div class="truth-subtitle">WHAT YOU PAY</div>
-            <div class="truth-value entry-value" id="fixedEntryPrice">$1.00</div>
-            <div class="truth-description"><strong>You pay $1.00 for 1 OAF.</strong><br>The price NEVER changes for you.</div>
-            <div class="source-badge">🔒 Locked by Smart Contract | Forever $1.00 for new purchases</div>
+            <div class="truth-value entry-value" id="fixedEntryPrice">$100.00</div>
+            <div class="truth-description"><strong>You pay $100.00 for 1 OAF.</strong><br>The price NEVER changes for you.</div>
+            <div class="source-badge">🔒 Locked by Smart Contract | $100.00 for new purchases</div>
         </div>
 
         <div class="truth-card">
@@ -203,7 +226,7 @@
         <div style="font-size: 12px; color: #888; line-height: 1.6;">
             <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
             <p>• You can only sell to other users on exchanges.</p>
-            <p>• The $1.00 selling price applies ONLY to the initial sale from the company.</p>
+            <p>• The $100.00 selling price applies ONLY to the initial sale from the company.</p>
             <p>• After the 300M public supply is sold, the market determines the price.</p>
             <p>• You could lose money. Only invest what you can afford to lose.</p>
         </div>
@@ -216,12 +239,10 @@
 </div>
 
 <script>
-    // ✅ CORRECT API ENDPOINT
     const API_URL = 'https://oneafri-backend.onrender.com/api/v1/market/pulse';
     let lastUpdateTime = 0;
     let refreshInterval = null;
-    
-    // Region mapping for 54 African countries
+
     const regionMap = {
         'Morocco': 'North', 'Algeria': 'North', 'Tunisia': 'North', 'Libya': 'North',
         'Egypt': 'North', 'Sudan': 'North', 'Mauritania': 'North',
@@ -239,7 +260,7 @@
         'South Africa': 'South', 'Namibia': 'South', 'Lesotho': 'South', 'Eswatini': 'South',
         'Botswana': 'South', 'Zambia': 'South', 'Zimbabwe': 'South', 'Angola': 'South', 'Malawi': 'South'
     };
-    
+
     const regionOrder = ['North', 'West', 'Central', 'East', 'South'];
     const regionNames = {
         'North': 'NORTH AFRICA',
@@ -248,12 +269,12 @@
         'East': 'EAST AFRICA',
         'South': 'SOUTHERN AFRICA'
     };
-    
+
     function updateDataAge() {
         if (lastUpdateTime === 0) return;
         const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
         document.getElementById('dataAgeSeconds').innerText = secondsAgo;
-        
+
         const ageDot = document.getElementById('ageDot');
         if (secondsAgo < 30) {
             ageDot.className = 'age-dot green';
@@ -266,80 +287,83 @@
             ageDot.style.background = '#F44336';
         }
     }
-    
+
     function manualRefresh() {
         fetchMarketData();
     }
-    
+
     async function fetchMarketData() {
         try {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
             lastUpdateTime = Date.now();
-            
-            // Update Fixed Entry Price
-            if (data.fixedEntryPrice) {
-                document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
+
+            // === NEW: Display OAF Policy Price = $100.00 ===
+            document.getElementById('fixedEntryPrice').innerHTML = `$${data.oafPolicyPrice || '100.00'}`;
+
+            // === NEW: Display AFRO Value ===
+            if (data.afroIntrinsicValue) {
+                document.getElementById('afroValueDisplay').innerHTML = `AFRO Value: $${parseFloat(data.afroIntrinsicValue).toFixed(4)} (1.00 + Basket)`;
             }
-            
+
             // TRUTH #1
             if (data.truth1_raw) {
                 const truth1Value = parseFloat(data.truth1_raw).toFixed(6);
                 document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
                 document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
-                
+
                 const rawProfitPercent = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
                 document.getElementById('rawProfit').innerHTML = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
             }
-            
+
             // TRUTH #2
             if (data.truth2_pulse) {
                 const truth2Value = parseFloat(data.truth2_pulse).toFixed(6);
                 document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
                 document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | LIVE`;
-                
+
                 const pulseProfitPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
                 const display = `${pulseProfitPercent >= 0 ? '+' : ''}${pulseProfitPercent.toFixed(2)}%`;
                 document.getElementById('pulseProfit').innerHTML = display;
                 document.getElementById('buffer').innerHTML = display;
                 document.getElementById('instantProfit').innerHTML = display;
             }
-            
+
             // TRUTH #3
             if (data.truth3_anchor) {
                 document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
                 document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
             }
-            
+
             // Display 54 Nations
             if (data.currencyList && data.currencyList.length > 0) {
                 const grouped = {};
                 for (const region of regionOrder) { grouped[region] = []; }
-                
+
                 for (const currency of data.currencyList) {
                     const region = regionMap[currency.country] || 'West';
                     if (!grouped[region]) grouped[region] = [];
                     grouped[region].push(currency);
                 }
-                
+
                 for (const region of regionOrder) {
                     grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
                 }
-                
+
                 const container = document.getElementById('regionalCurrencyList');
                 container.innerHTML = '';
-                
+
                 for (const region of regionOrder) {
                     if (grouped[region].length === 0) continue;
-                    
+
                     const regionDiv = document.createElement('div');
                     regionDiv.className = 'region-group';
                     regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
-                    
+
                     const gridDiv = document.createElement('div');
                     gridDiv.className = 'currency-grid';
-                    
+
                     for (const currency of grouped[region]) {
                         const streetRate = parseFloat(currency.streetRate).toFixed(6);
                         const item = document.createElement('div');
@@ -356,36 +380,31 @@
                         `;
                         gridDiv.appendChild(item);
                     }
-                    
+
                     regionDiv.appendChild(gridDiv);
                     container.appendChild(regionDiv);
                 }
-                
+
                 document.getElementById('dataSource').innerHTML = '✅ LIVE SOVEREIGN SYNC | 54 Nations';
             }
-            
+
             updateDataAge();
-            
+
         } catch (error) {
             console.error('Fetch error:', error);
             document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
         }
     }
-    
-    // Start the refresh cycle
+
     function startAutoRefresh() {
         if (refreshInterval) clearInterval(refreshInterval);
         fetchMarketData();
         refreshInterval = setInterval(fetchMarketData, 30000);
     }
-    
-    // Also update age counter every second
+
     setInterval(updateDataAge, 1000);
-    
-    // Start everything when page loads
     startAutoRefresh();
-    
-    // Refresh when page becomes visible again
+
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
             manualRefresh();
