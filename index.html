@@ -49,10 +49,10 @@
             border-left: 4px solid #FFD700;
         }
         .age-indicator { display: flex; align-items: center; gap: 10px; }
-        .age-dot { width: 10px; height: 10px; border-radius: 50%; animation: pulse 1.5s infinite; }
-        .age-dot.green { background: #4CAF50; }
-        .age-dot.yellow { background: #FFC107; }
-        .age-dot.red { background: #F44336; }
+        .age-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .age-dot.green { background: #4CAF50; animation: pulse 1.5s infinite; }
+        .age-dot.yellow { background: #FFC107; animation: pulse 1.5s infinite; }
+        .age-dot.red { background: #F44336; animation: pulse 0.5s infinite; }
         .age-text { font-size: 13px; color: #AAAAAA; }
         .age-value { font-weight: bold; color: #FFD700; }
         .refresh-btn {
@@ -66,18 +66,6 @@
             transition: all 0.3s;
         }
         .refresh-btn:hover { background: #FFD700; color: #000; }
-        .economic-model {
-            background: #1A1A2E;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #FFD700;
-            text-align: center;
-        }
-        .economic-model h3 { color: #FFD700; margin-bottom: 10px; }
-        .model-ratios { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .model-ratio { font-size: 14px; color: #AAAAAA; }
-        .model-ratio strong { color: #4CAF50; }
         .four-truths {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -96,7 +84,7 @@
         .entry-card { border: 2px solid #4CAF50; }
         .truth-title { font-size: 12px; color: #AAAAAA; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .truth-subtitle { font-size: 11px; color: #888888; margin-bottom: 15px; }
-        .truth-value { font-size: 42px; font-weight: bold; font-family: 'Courier New', monospace; margin: 15px 0; }
+        .truth-value { font-size: 42px; font-weight: bold; font-family: monospace; margin: 15px 0; }
         .entry-value { color: #4CAF50; }
         .truth-1-value { color: #2196F3; }
         .truth-2-value { color: #FF9800; }
@@ -113,23 +101,12 @@
         .stat-label { font-size: 12px; color: #888888; margin-bottom: 8px; }
         .stat-value { font-size: 22px; font-weight: bold; color: #FFD700; }
         .currencies-section { background: #1A1A2E; border-radius: 20px; padding: 25px; margin-bottom: 40px; }
-        .section-title { font-size: 18px; color: #FFD700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .region-group { margin-bottom: 25px; }
-        .region-header {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #FFD700;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
+        .section-title { font-size: 16px; color: #FFD700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .live-dot { display: inline-block; width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 1.5s infinite; margin-right: 8px; }
         .currency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 6px;
-            margin-bottom: 15px;
         }
         .currency-item {
             display: flex;
@@ -141,17 +118,13 @@
             font-size: 12px;
         }
         .currency-item:hover { background: rgba(255, 255, 255, 0.08); }
-        .currency-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .currency-flag { font-size: 16px; }
         .currency-name { color: #FFFFFF; font-weight: 500; }
-        .currency-code { color: #888; font-size: 9px; }
-        .currency-street { color: #4CAF50; font-family: monospace; font-weight: bold; font-size: 12px; }
-        .live-dot { display: inline-block; width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 1.5s infinite; margin-right: 8px; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .currency-street { color: #4CAF50; font-family: monospace; font-weight: bold; }
         .footer { text-align: center; padding: 30px; border-top: 1px solid #333; font-size: 12px; color: #666; }
         .loader { text-align: center; padding: 40px; color: #FFD700; }
         .warning-text { color: #FF9800; font-size: 12px; margin-top: 5px; }
-        @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); gap: 15px; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .four-truths { grid-template-columns: 1fr; } .truth-value { font-size: 32px; } }
     </style>
 </head>
@@ -163,25 +136,12 @@
         <div class="tagline">The Four Truths. Complete Transparency. No Hidden Numbers.</div>
         <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
         <div id="phaseBadge" class="phase-badge phase-birthing">🌱 BIRTHING (AFRO = $1.00)</div>
-        <div id="phaseMessage" class="warning-text">0% of 300M OAF sold. AFRO is pegged at $1.00.</div>
-    </div>
-
-    <div class="economic-model">
-        <h3>🏛️ ONEAFRI ECONOMIC MODEL</h3>
-        <div class="model-ratios">
-            <span class="model-ratio"><strong>100 AFF</strong> = 1 AFRO</span>
-            <span class="model-ratio"><strong>100 AFRO</strong> = 1 OAF</span>
-            <span class="model-ratio" id="afroPriceDisplay">AFRO: <strong>$1.00</strong> (Fixed)</span>
-            <span class="model-ratio" id="oafPriceDisplay">OAF: <strong>$100.00</strong> (Policy)</span>
-        </div>
-        <div style="font-size: 11px; color: #888; margin-top: 8px;">
-            ⚠️ AFRO peg ends when 300M OAF sells out. Then market dictates both prices.
-        </div>
+        <div id="phaseMessage" class="warning-text">0.00% of 300M OAF sold. AFRO = $1.00 fixed.</div>
     </div>
 
     <div class="data-age-bar">
         <div class="age-indicator">
-            <div class="age-dot green" id="ageDot"></div>
+            <div id="ageDot" class="age-dot green"></div>
             <span class="age-text">Data age:</span>
             <span class="age-value" id="dataAgeSeconds">0</span>
             <span class="age-text">seconds</span>
@@ -195,14 +155,14 @@
             <div class="truth-subtitle">WHAT YOU PAY</div>
             <div class="truth-value entry-value" id="fixedEntryPrice">$1.00</div>
             <div class="truth-description"><strong>1 AFRO = $1.00</strong><br>Fixed until 300M OAF sells out.</div>
-            <div class="source-badge" id="entrySource">🔒 Phase 1: AFRO Peg</div>
+            <div class="source-badge" id="entrySource">🔒 Phase 1: AFRO Peg ($1.00)</div>
         </div>
 
         <div class="truth-card">
             <div class="truth-title">📊 TRUTH #1</div>
             <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
             <div class="truth-value truth-1-value" id="truth1Value">$--</div>
-            <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong></div>
+            <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.</div>
             <div class="source-badge" id="truth1Source">Loading...</div>
         </div>
 
@@ -210,7 +170,7 @@
             <div class="truth-title">⚡ TRUTH #2</div>
             <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
             <div class="truth-value truth-2-value" id="truth2Value">$--</div>
-            <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br><strong>This is the TRADING value.</strong></div>
+            <div class="truth-description">Real-time scaled index (1.1855x multiplier).</div>
             <div class="source-badge" id="truth2Source">Loading...</div>
         </div>
 
@@ -218,7 +178,7 @@
             <div class="truth-title">⚓ TRUTH #3</div>
             <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
             <div class="truth-value truth-3-value" id="truth3Value">$--</div>
-            <div class="truth-description">Fixed monthly anchor value.<br><strong>Locked for 30 days.</strong></div>
+            <div class="truth-description">Fixed monthly anchor value.</div>
             <div class="source-badge" id="truth3Source">Loading...</div>
         </div>
     </div>
@@ -231,20 +191,9 @@
     </div>
 
     <div class="currencies-section">
-        <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</div>
-        <div id="regionalCurrencyList"><div class="loader">🌀 Loading 54 Nations from Render Cloud...</div></div>
-        <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend | Absolute Transparency Protocol</div>
-    </div>
-
-    <div class="currencies-section">
-        <div class="section-title">⚠️ IMPORTANT DISCLAIMER</div>
-        <div style="font-size: 12px; color: #888; line-height: 1.6;">
-            <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
-            <p>• You can only sell to other users on exchanges.</p>
-            <p>• <strong>AFRO = $1.00</strong> ONLY until 300M OAF sells out.</p>
-            <p>• After 300M sells out, the market dictates BOTH AFRO and OAF prices.</p>
-            <p>• You could lose money. Only invest what you can afford to lose.</p>
-        </div>
+        <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS</div>
+        <div id="currencyList"><div class="loader">🌀 Loading 54 Nations from Render Cloud...</div></div>
+        <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend</div>
     </div>
 
     <div class="footer">
@@ -254,58 +203,9 @@
 </div>
 
 <script>
-    const API_URL = 'https://oneafri-backend.onrender.com/api/v1/market/pulse';
+    const API_URL = 'https://oneafri-backend.onrender.com/api/v1/market-pulse';
     let lastUpdateTime = 0;
     let refreshInterval = null;
-
-    const regionMap = {
-        'Morocco': 'North', 'Algeria': 'North', 'Tunisia': 'North', 'Libya': 'North',
-        'Egypt': 'North', 'Sudan': 'North', 'Mauritania': 'North',
-        'Nigeria': 'West', 'Ghana': 'West', 'Ivory Coast': 'West', 'Senegal': 'West',
-        'Mali': 'West', 'Burkina Faso': 'West', 'Benin': 'West', 'Togo': 'West',
-        'Niger': 'West', 'Guinea': 'West', 'Guinea-Bissau': 'West', 'Sierra Leone': 'West',
-        'Liberia': 'West', 'Gambia': 'West', 'Cabo Verde': 'West',
-        'Cameroon': 'Central', 'Central African Republic': 'Central', 'Chad': 'Central',
-        'Republic of Congo': 'Central', 'DR Congo': 'Central', 'Equatorial Guinea': 'Central',
-        'Gabon': 'Central', 'Sao Tome and Principe': 'Central',
-        'Kenya': 'East', 'Tanzania': 'East', 'Uganda': 'East', 'Ethiopia': 'East',
-        'Somalia': 'East', 'Eritrea': 'East', 'Djibouti': 'East', 'Rwanda': 'East',
-        'Burundi': 'East', 'South Sudan': 'East', 'Mozambique': 'East', 'Madagascar': 'East',
-        'Comoros': 'East', 'Mauritius': 'East', 'Seychelles': 'East',
-        'South Africa': 'South', 'Namibia': 'South', 'Lesotho': 'South', 'Eswatini': 'South',
-        'Botswana': 'South', 'Zambia': 'South', 'Zimbabwe': 'South', 'Angola': 'South', 'Malawi': 'South'
-    };
-
-    const regionOrder = ['North', 'West', 'Central', 'East', 'South'];
-    const regionNames = {
-        'North': 'NORTH AFRICA',
-        'West': 'WEST AFRICA',
-        'Central': 'CENTRAL AFRICA',
-        'East': 'EAST AFRICA',
-        'South': 'SOUTHERN AFRICA'
-    };
-
-    function updateDataAge() {
-        if (lastUpdateTime === 0) return;
-        const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
-        document.getElementById('dataAgeSeconds').innerText = secondsAgo;
-
-        const ageDot = document.getElementById('ageDot');
-        if (secondsAgo < 30) {
-            ageDot.className = 'age-dot green';
-            ageDot.style.background = '#4CAF50';
-        } else if (secondsAgo < 60) {
-            ageDot.className = 'age-dot yellow';
-            ageDot.style.background = '#FFC107';
-        } else {
-            ageDot.className = 'age-dot red';
-            ageDot.style.background = '#F44336';
-        }
-    }
-
-    function manualRefresh() {
-        fetchMarketData();
-    }
 
     async function fetchMarketData() {
         try {
@@ -327,42 +227,33 @@
             } else {
                 phaseBadge.className = 'phase-badge phase-birthing';
                 phaseBadge.innerHTML = '🌱 BIRTHING (AFRO = $1.00)';
-                const afroPrice = data.afroPrice || 1.00;
-                phaseMsg.innerHTML = `${((data.publicSupplySold || 0) / 300000000 * 100).toFixed(2)}% of 300M OAF sold. AFRO = $1.00 fixed.`;
+                const pct = ((data.publicSupplySold || 0) / 300000000 * 100);
+                phaseMsg.innerHTML = `${pct.toFixed(2)}% of 300M OAF sold. AFRO = $1.00 fixed.`;
             }
 
-            // === PRICING DISPLAY ===
-            const afroPrice = data.afroPrice || 1.00;
-            const oafPrice = data.oafPrice || 100.00;
-
-            document.getElementById('afroPriceDisplay').innerHTML = `AFRO: <strong>$${afroPrice.toFixed(2)}</strong> ${isMature ? '(Market)' : '(Fixed)'}`;
-            document.getElementById('oafPriceDisplay').innerHTML = `OAF: <strong>$${oafPrice.toFixed(2)}</strong> ${isMature ? '(Market)' : '(Policy)'}`;
-
             // === FIXED ENTRY PRICE ===
-            document.getElementById('fixedEntryPrice').innerHTML = `$${afroPrice.toFixed(2)}`;
+            document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice || '1.00'}`;
             document.getElementById('entrySource').innerHTML = isMature ? '🔓 Phase 2: Market Price' : '🔒 Phase 1: AFRO Peg ($1.00)';
 
             // === TRUTH #1 ===
             if (data.truth1_raw) {
-                const truth1Value = parseFloat(data.truth1_raw).toFixed(6);
-                document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
-                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
-
-                const rawProfitPercent = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
-                document.getElementById('rawProfit').innerHTML = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
+                const val = parseFloat(data.truth1_raw);
+                document.getElementById('truth1Value').innerHTML = `$${val.toFixed(6)}`;
+                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${val.toFixed(4)} | ${data.totalCountries || 54} Nations`;
+                const rawProfit = ((val - 1.00) / 1.00) * 100;
+                document.getElementById('rawProfit').innerHTML = `${rawProfit >= 0 ? '+' : ''}${rawProfit.toFixed(2)}%`;
             }
 
             // === TRUTH #2 ===
             if (data.truth2_pulse) {
-                const truth2Value = parseFloat(data.truth2_pulse).toFixed(6);
-                document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
+                const val = parseFloat(data.truth2_pulse);
+                document.getElementById('truth2Value').innerHTML = `$${val.toFixed(6)}`;
                 document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | LIVE`;
-
-                const pulseProfitPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
-                const display = `${pulseProfitPercent >= 0 ? '+' : ''}${pulseProfitPercent.toFixed(2)}%`;
-                document.getElementById('pulseProfit').innerHTML = display;
+                const pulseProfit = ((val - 1.00) / 1.00) * 100;
+                const display = `${pulseProfit >= 0 ? '+' : ''}${pulseProfit.toFixed(2)}%`;
                 document.getElementById('buffer').innerHTML = display;
                 document.getElementById('instantProfit').innerHTML = display;
+                document.getElementById('pulseProfit').innerHTML = display;
             }
 
             // === TRUTH #3 ===
@@ -373,53 +264,24 @@
 
             // === 54 NATIONS ===
             if (data.currencyList && data.currencyList.length > 0) {
-                const grouped = {};
-                for (const region of regionOrder) { grouped[region] = []; }
-
-                for (const currency of data.currencyList) {
-                    const region = regionMap[currency.country] || 'West';
-                    if (!grouped[region]) grouped[region] = [];
-                    grouped[region].push(currency);
-                }
-
-                for (const region of regionOrder) {
-                    grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
-                }
-
-                const container = document.getElementById('regionalCurrencyList');
+                const container = document.getElementById('currencyList');
                 container.innerHTML = '';
+                const grid = document.createElement('div');
+                grid.className = 'currency-grid';
 
-                for (const region of regionOrder) {
-                    if (grouped[region].length === 0) continue;
+                // Sort by streetRate (highest first)
+                const sorted = [...data.currencyList].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
 
-                    const regionDiv = document.createElement('div');
-                    regionDiv.className = 'region-group';
-                    regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
-
-                    const gridDiv = document.createElement('div');
-                    gridDiv.className = 'currency-grid';
-
-                    for (const currency of grouped[region]) {
-                        const streetRate = parseFloat(currency.streetRate).toFixed(6);
-                        const item = document.createElement('div');
-                        item.className = 'currency-item';
-                        item.innerHTML = `
-                            <div class="currency-info">
-                                <span class="currency-flag">${currency.flag || '🌍'}</span>
-                                <span class="currency-name">${currency.country}</span>
-                                <span class="currency-code">(${currency.code})</span>
-                            </div>
-                            <div class="currency-info">
-                                <span class="currency-street">$${streetRate}</span>
-                            </div>
-                        `;
-                        gridDiv.appendChild(item);
-                    }
-
-                    regionDiv.appendChild(gridDiv);
-                    container.appendChild(regionDiv);
+                for (const c of sorted) {
+                    const div = document.createElement('div');
+                    div.className = 'currency-item';
+                    div.innerHTML = `
+                        <span class="currency-name">${c.flag || '🌍'} ${c.country} (${c.code})</span>
+                        <span class="currency-street">$${parseFloat(c.streetRate).toFixed(6)}</span>
+                    `;
+                    grid.appendChild(div);
                 }
-
+                container.appendChild(grid);
                 document.getElementById('dataSource').innerHTML = '✅ LIVE SOVEREIGN SYNC | 54 Nations';
             }
 
@@ -427,24 +289,33 @@
 
         } catch (error) {
             console.error('Fetch error:', error);
-            document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
+            document.getElementById('currencyList').innerHTML = '<div class="loader">⚠️ Connecting to Render Cloud Brain... Retrying</div>';
         }
     }
 
-    function startAutoRefresh() {
-        if (refreshInterval) clearInterval(refreshInterval);
+    function updateDataAge() {
+        if (lastUpdateTime === 0) return;
+        const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
+        document.getElementById('dataAgeSeconds').innerText = secondsAgo;
+
+        const dot = document.getElementById('ageDot');
+        if (secondsAgo < 30) {
+            dot.className = 'age-dot green';
+        } else if (secondsAgo < 60) {
+            dot.className = 'age-dot yellow';
+        } else {
+            dot.className = 'age-dot red';
+        }
+    }
+
+    function manualRefresh() {
         fetchMarketData();
-        refreshInterval = setInterval(fetchMarketData, 30000);
     }
 
+    // Start auto-refresh every 30 seconds
+    fetchMarketData();
+    refreshInterval = setInterval(fetchMarketData, 30000);
     setInterval(updateDataAge, 1000);
-    startAutoRefresh();
-
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            manualRefresh();
-        }
-    });
 </script>
 </body>
 </html>
