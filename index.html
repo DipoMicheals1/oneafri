@@ -27,7 +27,6 @@
             margin: 0 auto;
         }
 
-        /* ── HEADER ── */
         header {
             text-align: center;
             padding: 28px 20px 20px 20px;
@@ -137,7 +136,6 @@
             opacity: 0.8;
         }
 
-        /* ── TRUTH CARDS ── */
         .truth-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -201,11 +199,13 @@
             height: 8px;
             background: #00ff08;
             border-radius: 50%;
-            margin-left: 6px;
             animation: pulse 1.5s infinite;
         }
 
-        /* ── INDEX BAR ── */
+        .truth-card.error .value {
+            color: #F44336 !important;
+        }
+
         .index-bar {
             background: #1A1A2E;
             padding: 14px 20px;
@@ -248,7 +248,6 @@
             color: #FFFFFF;
         }
 
-        /* ── PROFIT METRICS ── */
         .profit-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -279,8 +278,10 @@
         .profit-item .value.down {
             color: #F44336;
         }
+        .profit-item .value.error {
+            color: #F44336 !important;
+        }
 
-        /* ── SEARCH ── */
         .search-section {
             background: #1A1A2E;
             padding: 18px 20px;
@@ -364,7 +365,6 @@
             color: #F44336;
         }
 
-        /* ── CHART ── */
         .chart-section {
             background: #1A1A2E;
             padding: 20px;
@@ -405,7 +405,6 @@
             width: 100%;
         }
 
-        /* ── 54 NATIONS ── */
         .nations-section {
             background: #1A1A2E;
             padding: 20px;
@@ -458,7 +457,6 @@
             font-size: 13px;
         }
 
-        /* ── DISCLAIMER ── */
         .disclaimer {
             background: #1A0A0A;
             border: 1px solid #F44336;
@@ -497,6 +495,27 @@
             border-radius: 3px;
         }
 
+        .error-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #F44336;
+            background: #1A0A0A;
+            border-radius: 12px;
+            border: 1px solid #F44336;
+        }
+
+        .error-container button {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
         @media (max-width: 768px) {
             .truth-grid {
                 grid-template-columns: 1fr 1fr;
@@ -524,9 +543,6 @@
 
     <div class="container">
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- HEADER (Icon Centered)                         -->
-        <!-- ════════════════════════════════════════════════ -->
         <header>
             <div class="logo-icon">
                 <svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
@@ -552,41 +568,37 @@
             </div>
         </header>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- FOUR TRUTHS (LIVE)                             -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- TRUTH CARDS -->
         <div class="truth-grid">
             <div class="truth-card gold">
                 <div class="label">💰 FIXED ENTRY PRICE</div>
                 <div class="value" style="font-size:20px;">1 AFRO = <span style="font-size:28px;">$1.00</span></div>
                 <div class="sub">100 AFRO = 1 OAF = $100.00 · Locked</div>
             </div>
-            <div class="truth-card green">
+            <div class="truth-card green" id="truth1Card">
                 <div class="label">📊 TRUTH #1 · EVIDENCE <span class="live-dot"></span></div>
-                <div class="value" id="truth1">$--.------</div>
+                <div class="value" id="truth1">Loading...</div>
                 <div class="sub">Raw sum of 54 African currencies · 1 AFRO</div>
             </div>
-            <div class="truth-card purple">
+            <div class="truth-card purple" id="truth2Card">
                 <div class="label">⚡ TRUTH #2 · PULSE <span class="live-dot"></span></div>
-                <div class="value" id="truth2">$--.------</div>
+                <div class="value" id="truth2">Loading...</div>
                 <div class="sub">Scaled index (×1.1855) · Trading value</div>
             </div>
-            <div class="truth-card blue">
+            <div class="truth-card blue" id="truth3Card">
                 <div class="label">⚓ TRUTH #3 · ANCHOR <span class="live-dot"></span></div>
-                <div class="value" id="truth3">$--.----</div>
+                <div class="value" id="truth3">Loading...</div>
                 <div class="sub">Fixed monthly anchor · Locked 30 days</div>
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- INDEX BAR (OAF ×100)                           -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- INDEX BAR -->
         <div class="index-bar">
             <div>
                 <span class="label">📊 OAF INDEX</span>
                 <span class="value" style="margin-left:16px;">
-                    1 OAF = <span class="gold" id="oafPrice">$--.----</span> &nbsp;|&nbsp;
-                    1 AFRO = <span class="gold" id="afroPrice">$--.------</span>
+                    1 OAF = <span class="gold" id="oafPrice">Loading...</span> &nbsp;|&nbsp;
+                    1 AFRO = <span class="gold" id="afroPrice">Loading...</span>
                 </span>
                 <span class="green" style="margin-left:16px;" id="goldenWindow">🟢 --.--% Golden Window</span>
             </div>
@@ -599,31 +611,27 @@
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- PROFIT METRICS (LIVE)                          -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- PROFIT METRICS -->
         <div class="profit-grid">
             <div class="profit-item">
                 <div class="label">🛡️ System Buffer</div>
-                <div class="value up" id="buffer">--.--%</div>
+                <div class="value up" id="buffer">Loading...</div>
             </div>
             <div class="profit-item">
                 <div class="label">💰 Unrealized Gain</div>
-                <div class="value up" id="unrealized">--.--%</div>
+                <div class="value up" id="unrealized">Loading...</div>
             </div>
             <div class="profit-item">
                 <div class="label">📈 Raw Profit</div>
-                <div class="value up" id="rawProfit">--.--%</div>
+                <div class="value up" id="rawProfit">Loading...</div>
             </div>
             <div class="profit-item">
                 <div class="label">⚡ Pulse Profit</div>
-                <div class="value up" id="pulseProfit">--.--%</div>
+                <div class="value up" id="pulseProfit">Loading...</div>
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- SEARCH                                         -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- SEARCH -->
         <div class="search-section">
             <h3>🌐 Global Oracle Explorer</h3>
             <div class="search-container">
@@ -648,9 +656,7 @@
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- CHART (OAF Price ×100, Correct Axis)           -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- CHART -->
         <div class="chart-section">
             <div class="ticker">
                 <span class="pair-name" id="activePairTitle">OAF/USD</span>
@@ -663,9 +669,7 @@
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- 54 NATIONS (LIVE)                              -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- 54 NATIONS -->
         <div class="nations-section">
             <h3>🌍 TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</h3>
             <div class="nations-grid" id="nationsGrid">
@@ -673,9 +677,7 @@
             </div>
         </div>
 
-        <!-- ════════════════════════════════════════════════ -->
-        <!-- DISCLAIMER                                     -->
-        <!-- ════════════════════════════════════════════════ -->
+        <!-- DISCLAIMER -->
         <div class="disclaimer">
             <h4>⚠️ IMPORTANT DISCLAIMER</h4>
             <p>
@@ -698,29 +700,13 @@
         // ═════════════════════════════════════════════════════════
 
         const BACKEND = 'https://oneafri-backend.onrender.com';
-        const FETCH_INTERVAL = 30000; // 30 seconds
-
-        // ── Fiat / Crypto rates (for index pairs) ──
-        const FIAT_RATES = {
-            EUR: 0.8758,
-            GBP: 0.7444,
-            JPY: 162.47,
-            CNY: 7.2345,
-            TRY: 33.12,
-            RUB: 89.45,
-            NGN: 1550.00
-        };
-        const CRYPTO_RATES = { BTC: 43478, ETH: 2345, USDT: 1.00, USDC: 1.00, DAI: 1.00 };
-        const ALL_RATES = { ...FIAT_RATES, ...CRYPTO_RATES };
+        const FETCH_INTERVAL = 30000;
 
         // ── Chart state ──
         let chartInstance = null;
         let chartData = [];
         let liveInterval = null;
-        let activePair = 'OAF/USD';
-        let lastTruth1 = 0;
-        let lastTruth2 = 0;
-        let lastTruth3 = 0;
+        let lastData = null;
         let ageCounter = 0;
 
         // ── DOM refs ──
@@ -747,116 +733,74 @@
         const oafBtc = $('oafBtc');
 
         // ═════════════════════════════════════════════════════════
-        // FETCH FROM BACKEND
+        // FETCH FROM BACKEND - NO FALLBACK!
         // ═════════════════════════════════════════════════════════
 
         async function fetchMarketPulse() {
             try {
                 const res = await fetch(`${BACKEND}/api/v1/market/pulse`);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+                
                 const data = await res.json();
+                lastData = data;
                 applyMarketData(data);
                 return data;
+                
             } catch (err) {
-                console.warn('⚠️ Backend unreachable, using fallback.', err);
-                applyFallback();
+                console.error('❌ Backend unreachable:', err);
+                showErrorState(err.message);
                 return null;
             }
         }
 
+        // ═════════════════════════════════════════════════════════
+        // APPLY LIVE DATA
+        // ═════════════════════════════════════════════════════════
+
         function applyMarketData(data) {
             // Truths
-            const t1 = parseFloat(data.truth1_raw) || 1.514209;
-            const t2 = parseFloat(data.truth2_pulse) || 1.795095;
-            const t3 = parseFloat(data.truth3_anchor) || 1.3400;
+            const t1 = parseFloat(data.truth1_raw) || 0;
+            const t2 = parseFloat(data.truth2_pulse) || 0;
+            const t3 = parseFloat(data.truth3_anchor) || 0;
 
-            lastTruth1 = t1;
-            lastTruth2 = t2;
-            lastTruth3 = t3;
+            // Fixed Entry
+            const entry = 1.00;
 
-            truth1.textContent = '$' + t1.toFixed(6);
-            truth2.textContent = '$' + t2.toFixed(6);
-            truth3.textContent = '$' + t3.toFixed(4);
-
-            // OAF Index (×100)
+            // OAF Index
             const oaf = t2 * 100;
-            const afro = t1;
-            oafPrice.textContent = '$' + oaf.toFixed(4);
-            afroPrice.textContent = '$' + afro.toFixed(6);
 
             // Profits
-            const entry = 1.00;
-            const bufferVal = ((t2 - entry) / entry) * 100;
             const rawVal = ((t1 - entry) / entry) * 100;
             const pulseVal = ((t2 - entry) / entry) * 100;
 
-            setProfit('buffer', bufferVal);
-            setProfit('unrealized', bufferVal);
-            setProfit('rawProfit', rawVal);
-            setProfit('pulseProfit', pulseVal);
-
-            goldenWindow.textContent = '🟢 +' + rawVal.toFixed(2) + '% Golden Window';
-
-            // Index pairs
-            const oafVal = t2 * 100;
-            oafUsd.textContent = oafVal.toFixed(4);
-            oafEur.textContent = (oafVal * FIAT_RATES.EUR).toFixed(4);
-            oafGbp.textContent = (oafVal * FIAT_RATES.GBP).toFixed(4);
-            oafJpy.textContent = (oafVal * FIAT_RATES.JPY).toFixed(2);
-            oafBtc.textContent = (oafVal / CRYPTO_RATES.BTC).toFixed(6);
-
-            // Current price for chart ticker
-            currentPrice.textContent = oafVal.toFixed(4);
-            currentPrice.className = 'price up';
-            priceChange.textContent = '+' + pulseVal.toFixed(2) + '%';
-            priceChange.className = 'change up';
-
-            // Nations
-            if (data.currencyList && data.currencyList.length > 0) {
-                renderNations(data.currencyList);
-            } else {
-                renderNationsFromEmbed();
-            }
-
-            // Update chart with new price
-            updateChartWithPrice(t2);
-
-            // Reset age counter
-            ageCounter = 0;
-            dataAge.textContent = '0';
-            liveStatus.textContent = 'LIVE';
-            liveStatus.style.color = '#4CAF50';
-        }
-
-        function applyFallback() {
-            // Use the known hardcoded values as fallback
-            const t1 = 1.514209;
-            const t2 = 1.795095;
-            const t3 = 1.3400;
-
-            lastTruth1 = t1;
-            lastTruth2 = t2;
-            lastTruth3 = t3;
-
+            // Update Truths
             truth1.textContent = '$' + t1.toFixed(6);
             truth2.textContent = '$' + t2.toFixed(6);
             truth3.textContent = '$' + t3.toFixed(4);
 
-            const oaf = t2 * 100;
-            const afro = t1;
+            document.getElementById('truth1Card').className = 'truth-card green';
+            document.getElementById('truth2Card').className = 'truth-card purple';
+            document.getElementById('truth3Card').className = 'truth-card blue';
+
+            // OAF Index
             oafPrice.textContent = '$' + oaf.toFixed(4);
-            afroPrice.textContent = '$' + afro.toFixed(6);
+            afroPrice.textContent = '$' + t1.toFixed(6);
 
-            const entry = 1.00;
-            const rawVal = ((t1 - entry) / entry) * 100;
-            const pulseVal = ((t2 - entry) / entry) * 100;
+            // Golden Window
+            goldenWindow.textContent = '🟢 +' + rawVal.toFixed(2) + '% Golden Window';
 
+            // Profit Metrics
             setProfit('buffer', pulseVal);
             setProfit('unrealized', pulseVal);
             setProfit('rawProfit', rawVal);
             setProfit('pulseProfit', pulseVal);
 
-            goldenWindow.textContent = '🟢 +' + rawVal.toFixed(2) + '% Golden Window';
+            // Index pairs
+            const FIAT_RATES = { EUR: 0.8758, GBP: 0.7444, JPY: 162.47 };
+            const CRYPTO_RATES = { BTC: 43478 };
 
             oafUsd.textContent = oaf.toFixed(4);
             oafEur.textContent = (oaf * FIAT_RATES.EUR).toFixed(4);
@@ -864,19 +808,27 @@
             oafJpy.textContent = (oaf * FIAT_RATES.JPY).toFixed(2);
             oafBtc.textContent = (oaf / CRYPTO_RATES.BTC).toFixed(6);
 
+            // Chart ticker
             currentPrice.textContent = oaf.toFixed(4);
-            currentPrice.className = 'price up';
-            priceChange.textContent = '+' + pulseVal.toFixed(2) + '%';
-            priceChange.className = 'change up';
+            currentPrice.className = 'price ' + (pulseVal >= 0 ? 'up' : 'down');
+            priceChange.textContent = (pulseVal >= 0 ? '+' : '') + pulseVal.toFixed(2) + '%';
+            priceChange.className = 'change ' + (pulseVal >= 0 ? 'up' : 'down');
 
-            renderNationsFromEmbed();
+            // Nations
+            if (data.currencyList && data.currencyList.length > 0) {
+                renderNations(data.currencyList);
+            }
 
-            updateChartWithPrice(t2);
+            // Update chart
+            if (t2 > 0) {
+                updateChartWithPrice(t2);
+            }
 
-            ageCounter = 0;
+            // Status
+            liveStatus.textContent = 'LIVE';
+            liveStatus.style.color = '#4CAF50';
             dataAge.textContent = '0';
-            liveStatus.textContent = 'FALLBACK';
-            liveStatus.style.color = '#FF9800';
+            ageCounter = 0;
         }
 
         function setProfit(id, val) {
@@ -886,16 +838,67 @@
             el.className = 'value ' + (val >= 0 ? 'up' : 'down');
         }
 
-        // ── NATIONS RENDER ──
+        // ═════════════════════════════════════════════════════════
+        // SHOW ERROR - NO FAKE DATA!
+        // ═════════════════════════════════════════════════════════
+
+        function showErrorState(message) {
+            liveStatus.textContent = '⚠️ ERROR';
+            liveStatus.style.color = '#F44336';
+            
+            truth1.textContent = '⚠️ OFFLINE';
+            truth2.textContent = '⚠️ OFFLINE';
+            truth3.textContent = '⚠️ OFFLINE';
+            
+            document.getElementById('truth1Card').className = 'truth-card green error';
+            document.getElementById('truth2Card').className = 'truth-card purple error';
+            document.getElementById('truth3Card').className = 'truth-card blue error';
+            
+            oafPrice.textContent = '⚠️';
+            afroPrice.textContent = '⚠️';
+            
+            buffer.textContent = '⚠️';
+            unrealized.textContent = '⚠️';
+            rawProfit.textContent = '⚠️';
+            pulseProfit.textContent = '⚠️';
+            
+            document.querySelectorAll('.profit-item .value').forEach(el => {
+                el.className = 'value error';
+            });
+            
+            goldenWindow.textContent = '⚠️ Backend Offline';
+            
+            oafUsd.textContent = '--';
+            oafEur.textContent = '--';
+            oafGbp.textContent = '--';
+            oafJpy.textContent = '--';
+            oafBtc.textContent = '--';
+            
+            currentPrice.textContent = '--.----';
+            currentPrice.className = 'price';
+            priceChange.textContent = '--%';
+            
+            document.getElementById('nationsGrid').innerHTML = `
+                <div class="error-container">
+                    ❌ Cannot fetch live data: ${message}
+                    <br><br>
+                    <button onclick="refreshData()">⟳ RETRY</button>
+                </div>
+            `;
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // RENDER NATIONS
+        // ═════════════════════════════════════════════════════════
 
         function renderNations(list) {
             const grid = document.getElementById('nationsGrid');
             const regions = {
-                NORTH: '📍 NORTH AFRICA (7 countries)',
-                WEST: '📍 WEST AFRICA (18 countries)',
-                CENTRAL: '📍 CENTRAL AFRICA (7 countries)',
-                EAST: '📍 EAST AFRICA (15 countries)',
-                SOUTH: '📍 SOUTHERN AFRICA (9 countries)'
+                NORTH: '📍 NORTH AFRICA',
+                WEST: '📍 WEST AFRICA',
+                CENTRAL: '📍 CENTRAL AFRICA',
+                EAST: '📍 EAST AFRICA',
+                SOUTH: '📍 SOUTHERN AFRICA'
             };
             const regionOrder = ['NORTH', 'WEST', 'CENTRAL', 'EAST', 'SOUTH'];
 
@@ -903,9 +906,9 @@
             for (const region of regionOrder) {
                 const filtered = list.filter(n => n.region === region);
                 if (filtered.length === 0) continue;
-                html += `<div class="region-header">${regions[region] || region}</div>`;
+                html += `<div class="region-header">${regions[region]} (${filtered.length} countries)</div>`;
                 for (const n of filtered) {
-                    const val = parseFloat(n.streetRate || n.officialRate || 0);
+                    const val = parseFloat(n.streetRate || n.usdValue || 0);
                     html += `
                         <div class="nation-item">
                             <span><span class="flag">${n.flag || '🌍'}</span> ${n.country || 'Unknown'} <span class="code">(${n.code || '--'})</span></span>
@@ -917,74 +920,13 @@
             grid.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">No nations data available.</div>';
         }
 
-        // ── Fallback nations (from your dump) ──
-        function renderNationsFromEmbed() {
-            const nations = [
-                { flag: '🇹🇳', country: 'Tunisia', code: 'TND', region: 'NORTH', streetRate: '0.320513' },
-                { flag: '🇱🇾', country: 'Libya', code: 'LYD', region: 'NORTH', streetRate: '0.206186' },
-                { flag: '🇲🇦', country: 'Morocco', code: 'MAD', region: 'NORTH', streetRate: '0.099502' },
-                { flag: '🇲🇷', country: 'Mauritania', code: 'MRU', region: 'NORTH', streetRate: '0.025157' },
-                { flag: '🇪🇬', country: 'Egypt', code: 'EGP', region: 'NORTH', streetRate: '0.020877' },
-                { flag: '🇩🇿', country: 'Algeria', code: 'DZD', region: 'NORTH', streetRate: '0.007471' },
-                { flag: '🇸🇩', country: 'Sudan', code: 'SDG', region: 'NORTH', streetRate: '0.001664' },
-                { flag: '🇬🇭', country: 'Ghana', code: 'GHS', region: 'WEST', streetRate: '0.067340' },
-                { flag: '🇸🇱', country: 'Sierra Leone', code: 'SLE', region: 'WEST', streetRate: '0.044543' },
-                { flag: '🇸🇹', country: 'São Tomé', code: 'STN', region: 'WEST', streetRate: '0.043860' },
-                { flag: '🇬🇲', country: 'Gambia', code: 'GMD', region: 'WEST', streetRate: '0.014684' },
-                { flag: '🇨🇻', country: 'Cape Verde', code: 'CVE', region: 'WEST', streetRate: '0.009756' },
-                { flag: '🇱🇷', country: 'Liberia', code: 'LRD', region: 'WEST', streetRate: '0.005168' },
-                { flag: '🇧🇯', country: 'Benin', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇧🇫', country: 'Burkina Faso', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇨🇮', country: "Côte d'Ivoire", code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇬🇼', country: 'Guinea-Bissau', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇲🇱', country: 'Mali', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇳🇪', country: 'Niger', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇸🇳', country: 'Senegal', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇹🇬', country: 'Togo', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
-                { flag: '🇳🇬', country: 'Nigeria', code: 'NGN', region: 'WEST', streetRate: '0.000735' },
-                { flag: '🇬🇳', country: 'Guinea', code: 'GNF', region: 'WEST', streetRate: '0.000116' },
-                { flag: '🇨🇲', country: 'Cameroon', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇹🇩', country: 'Chad', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇬🇶', country: 'Equatorial Guinea', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇬🇦', country: 'Gabon', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇨🇫', country: 'CAR', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇨🇬', country: 'Congo Republic', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
-                { flag: '🇨🇩', country: 'DR Congo', code: 'CDF', region: 'CENTRAL', streetRate: '0.000356' },
-                { flag: '🇸🇨', country: 'Seychelles', code: 'SCR', region: 'EAST', streetRate: '0.073529' },
-                { flag: '🇪🇷', country: 'Eritrea', code: 'ERN', region: 'EAST', streetRate: '0.066667' },
-                { flag: '🇲🇺', country: 'Mauritius', code: 'MUR', region: 'EAST', streetRate: '0.021598' },
-                { flag: '🇪🇹', country: 'Ethiopia', code: 'ETB', region: 'EAST', streetRate: '0.017483' },
-                { flag: '🇲🇿', country: 'Mozambique', code: 'MZN', region: 'EAST', streetRate: '0.015662' },
-                { flag: '🇸🇸', country: 'South Sudan', code: 'SSP', region: 'EAST', streetRate: '0.007678' },
-                { flag: '🇰🇪', country: 'Kenya', code: 'KES', region: 'EAST', streetRate: '0.007605' },
-                { flag: '🇩🇯', country: 'Djibouti', code: 'DJF', region: 'EAST', streetRate: '0.005627' },
-                { flag: '🇰🇲', country: 'Comoros', code: 'KMF', region: 'EAST', streetRate: '0.002183' },
-                { flag: '🇸🇴', country: 'Somalia', code: 'SOS', region: 'EAST', streetRate: '0.001750' },
-                { flag: '🇷🇼', country: 'Rwanda', code: 'RWF', region: 'EAST', streetRate: '0.000763' },
-                { flag: '🇹🇿', country: 'Tanzania', code: 'TZS', region: 'EAST', streetRate: '0.000383' },
-                { flag: '🇧🇮', country: 'Burundi', code: 'BIF', region: 'EAST', streetRate: '0.000351' },
-                { flag: '🇺🇬', country: 'Uganda', code: 'UGX', region: 'EAST', streetRate: '0.000267' },
-                { flag: '🇲🇬', country: 'Madagascar', code: 'MGA', region: 'EAST', streetRate: '0.000220' },
-                { flag: '🇿🇼', country: 'Zimbabwe', code: 'ZWG', region: 'SOUTH', streetRate: '0.074460' },
-                { flag: '🇧🇼', country: 'Botswana', code: 'BWP', region: 'SOUTH', streetRate: '0.070423' },
-                { flag: '🇸🇿', country: 'Eswatini', code: 'SZL', region: 'SOUTH', streetRate: '0.054201' },
-                { flag: '🇱🇸', country: 'Lesotho', code: 'LSL', region: 'SOUTH', streetRate: '0.054201' },
-                { flag: '🇳🇦', country: 'Namibia', code: 'NAD', region: 'SOUTH', streetRate: '0.054201' },
-                { flag: '🇿🇦', country: 'South Africa', code: 'ZAR', region: 'SOUTH', streetRate: '0.054201' },
-                { flag: '🇿🇲', country: 'Zambia', code: 'ZMW', region: 'SOUTH', streetRate: '0.038241' },
-                { flag: '🇦🇴', country: 'Angola', code: 'AOA', region: 'SOUTH', streetRate: '0.001079' },
-                { flag: '🇲🇼', country: 'Malawi', code: 'MWK', region: 'SOUTH', streetRate: '0.000576' }
-            ];
-            renderNations(nations);
-        }
-
         // ═════════════════════════════════════════════════════════
         // CHART
         // ═════════════════════════════════════════════════════════
 
         function initChart() {
             const ctx = document.getElementById('financialChart').getContext('2d');
-            chartData = generateInitialChartData(1.795095);
+            chartData = generateInitialChartData();
 
             chartInstance = new Chart(ctx, {
                 type: 'candlestick',
@@ -1027,14 +969,14 @@
                 }
             });
 
-            updateTickerDisplay(1.795095 * 100);
+            updateTickerDisplay(179.5095);
             startChartEngine();
         }
 
-        function generateInitialChartData(basePrice) {
+        function generateInitialChartData() {
             const data = [];
             let now = luxon.DateTime.now().minus({ minutes: 30 });
-            let price = basePrice * 100;
+            let price = 179.5095;
 
             for (let i = 0; i < 30; i++) {
                 const open = price;
@@ -1117,21 +1059,31 @@
             const rateEl = document.getElementById('searchRate');
             const changeEl = document.getElementById('searchChange');
 
+            if (!lastData) {
+                result.style.display = 'block';
+                pairEl.textContent = '⚠️ No data';
+                rateEl.textContent = '—';
+                changeEl.textContent = '';
+                return;
+            }
+
+            const oaf = parseFloat(lastData.truth2_pulse) * 100;
             let rate = 0;
             let found = false;
-            const oaf = lastTruth2 * 100;
 
-            if (ALL_RATES[query]) {
-                rate = oaf / ALL_RATES[query];
+            // Check against live rates
+            const nation = lastData.currencyList.find(n => n.code === query);
+            if (nation) {
+                rate = parseFloat(nation.streetRate) * 100;
                 found = true;
             } else if (query === 'USD' || query === 'OAF') {
                 rate = oaf;
                 found = true;
             } else {
-                // Check nations
-                const nation = nationsFallback.find(n => n.code === query);
-                if (nation) {
-                    rate = parseFloat(nation.streetRate) * 100;
+                // Check common fiat/crypto rates
+                const commonRates = { EUR: 0.8758, GBP: 0.7444, JPY: 162.47, BTC: 43478 };
+                if (commonRates[query]) {
+                    rate = oaf / commonRates[query];
                     found = true;
                 }
             }
@@ -1160,31 +1112,6 @@
             }
         });
 
-        // ── Nations fallback for search ──
-        const nationsFallback = [
-            { code: 'TND', streetRate: '0.320513' }, { code: 'LYD', streetRate: '0.206186' },
-            { code: 'MAD', streetRate: '0.099502' }, { code: 'MRU', streetRate: '0.025157' },
-            { code: 'EGP', streetRate: '0.020877' }, { code: 'DZD', streetRate: '0.007471' },
-            { code: 'SDG', streetRate: '0.001664' }, { code: 'GHS', streetRate: '0.067340' },
-            { code: 'SLE', streetRate: '0.044543' }, { code: 'STN', streetRate: '0.043860' },
-            { code: 'GMD', streetRate: '0.014684' }, { code: 'CVE', streetRate: '0.009756' },
-            { code: 'LRD', streetRate: '0.005168' }, { code: 'XOF', streetRate: '0.001638' },
-            { code: 'NGN', streetRate: '0.000735' }, { code: 'GNF', streetRate: '0.000116' },
-            { code: 'XAF', streetRate: '0.001638' }, { code: 'CDF', streetRate: '0.000356' },
-            { code: 'SCR', streetRate: '0.073529' }, { code: 'ERN', streetRate: '0.066667' },
-            { code: 'MUR', streetRate: '0.021598' }, { code: 'ETB', streetRate: '0.017483' },
-            { code: 'MZN', streetRate: '0.015662' }, { code: 'SSP', streetRate: '0.007678' },
-            { code: 'KES', streetRate: '0.007605' }, { code: 'DJF', streetRate: '0.005627' },
-            { code: 'KMF', streetRate: '0.002183' }, { code: 'SOS', streetRate: '0.001750' },
-            { code: 'RWF', streetRate: '0.000763' }, { code: 'TZS', streetRate: '0.000383' },
-            { code: 'BIF', streetRate: '0.000351' }, { code: 'UGX', streetRate: '0.000267' },
-            { code: 'MGA', streetRate: '0.000220' }, { code: 'ZWG', streetRate: '0.074460' },
-            { code: 'BWP', streetRate: '0.070423' }, { code: 'SZL', streetRate: '0.054201' },
-            { code: 'LSL', streetRate: '0.054201' }, { code: 'NAD', streetRate: '0.054201' },
-            { code: 'ZAR', streetRate: '0.054201' }, { code: 'ZMW', streetRate: '0.038241' },
-            { code: 'AOA', streetRate: '0.001079' }, { code: 'MWK', streetRate: '0.000576' }
-        ];
-
         // ═════════════════════════════════════════════════════════
         // REFRESH & AGE COUNTER
         // ═════════════════════════════════════════════════════════
@@ -1195,7 +1122,7 @@
             fetchMarketPulse();
         }
 
-        // Age counter increments every second
+        // Age counter
         setInterval(() => {
             ageCounter++;
             dataAge.textContent = ageCounter;
