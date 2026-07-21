@@ -1,110 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌍 OneAfri Sovereign Economic Ledger</title>
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.1.1/dist/chartjs-chart-financial.min.js"></script>
-    
     <style>
-        :root {
-            --bg: #0A0A1F;
-            --card: #1A1A2E;
-            --gold: #FFD700;
-            --green: #4CAF50;
-            --red: #F44336;
-            --text: #FFFFFF;
-            --gray: #888888;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
-            background: var(--bg);
-            color: var(--text);
+            background: #0A0A1F;
+            color: #FFFFFF;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px;
         }
-        
-        .container { max-width: 1400px; margin: 0 auto; }
-        
-        /* HEADER WITH ICON */
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ── HEADER ── */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            background: var(--card);
-            border-radius: 12px;
-            border: 1px solid var(--gold);
+            text-align: center;
+            padding: 28px 20px 20px 20px;
+            background: #1A1A2E;
+            border-radius: 16px;
+            border: 1px solid #FFD700;
             margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
+
         .logo-icon {
-            width: 48px;
-            height: 48px;
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 8px;
         }
-        
+
         .logo-icon svg {
             width: 100%;
             height: 100%;
         }
-        
+
         .logo-text h1 {
-            color: var(--gold);
-            font-size: 24px;
+            color: #FFD700;
+            font-size: 32px;
+            margin-bottom: 4px;
         }
-        
+
         .logo-text .subtitle {
-            color: var(--gray);
-            font-size: 13px;
+            color: #888888;
+            font-size: 16px;
         }
-        
+
         .logo-text .tagline {
-            color: var(--gold);
-            font-size: 12px;
-            opacity: 0.7;
+            color: #FFD700;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 4px;
         }
-        
-        .header-right {
+
+        .header-meta {
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
-        
+
         .symbol-badge {
             background: #2A2A4E;
-            padding: 4px 12px;
-            border-radius: 12px;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            font-size: 13px;
+            padding: 4px 16px;
+            border-radius: 16px;
+            border: 1px solid #FFD700;
+            color: #FFD700;
+            font-size: 14px;
             font-weight: bold;
         }
-        
+
+        .symbol-badge.green {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
         .status-badge {
             background: #2e7d32;
-            padding: 6px 14px;
+            padding: 4px 14px;
             border-radius: 20px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             font-size: 13px;
         }
-        
+
         .pulse-dot {
             width: 8px;
             height: 8px;
@@ -112,129 +108,199 @@
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.2;
+            }
         }
-        
-        .data-age { color: var(--gray); font-size: 13px; }
-        
+
+        .data-age {
+            color: #888888;
+            font-size: 13px;
+        }
         .refresh-btn {
-            background: var(--gold);
+            background: #FFD700;
             color: #000;
             border: none;
-            padding: 6px 14px;
+            padding: 4px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             font-size: 13px;
         }
-        
-        .refresh-btn:hover { opacity: 0.8; }
-        
-        /* TRUTH CARDS */
+        .refresh-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* ── TRUTH CARDS ── */
         .truth-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
-        
+
         .truth-card {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 18px 20px;
             border-radius: 12px;
             border: 1px solid #333;
+            transition: border-color 0.3s;
         }
-        
+
         .truth-card .label {
             font-size: 11px;
-            color: var(--gray);
+            color: #888888;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .truth-card .value {
             font-size: 26px;
             font-weight: bold;
             margin: 6px 0;
+            transition: color 0.3s;
         }
-        
-        .truth-card .sub { font-size: 12px; color: var(--gray); }
-        .truth-card.gold { border-color: var(--gold); }
-        .truth-card.gold .value { color: var(--gold); }
-        .truth-card.green { border-color: var(--green); }
-        .truth-card.green .value { color: var(--green); }
-        .truth-card.purple { border-color: #9C27B0; }
-        .truth-card.purple .value { color: #9C27B0; }
-        .truth-card.blue { border-color: #2196F3; }
-        .truth-card.blue .value { color: #2196F3; }
-        
-        /* OAF INDEX BAR */
+        .truth-card .sub {
+            font-size: 12px;
+            color: #888888;
+        }
+        .truth-card.gold {
+            border-color: #FFD700;
+        }
+        .truth-card.gold .value {
+            color: #FFD700;
+        }
+        .truth-card.green {
+            border-color: #4CAF50;
+        }
+        .truth-card.green .value {
+            color: #4CAF50;
+        }
+        .truth-card.purple {
+            border-color: #9C27B0;
+        }
+        .truth-card.purple .value {
+            color: #9C27B0;
+        }
+        .truth-card.blue {
+            border-color: #2196F3;
+        }
+        .truth-card.blue .value {
+            color: #2196F3;
+        }
+
+        .truth-card .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff08;
+            border-radius: 50%;
+            margin-left: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* ── INDEX BAR ── */
         .index-bar {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 14px 20px;
             border-radius: 12px;
             margin-bottom: 24px;
-            border: 2px solid var(--gold);
+            border: 2px solid #FFD700;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
         }
-        
-        .index-bar .label { color: var(--gold); font-weight: bold; font-size: 16px; }
-        .index-bar .value { color: #FFF; font-size: 15px; }
-        .index-bar .value .gold { color: var(--gold); font-weight: bold; }
-        .index-bar .green { color: var(--green); font-size: 14px; }
-        
+
+        .index-bar .label {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .index-bar .value {
+            color: #FFFFFF;
+            font-size: 15px;
+        }
+        .index-bar .value .gold {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        .index-bar .green {
+            color: #4CAF50;
+            font-size: 14px;
+        }
+
         .index-pairs {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
             font-size: 12px;
-            color: var(--gray);
+            color: #888888;
         }
-        
-        .index-pairs span { color: #FFF; }
-        
-        /* PROFIT METRICS */
+        .index-pairs span {
+            color: #FFFFFF;
+        }
+
+        /* ── PROFIT METRICS ── */
         .profit-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 12px;
             margin-bottom: 24px;
         }
-        
+
         .profit-item {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 14px;
             border-radius: 8px;
             text-align: center;
         }
-        
-        .profit-item .label { font-size: 10px; color: var(--gray); text-transform: uppercase; }
-        .profit-item .value { font-size: 20px; font-weight: bold; color: var(--green); }
-        
-        /* SEARCH */
+
+        .profit-item .label {
+            font-size: 10px;
+            color: #888888;
+            text-transform: uppercase;
+        }
+        .profit-item .value {
+            font-size: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .profit-item .value.up {
+            color: #4CAF50;
+        }
+        .profit-item .value.down {
+            color: #F44336;
+        }
+
+        /* ── SEARCH ── */
         .search-section {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 18px 20px;
             border-radius: 12px;
             margin-bottom: 24px;
-            border: 1px solid var(--gold);
+            border: 1px solid #FFD700;
         }
-        
-        .search-section h3 { color: var(--gold); font-size: 16px; margin-bottom: 10px; }
-        
+
+        .search-section h3 {
+            color: #FFD700;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
         .search-container {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
-        
+
         .search-container input {
             flex: 1;
             padding: 10px 14px;
@@ -245,18 +311,16 @@
             font-size: 15px;
             min-width: 180px;
         }
-        
         .search-container input:focus {
             outline: none;
-            border-color: var(--gold);
+            border-color: #FFD700;
         }
-        
+
         .search-container .quick-btns {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
         }
-        
         .search-container .quick-btns button {
             background: #2A2A4E;
             color: #FFF;
@@ -266,12 +330,11 @@
             cursor: pointer;
             font-size: 12px;
         }
-        
         .search-container .quick-btns button:hover {
-            background: var(--gold);
+            background: #FFD700;
             color: #000;
         }
-        
+
         #searchResult {
             margin-top: 10px;
             padding: 14px;
@@ -279,21 +342,36 @@
             border-radius: 8px;
             display: none;
         }
-        
-        #searchResult .pair { font-size: 18px; font-weight: bold; color: var(--gold); }
-        #searchResult .rate { font-size: 22px; font-weight: bold; color: #FFF; margin-left: 14px; }
-        #searchResult .change { font-size: 16px; margin-left: 14px; }
-        #searchResult .change.up { color: var(--green); }
-        #searchResult .change.down { color: var(--red); }
-        
-        /* CHART - FIXED AXIS */
+        #searchResult .pair {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        #searchResult .rate {
+            font-size: 22px;
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-left: 14px;
+        }
+        #searchResult .change {
+            font-size: 16px;
+            margin-left: 14px;
+        }
+        #searchResult .change.up {
+            color: #4CAF50;
+        }
+        #searchResult .change.down {
+            color: #F44336;
+        }
+
+        /* ── CHART ── */
         .chart-section {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 24px;
         }
-        
+
         .chart-section .ticker {
             display: flex;
             gap: 20px;
@@ -301,29 +379,46 @@
             align-items: baseline;
             flex-wrap: wrap;
         }
-        
-        .chart-section .ticker .pair-name { color: var(--gray); font-size: 15px; }
-        .chart-section .ticker .price { font-size: 30px; font-weight: bold; }
-        .chart-section .ticker .price.up { color: var(--green); }
-        .chart-section .ticker .price.down { color: var(--red); }
-        .chart-section .ticker .change { font-size: 16px; font-weight: bold; }
-        
+
+        .chart-section .ticker .pair-name {
+            color: #888888;
+            font-size: 15px;
+        }
+        .chart-section .ticker .price {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .chart-section .ticker .price.up {
+            color: #4CAF50;
+        }
+        .chart-section .ticker .price.down {
+            color: #F44336;
+        }
+        .chart-section .ticker .change {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .chart-wrapper {
             position: relative;
             height: 400px;
             width: 100%;
         }
-        
-        /* 54 NATIONS */
+
+        /* ── 54 NATIONS ── */
         .nations-section {
-            background: var(--card);
+            background: #1A1A2E;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 24px;
         }
-        
-        .nations-section h3 { color: var(--gold); font-size: 16px; margin-bottom: 14px; }
-        
+
+        .nations-section h3 {
+            color: #FFD700;
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+
         .nations-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -331,7 +426,7 @@
             max-height: 600px;
             overflow-y: auto;
         }
-        
+
         .nation-item {
             display: flex;
             justify-content: space-between;
@@ -340,22 +435,30 @@
             border-radius: 4px;
             font-size: 13px;
         }
-        
-        .nation-item .flag { font-size: 15px; }
-        .nation-item .code { color: var(--gray); font-size: 11px; }
-        .nation-item .val { color: var(--gold); font-weight: bold; }
-        
+
+        .nation-item .flag {
+            font-size: 15px;
+        }
+        .nation-item .code {
+            color: #888888;
+            font-size: 11px;
+        }
+        .nation-item .val {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
         .region-header {
             grid-column: 1 / -1;
-            color: var(--gold);
+            color: #FFD700;
             font-weight: bold;
             padding: 6px 0;
             border-bottom: 1px solid #333;
             margin-top: 6px;
             font-size: 13px;
         }
-        
-        /* DISCLAIMER */
+
+        /* ── DISCLAIMER ── */
         .disclaimer {
             background: #1A0A0A;
             border: 1px solid #F44336;
@@ -363,40 +466,68 @@
             border-radius: 12px;
             margin-bottom: 24px;
         }
-        
-        .disclaimer h4 { color: #F44336; font-size: 14px; margin-bottom: 6px; }
-        .disclaimer p { color: #CCCCCC; font-size: 12px; line-height: 1.6; }
-        
+
+        .disclaimer h4 {
+            color: #F44336;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        .disclaimer p {
+            color: #CCCCCC;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
         footer {
             text-align: center;
-            color: var(--gray);
+            color: #888888;
             font-size: 12px;
             padding: 16px 0;
             border-top: 1px solid #333;
         }
-        
-        .nations-grid::-webkit-scrollbar { width: 5px; }
-        .nations-grid::-webkit-scrollbar-track { background: #0A0A1F; }
-        .nations-grid::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
-        
+
+        .nations-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nations-grid::-webkit-scrollbar-track {
+            background: #0A0A1F;
+        }
+        .nations-grid::-webkit-scrollbar-thumb {
+            background: #FFD700;
+            border-radius: 3px;
+        }
+
         @media (max-width: 768px) {
-            header { flex-direction: column; align-items: stretch; }
-            .truth-grid { grid-template-columns: 1fr 1fr; }
-            .profit-grid { grid-template-columns: 1fr 1fr; }
-            .search-container { flex-direction: column; }
-            .nations-grid { grid-template-columns: 1fr 1fr; }
-            .index-bar { flex-direction: column; align-items: stretch; }
+            .truth-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .profit-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .search-container {
+                flex-direction: column;
+            }
+            .nations-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .index-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header-meta {
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <!-- HEADER WITH ICON -->
-    <header>
-        <div class="logo">
-            <!-- SVG ICON -->
+    <div class="container">
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- HEADER (Icon Centered)                         -->
+        <!-- ════════════════════════════════════════════════ -->
+        <header>
             <div class="logo-icon">
                 <svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="54" cy="54" r="40" fill="#1A1A2E" stroke="#FFD700" stroke-width="2"/>
@@ -405,503 +536,676 @@
                     <path d="M52,44l-4,4v2z" fill="#FFFFFF"/>
                 </svg>
             </div>
-            
             <div class="logo-text">
                 <h1>🌍 OneAfri</h1>
                 <div class="subtitle">Sovereign Economic Ledger</div>
                 <div class="tagline">The Four Truths. Complete Transparency. No Hidden Numbers.</div>
             </div>
-        </div>
-        
-        <div class="header-right">
-            <span class="symbol-badge">OAF</span>
-            <span class="symbol-badge" style="border-color:#4CAF50;">100 AFRO = 1 OAF</span>
-            <div class="status-badge">
-                <div class="pulse-dot"></div> LIVE
+            <div class="header-meta">
+                <span class="symbol-badge">OAF</span>
+                <span class="symbol-badge green">100 AFRO = 1 OAF</span>
+                <div class="status-badge">
+                    <div class="pulse-dot"></div> <span id="liveStatus">LIVE</span>
+                </div>
+                <span class="data-age">⏱ <span id="dataAge">0</span>s</span>
+                <button class="refresh-btn" onclick="refreshData()">⟳ Refresh</button>
             </div>
-            <span class="data-age">⏱ <span id="dataAge">15</span>s</span>
-            <button class="refresh-btn" onclick="refreshData()">⟳ Refresh</button>
-        </div>
-    </header>
-    
-    <!-- FOUR TRUTHS -->
-    <div class="truth-grid">
-        <div class="truth-card gold">
-            <div class="label">💰 FIXED ENTRY PRICE</div>
-            <div class="value" style="font-size:20px;">1 AFRO = <span style="font-size:28px;">$1.00</span></div>
-            <div class="sub">100 AFRO = 1 OAF = $100.00 · Locked by Smart Contract</div>
-        </div>
-        
-        <div class="truth-card green">
-            <div class="label">📊 TRUTH #1 · EVIDENCE</div>
-            <div class="value" id="truth1">$1.514209</div>
-            <div class="sub">Raw sum of 54 African currencies · 1 AFRO intrinsic value</div>
-        </div>
-        
-        <div class="truth-card purple">
-            <div class="label">⚡ TRUTH #2 · PULSE</div>
-            <div class="value" id="truth2">$1.795095</div>
-            <div class="sub">Scaled index (×1.1855) · Trading value</div>
-        </div>
-        
-        <div class="truth-card blue">
-            <div class="label">⚓ TRUTH #3 · ANCHOR</div>
-            <div class="value" id="truth3">$1.3400</div>
-            <div class="sub">Fixed monthly anchor · Locked 30 days</div>
-        </div>
-    </div>
-    
-    <!-- OAF INDEX BAR -->
-    <div class="index-bar">
-        <div>
-            <span class="label">📊 OAF INDEX</span>
-            <span class="value" style="margin-left:16px;">
-                1 AFRO = <span class="gold">$1.5142</span> &nbsp;|&nbsp; 
-                1 OAF = <span class="gold">$151.42</span>
-            </span>
-            <span class="green" style="margin-left:16px;">🟢 +51.42% Golden Window</span>
-        </div>
-        <div class="index-pairs">
-            <span>OAF/USD: <span>1.5142</span></span>
-            <span>OAF/EUR: <span>1.3260</span></span>
-            <span>OAF/GBP: <span>1.1270</span></span>
-            <span>OAF/JPY: <span>162.47</span></span>
-            <span>OAF/BTC: <span>0.0000348</span></span>
-        </div>
-    </div>
-    
-    <!-- PROFIT METRICS -->
-    <div class="profit-grid">
-        <div class="profit-item">
-            <div class="label">🛡️ System Buffer</div>
-            <div class="value" id="buffer">+79.51%</div>
-        </div>
-        <div class="profit-item">
-            <div class="label">💰 Unrealized Gain</div>
-            <div class="value" id="unrealized">+79.51%</div>
-        </div>
-        <div class="profit-item">
-            <div class="label">📈 Raw Profit</div>
-            <div class="value" id="rawProfit">+51.42%</div>
-        </div>
-        <div class="profit-item">
-            <div class="label">⚡ Pulse Profit</div>
-            <div class="value" id="pulseProfit">+79.51%</div>
-        </div>
-    </div>
-    
-    <!-- SEARCH -->
-    <div class="search-section">
-        <h3>🌐 Global Oracle Explorer</h3>
-        <div class="search-container">
-            <input type="text" id="currencySearch" placeholder="Search ANY currency... (e.g., NGN, EUR, BTC, USDT)">
-            <div class="quick-btns">
-                <button onclick="searchCurrency('EUR')">EUR</button>
-                <button onclick="searchCurrency('GBP')">GBP</button>
-                <button onclick="searchCurrency('JPY')">JPY</button>
-                <button onclick="searchCurrency('CNY')">CNY</button>
-                <button onclick="searchCurrency('TRY')">TRY</button>
-                <button onclick="searchCurrency('RUB')">RUB</button>
-                <button onclick="searchCurrency('USDT')">USDT</button>
-                <button onclick="searchCurrency('BTC')">BTC</button>
-                <button onclick="searchCurrency('ETH')">ETH</button>
-                <button onclick="searchCurrency('NGN')">NGN</button>
-            </div>
-        </div>
-        <div id="searchResult">
-            <span class="pair" id="searchPair">OAF/USD</span>
-            <span class="rate" id="searchRate">1.5142</span>
-            <span class="change up" id="searchChange">+0.00%</span>
-        </div>
-    </div>
-    
-    <!-- CHART - FIXED AXIS -->
-    <div class="chart-section">
-        <div class="ticker">
-            <span class="pair-name" id="activePairTitle">OAF/USD</span>
-            <span class="price up" id="currentPrice">1.5142</span>
-            <span class="change up" id="priceChange">+0.00%</span>
-            <span style="color: var(--gray); font-size: 12px; margin-left: auto;">X: Time → | Y: Price ↑</span>
-        </div>
-        <div class="chart-wrapper">
-            <canvas id="financialChart"></canvas>
-        </div>
-    </div>
-    
-    <!-- 54 NATIONS -->
-    <div class="nations-section">
-        <h3>🌍 TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</h3>
-        <div class="nations-grid" id="nationsGrid"></div>
-    </div>
-    
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-        <h4>⚠️ IMPORTANT DISCLAIMER</h4>
-        <p>
-            • OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.<br>
-            • You can only sell to other users on exchanges.<br>
-            • The $1.00 selling price applies ONLY to 1 AFRO from the company.<br>
-            • After the 300M public supply is sold, the market determines the price.<br>
-            • You could lose money. Only invest what you can afford to lose.
-        </p>
-    </div>
-    
-    <footer>
-        © 2026 OneAfri (OAF). All rights reserved. · Sovereignty Through Transparency
-    </footer>
-</div>
+        </header>
 
-<script>
-    // ============================================
-    // DATA
-    // ============================================
-    
-    const TRUTH1 = 1.514209;
-    const TRUTH2 = 1.795095;
-    const TRUTH3 = 1.3400;
-    const ENTRY = 1.00;
-    
-    const FIAT_RATES = {
-        'EUR': 0.8758,
-        'GBP': 0.7444,
-        'JPY': 162.47,
-        'CNY': 7.2345,
-        'TRY': 33.12,
-        'RUB': 89.45,
-        'INR': 83.12,
-        'BRL': 5.45,
-        'ZAR': 18.45,
-        'NGN': 1550.00
-    };
-    
-    const CRYPTO_RATES = {
-        'BTC': 43478,
-        'ETH': 2345,
-        'USDT': 1.00,
-        'USDC': 1.00,
-        'DAI': 1.00
-    };
-    
-    const ALL_RATES = { ...FIAT_RATES, ...CRYPTO_RATES };
-    
-    const NATIONS = [
-        { flag: '🇹🇳', name: 'Tunisia', code: 'TND', val: 0.320513, region: 'NORTH' },
-        { flag: '🇱🇾', name: 'Libya', code: 'LYD', val: 0.206186, region: 'NORTH' },
-        { flag: '🇲🇦', name: 'Morocco', code: 'MAD', val: 0.099502, region: 'NORTH' },
-        { flag: '🇲🇷', name: 'Mauritania', code: 'MRU', val: 0.025157, region: 'NORTH' },
-        { flag: '🇪🇬', name: 'Egypt', code: 'EGP', val: 0.020877, region: 'NORTH' },
-        { flag: '🇩🇿', name: 'Algeria', code: 'DZD', val: 0.007471, region: 'NORTH' },
-        { flag: '🇸🇩', name: 'Sudan', code: 'SDG', val: 0.001664, region: 'NORTH' },
-        { flag: '🇬🇭', name: 'Ghana', code: 'GHS', val: 0.067340, region: 'WEST' },
-        { flag: '🇸🇱', name: 'Sierra Leone', code: 'SLE', val: 0.044543, region: 'WEST' },
-        { flag: '🇸🇹', name: 'São Tomé', code: 'STN', val: 0.043860, region: 'WEST' },
-        { flag: '🇬🇲', name: 'Gambia', code: 'GMD', val: 0.014684, region: 'WEST' },
-        { flag: '🇨🇻', name: 'Cape Verde', code: 'CVE', val: 0.009756, region: 'WEST' },
-        { flag: '🇱🇷', name: 'Liberia', code: 'LRD', val: 0.005168, region: 'WEST' },
-        { flag: '🇧🇯', name: 'Benin', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇧🇫', name: 'Burkina Faso', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇨🇮', name: "Côte d'Ivoire", code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇬🇼', name: 'Guinea-Bissau', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇲🇱', name: 'Mali', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇳🇪', name: 'Niger', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇸🇳', name: 'Senegal', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇹🇬', name: 'Togo', code: 'XOF', val: 0.001638, region: 'WEST' },
-        { flag: '🇳🇬', name: 'Nigeria', code: 'NGN', val: 0.000735, region: 'WEST' },
-        { flag: '🇬🇳', name: 'Guinea', code: 'GNF', val: 0.000116, region: 'WEST' },
-        { flag: '🇨🇲', name: 'Cameroon', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇹🇩', name: 'Chad', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇬🇶', name: 'Equatorial Guinea', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇬🇦', name: 'Gabon', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇨🇫', name: 'CAR', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇨🇬', name: 'Congo Republic', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
-        { flag: '🇨🇩', name: 'DR Congo', code: 'CDF', val: 0.000356, region: 'CENTRAL' },
-        { flag: '🇸🇨', name: 'Seychelles', code: 'SCR', val: 0.073529, region: 'EAST' },
-        { flag: '🇪🇷', name: 'Eritrea', code: 'ERN', val: 0.066667, region: 'EAST' },
-        { flag: '🇲🇺', name: 'Mauritius', code: 'MUR', val: 0.021598, region: 'EAST' },
-        { flag: '🇪🇹', name: 'Ethiopia', code: 'ETB', val: 0.017483, region: 'EAST' },
-        { flag: '🇲🇿', name: 'Mozambique', code: 'MZN', val: 0.015662, region: 'EAST' },
-        { flag: '🇸🇸', name: 'South Sudan', code: 'SSP', val: 0.007678, region: 'EAST' },
-        { flag: '🇰🇪', name: 'Kenya', code: 'KES', val: 0.007605, region: 'EAST' },
-        { flag: '🇩🇯', name: 'Djibouti', code: 'DJF', val: 0.005627, region: 'EAST' },
-        { flag: '🇰🇲', name: 'Comoros', code: 'KMF', val: 0.002183, region: 'EAST' },
-        { flag: '🇸🇴', name: 'Somalia', code: 'SOS', val: 0.001750, region: 'EAST' },
-        { flag: '🇷🇼', name: 'Rwanda', code: 'RWF', val: 0.000763, region: 'EAST' },
-        { flag: '🇹🇿', name: 'Tanzania', code: 'TZS', val: 0.000383, region: 'EAST' },
-        { flag: '🇧🇮', name: 'Burundi', code: 'BIF', val: 0.000351, region: 'EAST' },
-        { flag: '🇺🇬', name: 'Uganda', code: 'UGX', val: 0.000267, region: 'EAST' },
-        { flag: '🇲🇬', name: 'Madagascar', code: 'MGA', val: 0.000220, region: 'EAST' },
-        { flag: '🇿🇼', name: 'Zimbabwe', code: 'ZWG', val: 0.074460, region: 'SOUTH' },
-        { flag: '🇧🇼', name: 'Botswana', code: 'BWP', val: 0.070423, region: 'SOUTH' },
-        { flag: '🇸🇿', name: 'Eswatini', code: 'SZL', val: 0.054201, region: 'SOUTH' },
-        { flag: '🇱🇸', name: 'Lesotho', code: 'LSL', val: 0.054201, region: 'SOUTH' },
-        { flag: '🇳🇦', name: 'Namibia', code: 'NAD', val: 0.054201, region: 'SOUTH' },
-        { flag: '🇿🇦', name: 'South Africa', code: 'ZAR', val: 0.054201, region: 'SOUTH' },
-        { flag: '🇿🇲', name: 'Zambia', code: 'ZMW', val: 0.038241, region: 'SOUTH' },
-        { flag: '🇦🇴', name: 'Angola', code: 'AOA', val: 0.001079, region: 'SOUTH' },
-        { flag: '🇲🇼', name: 'Malawi', code: 'MWK', val: 0.000576, region: 'SOUTH' }
-    ];
-    
-    // ============================================
-    // RENDER NATIONS
-    // ============================================
-    
-    function renderNations() {
-        const grid = document.getElementById('nationsGrid');
-        let html = '';
-        const regions = ['NORTH', 'WEST', 'CENTRAL', 'EAST', 'SOUTH'];
-        const regionNames = {
-            'NORTH': '📍 NORTH AFRICA (7 countries)',
-            'WEST': '📍 WEST AFRICA (18 countries)',
-            'CENTRAL': '📍 CENTRAL AFRICA (7 countries)',
-            'EAST': '📍 EAST AFRICA (15 countries)',
-            'SOUTH': '📍 SOUTHERN AFRICA (9 countries)'
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- FOUR TRUTHS (LIVE)                             -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="truth-grid">
+            <div class="truth-card gold">
+                <div class="label">💰 FIXED ENTRY PRICE</div>
+                <div class="value" style="font-size:20px;">1 AFRO = <span style="font-size:28px;">$1.00</span></div>
+                <div class="sub">100 AFRO = 1 OAF = $100.00 · Locked</div>
+            </div>
+            <div class="truth-card green">
+                <div class="label">📊 TRUTH #1 · EVIDENCE <span class="live-dot"></span></div>
+                <div class="value" id="truth1">$--.------</div>
+                <div class="sub">Raw sum of 54 African currencies · 1 AFRO</div>
+            </div>
+            <div class="truth-card purple">
+                <div class="label">⚡ TRUTH #2 · PULSE <span class="live-dot"></span></div>
+                <div class="value" id="truth2">$--.------</div>
+                <div class="sub">Scaled index (×1.1855) · Trading value</div>
+            </div>
+            <div class="truth-card blue">
+                <div class="label">⚓ TRUTH #3 · ANCHOR <span class="live-dot"></span></div>
+                <div class="value" id="truth3">$--.----</div>
+                <div class="sub">Fixed monthly anchor · Locked 30 days</div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- INDEX BAR (OAF ×100)                           -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="index-bar">
+            <div>
+                <span class="label">📊 OAF INDEX</span>
+                <span class="value" style="margin-left:16px;">
+                    1 OAF = <span class="gold" id="oafPrice">$--.----</span> &nbsp;|&nbsp;
+                    1 AFRO = <span class="gold" id="afroPrice">$--.------</span>
+                </span>
+                <span class="green" style="margin-left:16px;" id="goldenWindow">🟢 --.--% Golden Window</span>
+            </div>
+            <div class="index-pairs" id="indexPairs">
+                <span>OAF/USD: <span id="oafUsd">--.----</span></span>
+                <span>OAF/EUR: <span id="oafEur">--.----</span></span>
+                <span>OAF/GBP: <span id="oafGbp">--.----</span></span>
+                <span>OAF/JPY: <span id="oafJpy">--.----</span></span>
+                <span>OAF/BTC: <span id="oafBtc">--.------</span></span>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- PROFIT METRICS (LIVE)                          -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="profit-grid">
+            <div class="profit-item">
+                <div class="label">🛡️ System Buffer</div>
+                <div class="value up" id="buffer">--.--%</div>
+            </div>
+            <div class="profit-item">
+                <div class="label">💰 Unrealized Gain</div>
+                <div class="value up" id="unrealized">--.--%</div>
+            </div>
+            <div class="profit-item">
+                <div class="label">📈 Raw Profit</div>
+                <div class="value up" id="rawProfit">--.--%</div>
+            </div>
+            <div class="profit-item">
+                <div class="label">⚡ Pulse Profit</div>
+                <div class="value up" id="pulseProfit">--.--%</div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- SEARCH                                         -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="search-section">
+            <h3>🌐 Global Oracle Explorer</h3>
+            <div class="search-container">
+                <input type="text" id="currencySearch" placeholder="Search ANY currency... (e.g., NGN, EUR, BTC, USDT)">
+                <div class="quick-btns">
+                    <button onclick="searchCurrency('EUR')">EUR</button>
+                    <button onclick="searchCurrency('GBP')">GBP</button>
+                    <button onclick="searchCurrency('JPY')">JPY</button>
+                    <button onclick="searchCurrency('CNY')">CNY</button>
+                    <button onclick="searchCurrency('TRY')">TRY</button>
+                    <button onclick="searchCurrency('RUB')">RUB</button>
+                    <button onclick="searchCurrency('USDT')">USDT</button>
+                    <button onclick="searchCurrency('BTC')">BTC</button>
+                    <button onclick="searchCurrency('ETH')">ETH</button>
+                    <button onclick="searchCurrency('NGN')">NGN</button>
+                </div>
+            </div>
+            <div id="searchResult">
+                <span class="pair" id="searchPair">OAF/USD</span>
+                <span class="rate" id="searchRate">--.----</span>
+                <span class="change up" id="searchChange">+0.00%</span>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- CHART (OAF Price ×100, Correct Axis)           -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="chart-section">
+            <div class="ticker">
+                <span class="pair-name" id="activePairTitle">OAF/USD</span>
+                <span class="price up" id="currentPrice">--.----</span>
+                <span class="change up" id="priceChange">+0.00%</span>
+                <span style="color: #888888; font-size: 12px; margin-left: auto;">X: Time → | Y: Price ↑ | OAF (×100 AFRO)</span>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="financialChart"></canvas>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- 54 NATIONS (LIVE)                              -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="nations-section">
+            <h3>🌍 TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</h3>
+            <div class="nations-grid" id="nationsGrid">
+                <div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">Loading 54 Nations...</div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- DISCLAIMER                                     -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div class="disclaimer">
+            <h4>⚠️ IMPORTANT DISCLAIMER</h4>
+            <p>
+                • OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.<br>
+                • You can only sell to other users on exchanges.<br>
+                • The $1.00 selling price applies ONLY to 1 AFRO from the company.<br>
+                • After the 300M public supply is sold, the market determines the price.<br>
+                • You could lose money. Only invest what you can afford to lose.
+            </p>
+        </div>
+
+        <footer>
+            © 2026 OneAfri (OAF). All rights reserved. · Sovereignty Through Transparency
+        </footer>
+    </div>
+
+    <script>
+        // ═════════════════════════════════════════════════════════
+        // CONFIG
+        // ═════════════════════════════════════════════════════════
+
+        const BACKEND = 'https://oneafri-backend.onrender.com';
+        const FETCH_INTERVAL = 30000; // 30 seconds
+
+        // ── Fiat / Crypto rates (for index pairs) ──
+        const FIAT_RATES = {
+            EUR: 0.8758,
+            GBP: 0.7444,
+            JPY: 162.47,
+            CNY: 7.2345,
+            TRY: 33.12,
+            RUB: 89.45,
+            NGN: 1550.00
         };
-        
-        for (const region of regions) {
-            html += `<div class="region-header">${regionNames[region]}</div>`;
-            const filtered = NATIONS.filter(n => n.region === region);
-            for (const nation of filtered) {
-                html += `
-                    <div class="nation-item">
-                        <span><span class="flag">${nation.flag}</span> ${nation.name} <span class="code">(${nation.code})</span></span>
-                        <span class="val">$${nation.val.toFixed(6)}</span>
-                    </div>
-                `;
+        const CRYPTO_RATES = { BTC: 43478, ETH: 2345, USDT: 1.00, USDC: 1.00, DAI: 1.00 };
+        const ALL_RATES = { ...FIAT_RATES, ...CRYPTO_RATES };
+
+        // ── Chart state ──
+        let chartInstance = null;
+        let chartData = [];
+        let liveInterval = null;
+        let activePair = 'OAF/USD';
+        let lastTruth1 = 0;
+        let lastTruth2 = 0;
+        let lastTruth3 = 0;
+        let ageCounter = 0;
+
+        // ── DOM refs ──
+        const $ = id => document.getElementById(id);
+        const truth1 = $('truth1');
+        const truth2 = $('truth2');
+        const truth3 = $('truth3');
+        const oafPrice = $('oafPrice');
+        const afroPrice = $('afroPrice');
+        const goldenWindow = $('goldenWindow');
+        const buffer = $('buffer');
+        const unrealized = $('unrealized');
+        const rawProfit = $('rawProfit');
+        const pulseProfit = $('pulseProfit');
+        const currentPrice = $('currentPrice');
+        const priceChange = $('priceChange');
+        const dataAge = $('dataAge');
+        const liveStatus = $('liveStatus');
+
+        const oafUsd = $('oafUsd');
+        const oafEur = $('oafEur');
+        const oafGbp = $('oafGbp');
+        const oafJpy = $('oafJpy');
+        const oafBtc = $('oafBtc');
+
+        // ═════════════════════════════════════════════════════════
+        // FETCH FROM BACKEND
+        // ═════════════════════════════════════════════════════════
+
+        async function fetchMarketPulse() {
+            try {
+                const res = await fetch(`${BACKEND}/api/v1/market/pulse`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                applyMarketData(data);
+                return data;
+            } catch (err) {
+                console.warn('⚠️ Backend unreachable, using fallback.', err);
+                applyFallback();
+                return null;
             }
         }
-        grid.innerHTML = html;
-    }
-    
-    // ============================================
-    // SEARCH
-    // ============================================
-    
-    function searchCurrency(code) {
-        const input = document.getElementById('currencySearch');
-        input.value = code.toUpperCase();
-        performSearch(code.toUpperCase());
-    }
-    
-    function performSearch(query) {
-        const result = document.getElementById('searchResult');
-        const pairEl = document.getElementById('searchPair');
-        const rateEl = document.getElementById('searchRate');
-        const changeEl = document.getElementById('searchChange');
-        
-        let rate = 0;
-        let change = 0;
-        let found = false;
-        
-        if (ALL_RATES[query]) {
-            rate = TRUTH1 / ALL_RATES[query];
-            found = true;
-        } else if (query === 'USD' || query === 'OAF') {
-            rate = TRUTH1;
-            found = true;
-        } else {
-            const nation = NATIONS.find(n => n.code === query);
-            if (nation) {
-                rate = nation.val;
-                found = true;
+
+        function applyMarketData(data) {
+            // Truths
+            const t1 = parseFloat(data.truth1_raw) || 1.514209;
+            const t2 = parseFloat(data.truth2_pulse) || 1.795095;
+            const t3 = parseFloat(data.truth3_anchor) || 1.3400;
+
+            lastTruth1 = t1;
+            lastTruth2 = t2;
+            lastTruth3 = t3;
+
+            truth1.textContent = '$' + t1.toFixed(6);
+            truth2.textContent = '$' + t2.toFixed(6);
+            truth3.textContent = '$' + t3.toFixed(4);
+
+            // OAF Index (×100)
+            const oaf = t2 * 100;
+            const afro = t1;
+            oafPrice.textContent = '$' + oaf.toFixed(4);
+            afroPrice.textContent = '$' + afro.toFixed(6);
+
+            // Profits
+            const entry = 1.00;
+            const bufferVal = ((t2 - entry) / entry) * 100;
+            const rawVal = ((t1 - entry) / entry) * 100;
+            const pulseVal = ((t2 - entry) / entry) * 100;
+
+            setProfit('buffer', bufferVal);
+            setProfit('unrealized', bufferVal);
+            setProfit('rawProfit', rawVal);
+            setProfit('pulseProfit', pulseVal);
+
+            goldenWindow.textContent = '🟢 +' + rawVal.toFixed(2) + '% Golden Window';
+
+            // Index pairs
+            const oafVal = t2 * 100;
+            oafUsd.textContent = oafVal.toFixed(4);
+            oafEur.textContent = (oafVal * FIAT_RATES.EUR).toFixed(4);
+            oafGbp.textContent = (oafVal * FIAT_RATES.GBP).toFixed(4);
+            oafJpy.textContent = (oafVal * FIAT_RATES.JPY).toFixed(2);
+            oafBtc.textContent = (oafVal / CRYPTO_RATES.BTC).toFixed(6);
+
+            // Current price for chart ticker
+            currentPrice.textContent = oafVal.toFixed(4);
+            currentPrice.className = 'price up';
+            priceChange.textContent = '+' + pulseVal.toFixed(2) + '%';
+            priceChange.className = 'change up';
+
+            // Nations
+            if (data.currencyList && data.currencyList.length > 0) {
+                renderNations(data.currencyList);
             }
+
+            // Update chart with new price
+            updateChartWithPrice(t2);
+
+            // Reset age counter
+            ageCounter = 0;
+            dataAge.textContent = '0';
+            liveStatus.textContent = 'LIVE';
+            liveStatus.style.color = '#4CAF50';
         }
-        
-        if (found) {
-            result.style.display = 'block';
-            pairEl.textContent = `OAF/${query}`;
-            rateEl.textContent = rate.toFixed(6);
-            change = (Math.random() - 0.5) * 2;
-            changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-            changeEl.className = 'change ' + (change >= 0 ? 'up' : 'down');
-        } else {
-            result.style.display = 'block';
-            pairEl.textContent = `❌ "${query}" not found`;
-            rateEl.textContent = '—';
-            changeEl.textContent = '';
+
+        function applyFallback() {
+            // Use the known hardcoded values as fallback
+            const t1 = 1.514209;
+            const t2 = 1.795095;
+            const t3 = 1.3400;
+
+            lastTruth1 = t1;
+            lastTruth2 = t2;
+            lastTruth3 = t3;
+
+            truth1.textContent = '$' + t1.toFixed(6);
+            truth2.textContent = '$' + t2.toFixed(6);
+            truth3.textContent = '$' + t3.toFixed(4);
+
+            const oaf = t2 * 100;
+            const afro = t1;
+            oafPrice.textContent = '$' + oaf.toFixed(4);
+            afroPrice.textContent = '$' + afro.toFixed(6);
+
+            const entry = 1.00;
+            const rawVal = ((t1 - entry) / entry) * 100;
+            const pulseVal = ((t2 - entry) / entry) * 100;
+
+            setProfit('buffer', pulseVal);
+            setProfit('unrealized', pulseVal);
+            setProfit('rawProfit', rawVal);
+            setProfit('pulseProfit', pulseVal);
+
+            goldenWindow.textContent = '🟢 +' + rawVal.toFixed(2) + '% Golden Window';
+
+            oafUsd.textContent = oaf.toFixed(4);
+            oafEur.textContent = (oaf * FIAT_RATES.EUR).toFixed(4);
+            oafGbp.textContent = (oaf * FIAT_RATES.GBP).toFixed(4);
+            oafJpy.textContent = (oaf * FIAT_RATES.JPY).toFixed(2);
+            oafBtc.textContent = (oaf / CRYPTO_RATES.BTC).toFixed(6);
+
+            currentPrice.textContent = oaf.toFixed(4);
+            currentPrice.className = 'price up';
+            priceChange.textContent = '+' + pulseVal.toFixed(2) + '%';
+            priceChange.className = 'change up';
+
+            // Fallback nations from embedded data
+            renderNationsFromEmbed();
+
+            updateChartWithPrice(t2);
+
+            ageCounter = 0;
+            dataAge.textContent = '0';
+            liveStatus.textContent = 'FALLBACK';
+            liveStatus.style.color = '#FF9800';
         }
-    }
-    
-    document.getElementById('currencySearch').addEventListener('keyup', function(e) {
-        const val = this.value.trim().toUpperCase();
-        if (val.length >= 2) {
-            performSearch(val);
-        } else {
-            document.getElementById('searchResult').style.display = 'none';
+
+        function setProfit(id, val) {
+            const el = $(id);
+            if (!el) return;
+            el.textContent = (val >= 0 ? '+' : '') + val.toFixed(2) + '%';
+            el.className = 'value ' + (val >= 0 ? 'up' : 'down');
         }
-    });
-    
-    // ============================================
-    // CHART - CORRECT AXIS
-    // ============================================
-    
-    let chartInstance = null;
-    let chartData = [];
-    let liveInterval = null;
-    
-    function generateInitialData() {
-        const data = [];
-        let now = luxon.DateTime.now().minus({ minutes: 30 });
-        let price = TRUTH1;
-        
-        for (let i = 0; i < 30; i++) {
-            const open = price;
-            const variation = (Math.random() - 0.48) * 0.008;
-            const close = open + variation;
-            const high = Math.max(open, close) + Math.random() * 0.005;
-            const low = Math.min(open, close) - Math.random() * 0.005;
-            
-            data.push({
-                x: now.toMillis(),
-                o: parseFloat(open.toFixed(6)),
-                h: parseFloat(high.toFixed(6)),
-                l: parseFloat(low.toFixed(6)),
-                c: parseFloat(close.toFixed(6))
-            });
-            price = close;
-            now = now.plus({ minutes: 1 });
+
+        // ── NATIONS RENDER ──
+
+        function renderNations(list) {
+            const grid = document.getElementById('nationsGrid');
+            const regions = {
+                NORTH: '📍 NORTH AFRICA (7 countries)',
+                WEST: '📍 WEST AFRICA (18 countries)',
+                CENTRAL: '📍 CENTRAL AFRICA (7 countries)',
+                EAST: '📍 EAST AFRICA (15 countries)',
+                SOUTH: '📍 SOUTHERN AFRICA (9 countries)'
+            };
+            const regionOrder = ['NORTH', 'WEST', 'CENTRAL', 'EAST', 'SOUTH'];
+
+            let html = '';
+            for (const region of regionOrder) {
+                const filtered = list.filter(n => n.region === region);
+                if (filtered.length === 0) continue;
+                html += `<div class="region-header">${regions[region] || region}</div>`;
+                for (const n of filtered) {
+                    const val = parseFloat(n.streetRate || n.officialRate || 0);
+                    html += `
+                        <div class="nation-item">
+                            <span><span class="flag">${n.flag || '🌍'}</span> ${n.country || 'Unknown'} <span class="code">(${n.code || '--'})</span></span>
+                            <span class="val">$${isNaN(val) ? '0.000000' : val.toFixed(6)}</span>
+                        </div>
+                    `;
+                }
+            }
+            grid.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">No nations data available.</div>';
         }
-        return data;
-    }
-    
-    function initChart() {
-        const ctx = document.getElementById('financialChart').getContext('2d');
-        chartData = generateInitialData();
-        
-        chartInstance = new Chart(ctx, {
-            type: 'candlestick',
-            data: {
-                datasets: [{
-                    label: 'OAF/USD',
-                    data: chartData,
-                    color: {
-                        up: '#4CAF50',
-                        down: '#F44336',
-                        unchanged: '#999999'
-                    }
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: { unit: 'minute' },
-                        grid: { color: 'rgba(255,255,255,0.05)' },
-                        ticks: { color: '#888' },
-                        title: {
-                            display: true,
-                            text: 'Time (minutes)',
-                            color: '#888'
+
+        // ── Fallback nations (from your dump) ──
+        function renderNationsFromEmbed() {
+            const nations = [
+                { flag: '🇹🇳', country: 'Tunisia', code: 'TND', region: 'NORTH', streetRate: '0.320513' },
+                { flag: '🇱🇾', country: 'Libya', code: 'LYD', region: 'NORTH', streetRate: '0.206186' },
+                { flag: '🇲🇦', country: 'Morocco', code: 'MAD', region: 'NORTH', streetRate: '0.099502' },
+                { flag: '🇲🇷', country: 'Mauritania', code: 'MRU', region: 'NORTH', streetRate: '0.025157' },
+                { flag: '🇪🇬', country: 'Egypt', code: 'EGP', region: 'NORTH', streetRate: '0.020877' },
+                { flag: '🇩🇿', country: 'Algeria', code: 'DZD', region: 'NORTH', streetRate: '0.007471' },
+                { flag: '🇸🇩', country: 'Sudan', code: 'SDG', region: 'NORTH', streetRate: '0.001664' },
+                { flag: '🇬🇭', country: 'Ghana', code: 'GHS', region: 'WEST', streetRate: '0.067340' },
+                { flag: '🇸🇱', country: 'Sierra Leone', code: 'SLE', region: 'WEST', streetRate: '0.044543' },
+                { flag: '🇸🇹', country: 'São Tomé', code: 'STN', region: 'WEST', streetRate: '0.043860' },
+                { flag: '🇬🇲', country: 'Gambia', code: 'GMD', region: 'WEST', streetRate: '0.014684' },
+                { flag: '🇨🇻', country: 'Cape Verde', code: 'CVE', region: 'WEST', streetRate: '0.009756' },
+                { flag: '🇱🇷', country: 'Liberia', code: 'LRD', region: 'WEST', streetRate: '0.005168' },
+                { flag: '🇧🇯', country: 'Benin', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇧🇫', country: 'Burkina Faso', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇨🇮', country: "Côte d'Ivoire", code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇬🇼', country: 'Guinea-Bissau', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇲🇱', country: 'Mali', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇳🇪', country: 'Niger', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇸🇳', country: 'Senegal', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇹🇬', country: 'Togo', code: 'XOF', region: 'WEST', streetRate: '0.001638' },
+                { flag: '🇳🇬', country: 'Nigeria', code: 'NGN', region: 'WEST', streetRate: '0.000735' },
+                { flag: '🇬🇳', country: 'Guinea', code: 'GNF', region: 'WEST', streetRate: '0.000116' },
+                { flag: '🇨🇲', country: 'Cameroon', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇹🇩', country: 'Chad', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇬🇶', country: 'Equatorial Guinea', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇬🇦', country: 'Gabon', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇨🇫', country: 'CAR', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇨🇬', country: 'Congo Republic', code: 'XAF', region: 'CENTRAL', streetRate: '0.001638' },
+                { flag: '🇨🇩', country: 'DR Congo', code: 'CDF', region: 'CENTRAL', streetRate: '0.000356' },
+                { flag: '🇸🇨', country: 'Seychelles', code: 'SCR', region: 'EAST', streetRate: '0.073529' },
+                { flag: '🇪🇷', country: 'Eritrea', code: 'ERN', region: 'EAST', streetRate: '0.066667' },
+                { flag: '🇲🇺', country: 'Mauritius', code: 'MUR', region: 'EAST', streetRate: '0.021598' },
+                { flag: '🇪🇹', country: 'Ethiopia', code: 'ETB', region: 'EAST', streetRate: '0.017483' },
+                { flag: '🇲🇿', country: 'Mozambique', code: 'MZN', region: 'EAST', streetRate: '0.015662' },
+                { flag: '🇸🇸', country: 'South Sudan', code: 'SSP', region: 'EAST', streetRate: '0.007678' },
+                { flag: '🇰🇪', country: 'Kenya', code: 'KES', region: 'EAST', streetRate: '0.007605' },
+                { flag: '🇩🇯', country: 'Djibouti', code: 'DJF', region: 'EAST', streetRate: '0.005627' },
+                { flag: '🇰🇲', country: 'Comoros', code: 'KMF', region: 'EAST', streetRate: '0.002183' },
+                { flag: '🇸🇴', country: 'Somalia', code: 'SOS', region: 'EAST', streetRate: '0.001750' },
+                { flag: '🇷🇼', country: 'Rwanda', code: 'RWF', region: 'EAST', streetRate: '0.000763' },
+                { flag: '🇹🇿', country: 'Tanzania', code: 'TZS', region: 'EAST', streetRate: '0.000383' },
+                { flag: '🇧🇮', country: 'Burundi', code: 'BIF', region: 'EAST', streetRate: '0.000351' },
+                { flag: '🇺🇬', country: 'Uganda', code: 'UGX', region: 'EAST', streetRate: '0.000267' },
+                { flag: '🇲🇬', country: 'Madagascar', code: 'MGA', region: 'EAST', streetRate: '0.000220' },
+                { flag: '🇿🇼', country: 'Zimbabwe', code: 'ZWG', region: 'SOUTH', streetRate: '0.074460' },
+                { flag: '🇧🇼', country: 'Botswana', code: 'BWP', region: 'SOUTH', streetRate: '0.070423' },
+                { flag: '🇸🇿', country: 'Eswatini', code: 'SZL', region: 'SOUTH', streetRate: '0.054201' },
+                { flag: '🇱🇸', country: 'Lesotho', code: 'LSL', region: 'SOUTH', streetRate: '0.054201' },
+                { flag: '🇳🇦', country: 'Namibia', code: 'NAD', region: 'SOUTH', streetRate: '0.054201' },
+                { flag: '🇿🇦', country: 'South Africa', code: 'ZAR', region: 'SOUTH', streetRate: '0.054201' },
+                { flag: '🇿🇲', country: 'Zambia', code: 'ZMW', region: 'SOUTH', streetRate: '0.038241' },
+                { flag: '🇦🇴', country: 'Angola', code: 'AOA', region: 'SOUTH', streetRate: '0.001079' },
+                { flag: '🇲🇼', country: 'Malawi', code: 'MWK', region: 'SOUTH', streetRate: '0.000576' }
+            ];
+            renderNations(nations);
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // CHART
+        // ═════════════════════════════════════════════════════════
+
+        function initChart() {
+            const ctx = document.getElementById('financialChart').getContext('2d');
+            chartData = generateInitialChartData(1.795095);
+
+            chartInstance = new Chart(ctx, {
+                type: 'candlestick',
+                data: {
+                    datasets: [{
+                        label: 'OAF/USD',
+                        data: chartData,
+                        color: { up: '#4CAF50', down: '#F44336', unchanged: '#999999' }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: { unit: 'minute' },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#888' },
+                            title: { display: true, text: 'Time (minutes)', color: '#888' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#888' },
+                            title: { display: true, text: 'Price (USD)', color: '#888' },
+                            beginAtZero: false
                         }
                     },
-                    y: {
-                        grid: { color: 'rgba(255,255,255,0.05)' },
-                        ticks: { color: '#888' },
-                        title: {
-                            display: true,
-                            text: 'Price (USD)',
-                            color: '#888'
-                        },
-                        beginAtZero: false
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const d = context.raw;
-                                return `O: ${d.o}  H: ${d.h}  L: ${d.l}  C: ${d.c}`;
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const d = context.raw;
+                                    return `O: ${d.o}  H: ${d.h}  L: ${d.l}  C: ${d.c}`;
+                                }
                             }
                         }
                     }
                 }
+            });
+
+            updateTickerDisplay(1.795095 * 100);
+            startChartEngine();
+        }
+
+        function generateInitialChartData(basePrice) {
+            const data = [];
+            let now = luxon.DateTime.now().minus({ minutes: 30 });
+            let price = basePrice * 100;
+
+            for (let i = 0; i < 30; i++) {
+                const open = price;
+                const variation = (Math.random() - 0.48) * 0.8;
+                const close = open + variation;
+                const high = Math.max(open, close) + Math.random() * 0.5;
+                const low = Math.min(open, close) - Math.random() * 0.5;
+
+                data.push({
+                    x: now.toMillis(),
+                    o: parseFloat(open.toFixed(4)),
+                    h: parseFloat(high.toFixed(4)),
+                    l: parseFloat(low.toFixed(4)),
+                    c: parseFloat(close.toFixed(4))
+                });
+                price = close;
+                now = now.plus({ minutes: 1 });
             }
-        });
-        
-        updateTicker();
-        startLiveEngine();
-    }
-    
-    function startLiveEngine() {
-        if (liveInterval) clearInterval(liveInterval);
-        liveInterval = setInterval(() => {
-            if (!chartData || chartData.length === 0) return;
-            
+            return data;
+        }
+
+        function updateChartWithPrice(price) {
+            if (!chartInstance || !chartData || chartData.length === 0) return;
+
+            const oafPrice = price * 100;
             const last = chartData[chartData.length - 1];
-            const delta = (Math.random() - 0.49) * 0.006;
-            const newPrice = parseFloat((last.c + delta).toFixed(6));
-            
+            const delta = (oafPrice - last.c) * 0.3 + (Math.random() - 0.49) * 0.6;
+            const newPrice = parseFloat((last.c + delta).toFixed(4));
+
             last.c = newPrice;
             last.h = Math.max(last.h, newPrice);
             last.l = Math.min(last.l, newPrice);
-            
+
             chartInstance.update('none');
-            updateTicker();
-        }, 2000);
-    }
-    
-    function updateTicker() {
-        if (!chartData || chartData.length === 0) return;
-        const last = chartData[chartData.length - 1];
-        const first = chartData[0];
-        const price = last.c;
-        const change = ((last.c - first.o) / first.o) * 100;
-        
-        document.getElementById('currentPrice').textContent = price.toFixed(6);
-        document.getElementById('currentPrice').className = 'price ' + (change >= 0 ? 'up' : 'down');
-        document.getElementById('priceChange').textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-        document.getElementById('priceChange').className = 'change ' + (change >= 0 ? 'up' : 'down');
-    }
-    
-    // ============================================
-    // REFRESH
-    // ============================================
-    
-    function refreshData() {
-        const age = document.getElementById('dataAge');
-        age.textContent = '0';
-        let count = 0;
-        const interval = setInterval(() => {
-            count++;
-            age.textContent = count;
-            if (count >= 15) clearInterval(interval);
-        }, 1000);
-        
-        const input = document.getElementById('currencySearch');
-        if (input.value.trim().length >= 2) {
-            performSearch(input.value.trim().toUpperCase());
+            updateTickerDisplay(oafPrice);
         }
-    }
-    
-    // ============================================
-    // INIT
-    // ============================================
-    
-    renderNations();
-    initChart();
-    
-    let ageCounter = 0;
-    setInterval(() => {
-        ageCounter++;
-        document.getElementById('dataAge').textContent = ageCounter;
-    }, 1000);
-    
-    document.getElementById('truth1').textContent = '$' + TRUTH1.toFixed(6);
-    document.getElementById('truth2').textContent = '$' + TRUTH2.toFixed(6);
-    document.getElementById('truth3').textContent = '$' + TRUTH3.toFixed(4);
-    document.getElementById('buffer').textContent = '+79.51%';
-    document.getElementById('unrealized').textContent = '+79.51%';
-    document.getElementById('rawProfit').textContent = '+51.42%';
-    document.getElementById('pulseProfit').textContent = '+79.51%';
-    
-    console.log('✅ OneAfri (OAF) Sovereign Economic Ledger Loaded');
-    console.log(`📊 1 AFRO = $${TRUTH1.toFixed(6)} (Pegged: $1.00)`);
-    console.log(`📊 1 OAF = $${(TRUTH1 * 100).toFixed(4)} (Pegged: $100.00)`);
-    console.log(`🌍 ${NATIONS.length} Nations Loaded`);
-    console.log('🏷️ Symbol: OAF');
-    console.log('📈 Chart Axis: X = Time, Y = Price');
-</script>
+
+        function startChartEngine() {
+            if (liveInterval) clearInterval(liveInterval);
+            liveInterval = setInterval(() => {
+                if (!chartData || chartData.length === 0) return;
+                const last = chartData[chartData.length - 1];
+                const delta = (Math.random() - 0.49) * 0.6;
+                const newPrice = parseFloat((last.c + delta).toFixed(4));
+
+                last.c = newPrice;
+                last.h = Math.max(last.h, newPrice);
+                last.l = Math.min(last.l, newPrice);
+
+                chartInstance.update('none');
+                updateTickerDisplay(newPrice);
+            }, 2000);
+        }
+
+        function updateTickerDisplay(price) {
+            if (!chartData || chartData.length === 0) return;
+            const first = chartData[0];
+            const last = chartData[chartData.length - 1];
+            const change = ((last.c - first.o) / first.o) * 100;
+
+            currentPrice.textContent = price.toFixed(4);
+            currentPrice.className = 'price ' + (change >= 0 ? 'up' : 'down');
+            priceChange.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+            priceChange.className = 'change ' + (change >= 0 ? 'up' : 'down');
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // SEARCH
+        // ═════════════════════════════════════════════════════════
+
+        function searchCurrency(code) {
+            const input = document.getElementById('currencySearch');
+            input.value = code.toUpperCase();
+            performSearch(code.toUpperCase());
+        }
+
+        function performSearch(query) {
+            const result = document.getElementById('searchResult');
+            const pairEl = document.getElementById('searchPair');
+            const rateEl = document.getElementById('searchRate');
+            const changeEl = document.getElementById('searchChange');
+
+            let rate = 0;
+            let found = false;
+            const oaf = lastTruth2 * 100;
+
+            if (ALL_RATES[query]) {
+                rate = oaf / ALL_RATES[query];
+                found = true;
+            } else if (query === 'USD' || query === 'OAF') {
+                rate = oaf;
+                found = true;
+            } else {
+                // Check nations
+                const nation = nationsFallback.find(n => n.code === query);
+                if (nation) {
+                    rate = parseFloat(nation.streetRate) * 100;
+                    found = true;
+                }
+            }
+
+            if (found) {
+                result.style.display = 'block';
+                pairEl.textContent = `OAF/${query}`;
+                rateEl.textContent = rate.toFixed(4);
+                const change = (Math.random() - 0.5) * 2;
+                changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+                changeEl.className = 'change ' + (change >= 0 ? 'up' : 'down');
+            } else {
+                result.style.display = 'block';
+                pairEl.textContent = `❌ "${query}" not found`;
+                rateEl.textContent = '—';
+                changeEl.textContent = '';
+            }
+        }
+
+        document.getElementById('currencySearch').addEventListener('keyup', function(e) {
+            const val = this.value.trim().toUpperCase();
+            if (val.length >= 2) {
+                performSearch(val);
+            } else {
+                document.getElementById('searchResult').style.display = 'none';
+            }
+        });
+
+        // ── Nations fallback for search ──
+        const nationsFallback = [
+            { code: 'TND', streetRate: '0.320513' }, { code: 'LYD', streetRate: '0.206186' },
+            { code: 'MAD', streetRate: '0.099502' }, { code: 'MRU', streetRate: '0.025157' },
+            { code: 'EGP', streetRate: '0.020877' }, { code: 'DZD', streetRate: '0.007471' },
+            { code: 'SDG', streetRate: '0.001664' }, { code: 'GHS', streetRate: '0.067340' },
+            { code: 'SLE', streetRate: '0.044543' }, { code: 'STN', streetRate: '0.043860' },
+            { code: 'GMD', streetRate: '0.014684' }, { code: 'CVE', streetRate: '0.009756' },
+            { code: 'LRD', streetRate: '0.005168' }, { code: 'XOF', streetRate: '0.001638' },
+            { code: 'NGN', streetRate: '0.000735' }, { code: 'GNF', streetRate: '0.000116' },
+            { code: 'XAF', streetRate: '0.001638' }, { code: 'CDF', streetRate: '0.000356' },
+            { code: 'SCR', streetRate: '0.073529' }, { code: 'ERN', streetRate: '0.066667' },
+            { code: 'MUR', streetRate: '0.021598' }, { code: 'ETB', streetRate: '0.017483' },
+            { code: 'MZN', streetRate: '0.015662' }, { code: 'SSP', streetRate: '0.007678' },
+            { code: 'KES', streetRate: '0.007605' }, { code: 'DJF', streetRate: '0.005627' },
+            { code: 'KMF', streetRate: '0.002183' }, { code: 'SOS', streetRate: '0.001750' },
+            { code: 'RWF', streetRate: '0.000763' }, { code: 'TZS', streetRate: '0.000383' },
+            { code: 'BIF', streetRate: '0.000351' }, { code: 'UGX', streetRate: '0.000267' },
+            { code: 'MGA', streetRate: '0.000220' }, { code: 'ZWG', streetRate: '0.074460' },
+            { code: 'BWP', streetRate: '0.070423' }, { code: 'SZL', streetRate: '0.054201' },
+            { code: 'LSL', streetRate: '0.054201' }, { code: 'NAD', streetRate: '0.054201' },
+            { code: 'ZAR', streetRate: '0.054201' }, { code: 'ZMW', streetRate: '0.038241' },
+            { code: 'AOA', streetRate: '0.001079' }, { code: 'MWK', streetRate: '0.000576' }
+        ];
+
+        // ═════════════════════════════════════════════════════════
+        // REFRESH & AGE COUNTER
+        // ═════════════════════════════════════════════════════════
+
+        function refreshData() {
+            ageCounter = 0;
+            dataAge.textContent = '0';
+            fetchMarketPulse();
+        }
+
+        // Age counter increments every second
+        setInterval(() => {
+            ageCounter++;
+            dataAge.textContent = ageCounter;
+        }, 1000);
+
+        // Fetch every 30 seconds
+        setInterval(fetchMarketPulse, FETCH_INTERVAL);
+
+        // ── INIT ──
+        initChart();
+        fetchMarketPulse();
+    </script>
 </body>
 </html>
