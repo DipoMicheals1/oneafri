@@ -28,16 +28,6 @@
             margin-top: 15px;
             color: #4CAF50;
         }
-        .phase-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 14px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .phase-birthing { background: #2196F3; color: white; }
-        .phase-mature { background: #FF9800; color: white; }
         .data-age-bar {
             display: flex;
             justify-content: space-between;
@@ -66,18 +56,6 @@
             transition: all 0.3s;
         }
         .refresh-btn:hover { background: #FFD700; color: #000; }
-        .economic-model {
-            background: #1A1A2E;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #FFD700;
-            text-align: center;
-        }
-        .economic-model h3 { color: #FFD700; margin-bottom: 10px; }
-        .model-ratios { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .model-ratio { font-size: 14px; color: #AAAAAA; }
-        .model-ratio strong { color: #4CAF50; }
         .four-truths {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -150,7 +128,6 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .footer { text-align: center; padding: 30px; border-top: 1px solid #333; font-size: 12px; color: #666; }
         .loader { text-align: center; padding: 40px; color: #FFD700; }
-        .warning-text { color: #FF9800; font-size: 12px; margin-top: 5px; }
         @media (max-width: 1000px) { .four-truths { grid-template-columns: repeat(2, 1fr); gap: 15px; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .four-truths { grid-template-columns: 1fr; } .truth-value { font-size: 32px; } }
     </style>
@@ -162,26 +139,11 @@
         <h1>OneAfri Sovereign Economic Ledger</h1>
         <div class="tagline">The Four Truths. Complete Transparency. No Hidden Numbers.</div>
         <div class="transparency-badge">🔓 100% TRANSPARENT | 54 NATIONS</div>
-        <div id="phaseBadge" class="phase-badge phase-birthing">🌱 BIRTHING (AFRO = $1.00)</div>
-        <div id="phaseMessage" class="warning-text">0% of 300M OAF sold. AFRO is pegged at $1.00.</div>
-    </div>
-
-    <div class="economic-model">
-        <h3>🏛️ ONEAFRI ECONOMIC MODEL</h3>
-        <div class="model-ratios">
-            <span class="model-ratio"><strong>100 AFF</strong> = 1 AFRO</span>
-            <span class="model-ratio"><strong>100 AFRO</strong> = 1 OAF</span>
-            <span class="model-ratio" id="afroPriceDisplay">AFRO: <strong>$1.00</strong> (Fixed)</span>
-            <span class="model-ratio" id="oafPriceDisplay">OAF: <strong>$100.00</strong> (Policy)</span>
-        </div>
-        <div style="font-size: 11px; color: #888; margin-top: 8px;">
-            ⚠️ AFRO peg ends when 300M OAF sells out. Then market dictates both prices.
-        </div>
     </div>
 
     <div class="data-age-bar">
         <div class="age-indicator">
-            <div id="ageDot" class="age-dot green"></div>
+            <div class="age-dot green" id="ageDot"></div>
             <span class="age-text">Data age:</span>
             <span class="age-value" id="dataAgeSeconds">0</span>
             <span class="age-text">seconds</span>
@@ -194,48 +156,45 @@
             <div class="truth-title">💰 FIXED ENTRY PRICE</div>
             <div class="truth-subtitle">WHAT YOU PAY</div>
             <div class="truth-value entry-value" id="fixedEntryPrice">$1.00</div>
-            <div class="truth-description"><strong>1 AFRO = $1.00</strong><br>Fixed until 300M OAF sells out.</div>
-            <div class="source-badge" id="entrySource">🔒 Phase 1: AFRO Peg ($1.00)</div>
+            <div class="truth-description"><strong>You pay $1.00 for 1 OAF.</strong><br>The price NEVER changes for you.</div>
+            <div class="source-badge">🔒 Locked by Smart Contract | Forever $1.00 for new purchases</div>
         </div>
 
         <div class="truth-card">
             <div class="truth-title">📊 TRUTH #1</div>
             <div class="truth-subtitle">THE PHYSICAL EVIDENCE</div>
-            <div class="truth-value truth-1-value" id="truth1Value">$1.514209</div>
+            <div class="truth-value truth-1-value" id="truth1Value">$--</div>
             <div class="truth-description">Raw sum of 1 unit of all 54 African currencies.<br><strong>This is what OneAfri is WORTH.</strong></div>
-            <div class="source-badge" id="truth1Source">RAW SUM: $1.5142 | 54 Nations</div>
+            <div class="source-badge" id="truth1Source">Loading...</div>
         </div>
 
         <div class="truth-card">
             <div class="truth-title">⚡ TRUTH #2</div>
             <div class="truth-subtitle">THE SOVEREIGN PULSE</div>
-            <div class="truth-value truth-2-value" id="truth2Value">$1.795095</div>
+            <div class="truth-value truth-2-value" id="truth2Value">$--</div>
             <div class="truth-description">Real-time scaled index (1.1855x multiplier).<br><strong>This is the TRADING value.</strong></div>
-            <div class="source-badge" id="truth2Source">SCALED INDEX (1.1855x) | LIVE</div>
+            <div class="source-badge" id="truth2Source">Loading...</div>
         </div>
 
         <div class="truth-card">
             <div class="truth-title">⚓ TRUTH #3</div>
             <div class="truth-subtitle">THE INSTITUTIONAL ANCHOR</div>
-            <div class="truth-value truth-3-value" id="truth3Value">$1.3400</div>
+            <div class="truth-value truth-3-value" id="truth3Value">$--</div>
             <div class="truth-description">Fixed monthly anchor value.<br><strong>Locked for 30 days.</strong></div>
-            <div class="source-badge" id="truth3Source">FIXED MONTHLY VALUE | Locked 30 days</div>
+            <div class="source-badge" id="truth3Source">Loading...</div>
         </div>
     </div>
 
     <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">🛡️ SYSTEM BUFFER</div><div class="stat-value" id="buffer">+79.51%</div></div>
-        <div class="stat-card"><div class="stat-label">💰 UNREALIZED GAIN</div><div class="stat-value" id="instantProfit">+79.51%</div></div>
-        <div class="stat-card"><div class="stat-label">📈 RAW PROFIT</div><div class="stat-value" id="rawProfit">+51.42%</div></div>
-        <div class="stat-card"><div class="stat-label">⚡ PULSE PROFIT</div><div class="stat-value" id="pulseProfit">+79.51%</div></div>
+        <div class="stat-card"><div class="stat-label">🛡️ SYSTEM BUFFER</div><div class="stat-value" id="buffer">--</div></div>
+        <div class="stat-card"><div class="stat-label">💰 UNREALIZED GAIN</div><div class="stat-value" id="instantProfit">--</div></div>
+        <div class="stat-card"><div class="stat-label">📈 RAW PROFIT</div><div class="stat-value" id="rawProfit">--</div></div>
+        <div class="stat-card"><div class="stat-label">⚡ PULSE PROFIT</div><div class="stat-value" id="pulseProfit">--</div></div>
     </div>
 
     <div class="currencies-section">
         <div class="section-title"><span class="live-dot"></span> TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</div>
-        <div id="regionalCurrencyList">
-            <!-- Regions will be populated by JavaScript -->
-            <div class="loader">🌀 Loading 54 Nations from Render Cloud...</div>
-        </div>
+        <div id="regionalCurrencyList"><div class="loader">🌀 Loading 54 Nations from Render Cloud...</div></div>
         <div class="source-badge" style="margin-top: 15px; text-align: center;" id="dataSource">Source: OneAfri Render Backend | Absolute Transparency Protocol</div>
     </div>
 
@@ -244,8 +203,8 @@
         <div style="font-size: 12px; color: #888; line-height: 1.6;">
             <p>• OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.</p>
             <p>• You can only sell to other users on exchanges.</p>
-            <p>• <strong>AFRO = $1.00</strong> ONLY until 300M OAF sells out.</p>
-            <p>• After 300M sells out, the market dictates BOTH AFRO and OAF prices.</p>
+            <p>• The $1.00 selling price applies ONLY to the initial sale from the company.</p>
+            <p>• After the 300M public supply is sold, the market determines the price.</p>
             <p>• You could lose money. Only invest what you can afford to lose.</p>
         </div>
     </div>
@@ -257,19 +216,21 @@
 </div>
 
 <script>
+    // ✅ CORRECT API ENDPOINT
     const API_URL = 'https://oneafri-backend.onrender.com/api/v1/market/pulse';
     let lastUpdateTime = 0;
     let refreshInterval = null;
-
+    
+    // Region mapping for 54 African countries
     const regionMap = {
-        'Tunisia': 'North', 'Algeria': 'North', 'Libya': 'North', 'Morocco': 'North',
+        'Morocco': 'North', 'Algeria': 'North', 'Tunisia': 'North', 'Libya': 'North',
         'Egypt': 'North', 'Sudan': 'North', 'Mauritania': 'North',
-        'Nigeria': 'West', 'Ghana': 'West', 'Côte d\'Ivoire': 'West', 'Senegal': 'West',
+        'Nigeria': 'West', 'Ghana': 'West', 'Ivory Coast': 'West', 'Senegal': 'West',
         'Mali': 'West', 'Burkina Faso': 'West', 'Benin': 'West', 'Togo': 'West',
         'Niger': 'West', 'Guinea': 'West', 'Guinea-Bissau': 'West', 'Sierra Leone': 'West',
-        'Liberia': 'West', 'Gambia': 'West', 'Cape Verde': 'West',
-        'Cameroon': 'Central', 'Central African Rep.': 'Central', 'Chad': 'Central',
-        'Congo Republic': 'Central', 'DR Congo': 'Central', 'Equatorial Guinea': 'Central',
+        'Liberia': 'West', 'Gambia': 'West', 'Cabo Verde': 'West',
+        'Cameroon': 'Central', 'Central African Republic': 'Central', 'Chad': 'Central',
+        'Republic of Congo': 'Central', 'DR Congo': 'Central', 'Equatorial Guinea': 'Central',
         'Gabon': 'Central', 'Sao Tome and Principe': 'Central',
         'Kenya': 'East', 'Tanzania': 'East', 'Uganda': 'East', 'Ethiopia': 'East',
         'Somalia': 'East', 'Eritrea': 'East', 'Djibouti': 'East', 'Rwanda': 'East',
@@ -278,66 +239,107 @@
         'South Africa': 'South', 'Namibia': 'South', 'Lesotho': 'South', 'Eswatini': 'South',
         'Botswana': 'South', 'Zambia': 'South', 'Zimbabwe': 'South', 'Angola': 'South', 'Malawi': 'South'
     };
-
+    
     const regionOrder = ['North', 'West', 'Central', 'East', 'South'];
     const regionNames = {
-        'North': '📍 NORTH AFRICA',
-        'West': '📍 WEST AFRICA',
-        'Central': '📍 CENTRAL AFRICA',
-        'East': '📍 EAST AFRICA',
-        'South': '📍 SOUTHERN AFRICA'
+        'North': 'NORTH AFRICA',
+        'West': 'WEST AFRICA',
+        'Central': 'CENTRAL AFRICA',
+        'East': 'EAST AFRICA',
+        'South': 'SOUTHERN AFRICA'
     };
-
+    
+    function updateDataAge() {
+        if (lastUpdateTime === 0) return;
+        const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
+        document.getElementById('dataAgeSeconds').innerText = secondsAgo;
+        
+        const ageDot = document.getElementById('ageDot');
+        if (secondsAgo < 30) {
+            ageDot.className = 'age-dot green';
+            ageDot.style.background = '#4CAF50';
+        } else if (secondsAgo < 60) {
+            ageDot.className = 'age-dot yellow';
+            ageDot.style.background = '#FFC107';
+        } else {
+            ageDot.className = 'age-dot red';
+            ageDot.style.background = '#F44336';
+        }
+    }
+    
+    function manualRefresh() {
+        fetchMarketData();
+    }
+    
     async function fetchMarketData() {
         try {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
             lastUpdateTime = Date.now();
-
-            // --- Update Four Truths and Stats ---
-            document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice || '1.00'}`;
-            document.getElementById('truth1Value').innerHTML = `$${parseFloat(data.truth1_raw || 0).toFixed(6)}`;
-            document.getElementById('truth2Value').innerHTML = `$${parseFloat(data.truth2_pulse || 0).toFixed(6)}`;
-            document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor || 0).toFixed(4)}`;
-
-            const buffer = ((parseFloat(data.truth2_pulse || 1.00) - 1.00) / 1.00) * 100;
-            document.getElementById('buffer').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
-            document.getElementById('instantProfit').innerHTML = `${buffer >= 0 ? '+' : ''}${buffer.toFixed(2)}%`;
-            document.getElementById('rawProfit').innerHTML = `${((parseFloat(data.truth1_raw || 1.00) - 1.00) / 1.00 * 100).toFixed(2)}%`;
-            document.getElementById('pulseProfit').innerHTML = `${buffer.toFixed(2)}%`;
-
-            // --- Update 54 Nations with Regional Grouping ---
+            
+            // Update Fixed Entry Price
+            if (data.fixedEntryPrice) {
+                document.getElementById('fixedEntryPrice').innerHTML = `$${data.fixedEntryPrice}`;
+            }
+            
+            // TRUTH #1
+            if (data.truth1_raw) {
+                const truth1Value = parseFloat(data.truth1_raw).toFixed(6);
+                document.getElementById('truth1Value').innerHTML = `$${truth1Value}`;
+                document.getElementById('truth1Source').innerHTML = `RAW SUM: $${parseFloat(data.truth1_raw).toFixed(4)} | Source: ${data.currencyList?.length || 54} African Nations`;
+                
+                const rawProfitPercent = ((parseFloat(data.truth1_raw) - 1.00) / 1.00) * 100;
+                document.getElementById('rawProfit').innerHTML = `${rawProfitPercent >= 0 ? '+' : ''}${rawProfitPercent.toFixed(2)}%`;
+            }
+            
+            // TRUTH #2
+            if (data.truth2_pulse) {
+                const truth2Value = parseFloat(data.truth2_pulse).toFixed(6);
+                document.getElementById('truth2Value').innerHTML = `$${truth2Value}`;
+                document.getElementById('truth2Source').innerHTML = `SCALED INDEX (1.1855x) | LIVE`;
+                
+                const pulseProfitPercent = ((parseFloat(data.truth2_pulse) - 1.00) / 1.00) * 100;
+                const display = `${pulseProfitPercent >= 0 ? '+' : ''}${pulseProfitPercent.toFixed(2)}%`;
+                document.getElementById('pulseProfit').innerHTML = display;
+                document.getElementById('buffer').innerHTML = display;
+                document.getElementById('instantProfit').innerHTML = display;
+            }
+            
+            // TRUTH #3
+            if (data.truth3_anchor) {
+                document.getElementById('truth3Value').innerHTML = `$${parseFloat(data.truth3_anchor).toFixed(4)}`;
+                document.getElementById('truth3Source').innerHTML = `FIXED MONTHLY VALUE | Locked 30 days`;
+            }
+            
+            // Display 54 Nations
             if (data.currencyList && data.currencyList.length > 0) {
-                const container = document.getElementById('regionalCurrencyList');
-                container.innerHTML = '';
-
-                // Group countries by region
                 const grouped = {};
                 for (const region of regionOrder) { grouped[region] = []; }
-
+                
                 for (const currency of data.currencyList) {
                     const region = regionMap[currency.country] || 'West';
                     if (!grouped[region]) grouped[region] = [];
                     grouped[region].push(currency);
                 }
-
-                // Sort countries within each region by streetRate (highest first)
+                
                 for (const region of regionOrder) {
                     grouped[region].sort((a, b) => parseFloat(b.streetRate) - parseFloat(a.streetRate));
                 }
-
-                // Render regions
+                
+                const container = document.getElementById('regionalCurrencyList');
+                container.innerHTML = '';
+                
                 for (const region of regionOrder) {
                     if (grouped[region].length === 0) continue;
-
+                    
                     const regionDiv = document.createElement('div');
                     regionDiv.className = 'region-group';
-                    regionDiv.innerHTML = `<div class="region-header">${regionNames[region]} (${grouped[region].length} countries)</div>`;
-
+                    regionDiv.innerHTML = `<div class="region-header">📍 ${regionNames[region]} (${grouped[region].length} countries)</div>`;
+                    
                     const gridDiv = document.createElement('div');
                     gridDiv.className = 'currency-grid';
-
+                    
                     for (const currency of grouped[region]) {
                         const streetRate = parseFloat(currency.streetRate).toFixed(6);
                         const item = document.createElement('div');
@@ -354,47 +356,41 @@
                         `;
                         gridDiv.appendChild(item);
                     }
-
+                    
                     regionDiv.appendChild(gridDiv);
                     container.appendChild(regionDiv);
                 }
-
+                
                 document.getElementById('dataSource').innerHTML = '✅ LIVE SOVEREIGN SYNC | 54 Nations';
             }
-
-            // Update data age
+            
             updateDataAge();
-
+            
         } catch (error) {
             console.error('Fetch error:', error);
-            document.getElementById('regionalCurrencyList').innerHTML = '<div class="loader">⚠️ Connecting to Render Cloud Brain... Retrying</div>';
             document.getElementById('dataSource').innerHTML = '⚠️ Connecting to Render Cloud Brain... Retrying';
         }
     }
-
-    function updateDataAge() {
-        if (lastUpdateTime === 0) return;
-        const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
-        document.getElementById('dataAgeSeconds').innerText = secondsAgo;
-
-        const dot = document.getElementById('ageDot');
-        if (secondsAgo < 30) {
-            dot.className = 'age-dot green';
-        } else if (secondsAgo < 60) {
-            dot.className = 'age-dot yellow';
-        } else {
-            dot.className = 'age-dot red';
-        }
-    }
-
-    function manualRefresh() {
+    
+    // Start the refresh cycle
+    function startAutoRefresh() {
+        if (refreshInterval) clearInterval(refreshInterval);
         fetchMarketData();
+        refreshInterval = setInterval(fetchMarketData, 30000);
     }
-
-    // Initial fetch and auto-refresh
-    fetchMarketData();
-    refreshInterval = setInterval(fetchMarketData, 30000);
+    
+    // Also update age counter every second
     setInterval(updateDataAge, 1000);
+    
+    // Start everything when page loads
+    startAutoRefresh();
+    
+    // Refresh when page becomes visible again
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            manualRefresh();
+        }
+    });
 </script>
 </body>
 </html>
