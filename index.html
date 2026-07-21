@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneAfri Sovereign Economic Ledger</title>
+    <title>🌍 OneAfri (OAF) · Sovereign Economic Ledger</title>
     
     <!-- Chart.js and Financial Chart Plugin -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,11 +22,7 @@
             --gray: #888888;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             background: var(--bg);
@@ -35,10 +31,7 @@
             padding: 20px;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1400px; margin: 0 auto; }
         
         /* HEADER */
         header {
@@ -52,14 +45,34 @@
             gap: 10px;
         }
         
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            font-size: 40px;
+        }
+        
         .logo h1 {
             color: var(--gold);
             font-size: 28px;
         }
         
-        .logo span {
-            color: var(--gray);
+        .logo .symbol {
+            color: var(--gold);
             font-size: 14px;
+            background: #2A2A4E;
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--gold);
+        }
+        
+        .logo .sub {
+            color: var(--gray);
+            font-size: 13px;
+            display: block;
         }
         
         .status-badge {
@@ -85,10 +98,7 @@
             50% { opacity: 0.2; }
         }
         
-        .data-age {
-            color: var(--gray);
-            font-size: 14px;
-        }
+        .data-age { color: var(--gray); font-size: 14px; }
         
         .refresh-btn {
             background: var(--gold);
@@ -100,9 +110,7 @@
             font-weight: bold;
         }
         
-        .refresh-btn:hover {
-            opacity: 0.8;
-        }
+        .refresh-btn:hover { opacity: 0.8; }
         
         /* TRUTH CARDS */
         .truth-grid {
@@ -132,20 +140,13 @@
             margin: 8px 0;
         }
         
-        .truth-card .sub {
-            font-size: 13px;
-            color: var(--gray);
-        }
-        
+        .truth-card .sub { font-size: 13px; color: var(--gray); }
         .truth-card.gold { border-color: var(--gold); }
         .truth-card.gold .value { color: var(--gold); }
-        
         .truth-card.green { border-color: var(--green); }
         .truth-card.green .value { color: var(--green); }
-        
         .truth-card.purple { border-color: #9C27B0; }
         .truth-card.purple .value { color: #9C27B0; }
-        
         .truth-card.blue { border-color: #2196F3; }
         .truth-card.blue .value { color: #2196F3; }
         
@@ -164,19 +165,10 @@
             text-align: center;
         }
         
-        .profit-item .label {
-            font-size: 11px;
-            color: var(--gray);
-            text-transform: uppercase;
-        }
+        .profit-item .label { font-size: 11px; color: var(--gray); text-transform: uppercase; }
+        .profit-item .value { font-size: 22px; font-weight: bold; color: var(--green); }
         
-        .profit-item .value {
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--green);
-        }
-        
-        /* SEARCH BAR */
+        /* SEARCH */
         .search-section {
             background: var(--card);
             padding: 20px;
@@ -185,10 +177,7 @@
             border: 1px solid var(--gold);
         }
         
-        .search-section h3 {
-            color: var(--gold);
-            margin-bottom: 12px;
-        }
+        .search-section h3 { color: var(--gold); margin-bottom: 12px; }
         
         .search-container {
             display: flex;
@@ -241,24 +230,9 @@
             display: none;
         }
         
-        #searchResult .pair {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--gold);
-        }
-        
-        #searchResult .rate {
-            font-size: 24px;
-            font-weight: bold;
-            color: #FFF;
-            margin-left: 16px;
-        }
-        
-        #searchResult .change {
-            font-size: 18px;
-            margin-left: 16px;
-        }
-        
+        #searchResult .pair { font-size: 20px; font-weight: bold; color: var(--gold); }
+        #searchResult .rate { font-size: 24px; font-weight: bold; color: #FFF; margin-left: 16px; }
+        #searchResult .change { font-size: 18px; margin-left: 16px; }
         #searchResult .change.up { color: var(--green); }
         #searchResult .change.down { color: var(--red); }
         
@@ -278,30 +252,15 @@
             flex-wrap: wrap;
         }
         
-        .chart-section .ticker .pair-name {
-            color: var(--gray);
-            font-size: 16px;
-        }
-        
-        .chart-section .ticker .price {
-            font-size: 32px;
-            font-weight: bold;
-        }
-        
+        .chart-section .ticker .pair-name { color: var(--gray); font-size: 16px; }
+        .chart-section .ticker .price { font-size: 32px; font-weight: bold; }
         .chart-section .ticker .price.up { color: var(--green); }
         .chart-section .ticker .price.down { color: var(--red); }
+        .chart-section .ticker .change { font-size: 18px; font-weight: bold; }
         
-        .chart-section .ticker .change {
-            font-size: 18px;
-            font-weight: bold;
-        }
+        .chart-wrapper { position: relative; height: 400px; }
         
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-        }
-        
-        /* 54 NATIONS */
+        /* NATIONS */
         .nations-section {
             background: var(--card);
             padding: 20px;
@@ -309,10 +268,7 @@
             margin-bottom: 24px;
         }
         
-        .nations-section h3 {
-            color: var(--gold);
-            margin-bottom: 16px;
-        }
+        .nations-section h3 { color: var(--gold); margin-bottom: 16px; }
         
         .nations-grid {
             display: grid;
@@ -335,7 +291,6 @@
         .nation-item .code { color: var(--gray); font-size: 11px; }
         .nation-item .val { color: var(--gold); font-weight: bold; }
         
-        /* REGION HEADERS */
         .region-header {
             grid-column: 1 / -1;
             color: var(--gold);
@@ -354,18 +309,9 @@
             margin-bottom: 24px;
         }
         
-        .disclaimer h4 {
-            color: #F44336;
-            margin-bottom: 8px;
-        }
+        .disclaimer h4 { color: #F44336; margin-bottom: 8px; }
+        .disclaimer p { color: #CCCCCC; font-size: 13px; line-height: 1.6; }
         
-        .disclaimer p {
-            color: #CCCCCC;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        
-        /* FOOTER */
         footer {
             text-align: center;
             color: var(--gray);
@@ -374,19 +320,10 @@
             border-top: 1px solid #333;
         }
         
-        /* SCROLLBAR */
-        .nations-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        .nations-grid::-webkit-scrollbar-track {
-            background: #0A0A1F;
-        }
-        .nations-grid::-webkit-scrollbar-thumb {
-            background: var(--gold);
-            border-radius: 3px;
-        }
+        .nations-grid::-webkit-scrollbar { width: 6px; }
+        .nations-grid::-webkit-scrollbar-track { background: #0A0A1F; }
+        .nations-grid::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
         
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             header { flex-direction: column; align-items: stretch; }
             .truth-grid { grid-template-columns: 1fr 1fr; }
@@ -403,8 +340,11 @@
     <!-- HEADER -->
     <header>
         <div class="logo">
-            <h1>🌍 OneAfri</h1>
-            <span>Sovereign Economic Ledger · 54 Nations</span>
+            <span class="logo-icon">🌍</span>
+            <div>
+                <h1>OneAfri <span class="symbol">OAF</span></h1>
+                <span class="sub">Sovereign Economic Ledger · 54 Nations · 100 AFRO = 1 OAF</span>
+            </div>
         </div>
         <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
             <div class="status-badge">
@@ -419,14 +359,14 @@
     <div class="truth-grid">
         <div class="truth-card gold">
             <div class="label">💰 FIXED ENTRY PRICE</div>
-            <div class="value">$1.00</div>
-            <div class="sub">What YOU pay for 1 OAF · Locked by Smart Contract</div>
+            <div class="value" style="font-size:20px;">1 AFRO = <span style="font-size:32px;">$1.00</span></div>
+            <div class="sub">100 AFRO = 1 OAF = $100.00 · Locked by Smart Contract</div>
         </div>
         
         <div class="truth-card green">
             <div class="label">📊 TRUTH #1 · EVIDENCE</div>
             <div class="value" id="truth1">$1.514209</div>
-            <div class="sub">Raw sum of 54 African currencies · 1 AFRO value</div>
+            <div class="sub">Raw sum of 54 African currencies · 1 AFRO intrinsic value</div>
         </div>
         
         <div class="truth-card purple">
@@ -439,6 +379,25 @@
             <div class="label">⚓ TRUTH #3 · ANCHOR</div>
             <div class="value" id="truth3">$1.3400</div>
             <div class="sub">Fixed monthly anchor · Locked 30 days</div>
+        </div>
+    </div>
+    
+    <!-- OAF INDEX -->
+    <div style="background: var(--card); padding: 16px 20px; border-radius: 12px; margin-bottom: 24px; border: 2px solid var(--gold);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <span style="color: var(--gold); font-weight: bold; font-size: 18px;">📊 OAF INDEX</span>
+            <span style="color: #FFF; font-size: 16px;">
+                1 AFRO = <span style="color: var(--gold); font-weight: bold;">$1.5142</span> &nbsp;|&nbsp; 
+                1 OAF = <span style="color: var(--gold); font-weight: bold;">$151.42</span>
+            </span>
+            <span style="color: var(--green); font-size: 14px;">🟢 +51.42% Golden Window</span>
+        </div>
+        <div style="display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; font-size: 13px; color: var(--gray);">
+            <span>💱 OAF/USD: <span style="color:#FFF;">1.5142</span></span>
+            <span>💱 OAF/EUR: <span style="color:#FFF;">1.3260</span></span>
+            <span>💱 OAF/GBP: <span style="color:#FFF;">1.1270</span></span>
+            <span>💱 OAF/JPY: <span style="color:#FFF;">162.47</span></span>
+            <span>💱 OAF/BTC: <span style="color:#FFF;">0.0000348</span></span>
         </div>
     </div>
     
@@ -502,9 +461,7 @@
     <!-- 54 NATIONS -->
     <div class="nations-section">
         <h3>🌍 TRUTH #1: THE EVIDENCE — ALL 54 AFRICAN NATIONS (1 Unit = USD)</h3>
-        <div class="nations-grid" id="nationsGrid">
-            <!-- Populated by JavaScript -->
-        </div>
+        <div class="nations-grid" id="nationsGrid"></div>
     </div>
     
     <!-- DISCLAIMER -->
@@ -513,14 +470,14 @@
         <p>
             • OneAfri is <strong>NON-REDEEMABLE</strong>. The company does NOT buy back tokens.<br>
             • You can only sell to other users on exchanges.<br>
-            • The $1.00 selling price applies ONLY to the initial sale from the company.<br>
+            • The $1.00 selling price applies ONLY to 1 AFRO from the company.<br>
             • After the 300M public supply is sold, the market determines the price.<br>
             • You could lose money. Only invest what you can afford to lose.
         </p>
     </div>
     
     <footer>
-        © 2026 OneAfri. All rights reserved. · Sovereignty Through Transparency
+        © 2026 OneAfri (OAF). All rights reserved. · Sovereignty Through Transparency
     </footer>
 </div>
 
@@ -533,8 +490,6 @@
     const TRUTH2 = 1.795095;
     const TRUTH3 = 1.3400;
     const ENTRY = 1.00;
-    const OAF_VALUE = TRUTH1; // 1 OAF = $1.514209
-    const AFRO_VALUE = TRUTH1; // 1 AFRO = $1.514209
     
     const FIAT_RATES = {
         'EUR': 0.8758,
@@ -560,7 +515,6 @@
     const ALL_RATES = { ...FIAT_RATES, ...CRYPTO_RATES };
     
     const NATIONS = [
-        // NORTH AFRICA
         { flag: '🇹🇳', name: 'Tunisia', code: 'TND', val: 0.320513, region: 'NORTH' },
         { flag: '🇱🇾', name: 'Libya', code: 'LYD', val: 0.206186, region: 'NORTH' },
         { flag: '🇲🇦', name: 'Morocco', code: 'MAD', val: 0.099502, region: 'NORTH' },
@@ -568,7 +522,6 @@
         { flag: '🇪🇬', name: 'Egypt', code: 'EGP', val: 0.020877, region: 'NORTH' },
         { flag: '🇩🇿', name: 'Algeria', code: 'DZD', val: 0.007471, region: 'NORTH' },
         { flag: '🇸🇩', name: 'Sudan', code: 'SDG', val: 0.001664, region: 'NORTH' },
-        // WEST AFRICA
         { flag: '🇬🇭', name: 'Ghana', code: 'GHS', val: 0.067340, region: 'WEST' },
         { flag: '🇸🇱', name: 'Sierra Leone', code: 'SLE', val: 0.044543, region: 'WEST' },
         { flag: '🇸🇹', name: 'São Tomé', code: 'STN', val: 0.043860, region: 'WEST' },
@@ -585,7 +538,6 @@
         { flag: '🇹🇬', name: 'Togo', code: 'XOF', val: 0.001638, region: 'WEST' },
         { flag: '🇳🇬', name: 'Nigeria', code: 'NGN', val: 0.000735, region: 'WEST' },
         { flag: '🇬🇳', name: 'Guinea', code: 'GNF', val: 0.000116, region: 'WEST' },
-        // CENTRAL AFRICA
         { flag: '🇨🇲', name: 'Cameroon', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
         { flag: '🇹🇩', name: 'Chad', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
         { flag: '🇬🇶', name: 'Equatorial Guinea', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
@@ -593,7 +545,6 @@
         { flag: '🇨🇫', name: 'CAR', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
         { flag: '🇨🇬', name: 'Congo Republic', code: 'XAF', val: 0.001638, region: 'CENTRAL' },
         { flag: '🇨🇩', name: 'DR Congo', code: 'CDF', val: 0.000356, region: 'CENTRAL' },
-        // EAST AFRICA
         { flag: '🇸🇨', name: 'Seychelles', code: 'SCR', val: 0.073529, region: 'EAST' },
         { flag: '🇪🇷', name: 'Eritrea', code: 'ERN', val: 0.066667, region: 'EAST' },
         { flag: '🇲🇺', name: 'Mauritius', code: 'MUR', val: 0.021598, region: 'EAST' },
@@ -609,7 +560,6 @@
         { flag: '🇧🇮', name: 'Burundi', code: 'BIF', val: 0.000351, region: 'EAST' },
         { flag: '🇺🇬', name: 'Uganda', code: 'UGX', val: 0.000267, region: 'EAST' },
         { flag: '🇲🇬', name: 'Madagascar', code: 'MGA', val: 0.000220, region: 'EAST' },
-        // SOUTHERN AFRICA
         { flag: '🇿🇼', name: 'Zimbabwe', code: 'ZWG', val: 0.074460, region: 'SOUTH' },
         { flag: '🇧🇼', name: 'Botswana', code: 'BWP', val: 0.070423, region: 'SOUTH' },
         { flag: '🇸🇿', name: 'Eswatini', code: 'SZL', val: 0.054201, region: 'SOUTH' },
@@ -672,16 +622,13 @@
         let change = 0;
         let found = false;
         
-        // Check if query is a currency code
         if (ALL_RATES[query]) {
-            // OAF/XXX = OAF_VALUE / rate
-            rate = OAF_VALUE / ALL_RATES[query];
+            rate = TRUTH1 / ALL_RATES[query];
             found = true;
         } else if (query === 'USD' || query === 'OAF') {
-            rate = OAF_VALUE;
+            rate = TRUTH1;
             found = true;
         } else {
-            // Try to find in nations
             const nation = NATIONS.find(n => n.code === query);
             if (nation) {
                 rate = nation.val;
@@ -725,7 +672,7 @@
     function generateInitialData() {
         const data = [];
         let now = luxon.DateTime.now().minus({ minutes: 30 });
-        let price = OAF_VALUE;
+        let price = TRUTH1;
         
         for (let i = 0; i < 30; i++) {
             const open = price;
@@ -842,7 +789,6 @@
             if (count >= 15) clearInterval(interval);
         }, 1000);
         
-        // Update search result if active
         const input = document.getElementById('currencySearch');
         if (input.value.trim().length >= 2) {
             performSearch(input.value.trim().toUpperCase());
@@ -856,14 +802,12 @@
     renderNations();
     initChart();
     
-    // Update age counter
     let ageCounter = 0;
     setInterval(() => {
         ageCounter++;
         document.getElementById('dataAge').textContent = ageCounter;
     }, 1000);
     
-    // Set initial values
     document.getElementById('truth1').textContent = '$' + TRUTH1.toFixed(6);
     document.getElementById('truth2').textContent = '$' + TRUTH2.toFixed(6);
     document.getElementById('truth3').textContent = '$' + TRUTH3.toFixed(4);
@@ -872,10 +816,11 @@
     document.getElementById('rawProfit').textContent = '+51.42%';
     document.getElementById('pulseProfit').textContent = '+79.51%';
     
-    console.log('✅ OneAfri Sovereign Economic Ledger Loaded');
-    console.log(`📊 1 AFRO = $${TRUTH1.toFixed(6)}`);
-    console.log(`📊 1 OAF = $${(TRUTH1 * 100).toFixed(4)}`);
+    console.log('✅ OneAfri (OAF) Sovereign Economic Ledger Loaded');
+    console.log(`📊 1 AFRO = $${TRUTH1.toFixed(6)} (Pegged: $1.00)`);
+    console.log(`📊 1 OAF = $${(TRUTH1 * 100).toFixed(4)} (Pegged: $100.00)`);
     console.log(`🌍 ${NATIONS.length} Nations Loaded`);
+    console.log('🏷️ Symbol: OAF');
 </script>
 </body>
 </html>
