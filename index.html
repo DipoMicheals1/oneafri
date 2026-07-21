@@ -814,6 +814,8 @@
             // Nations
             if (data.currencyList && data.currencyList.length > 0) {
                 renderNations(data.currencyList);
+            } else {
+                renderNationsFromEmbed();
             }
 
             // Update chart with new price
@@ -867,7 +869,6 @@
             priceChange.textContent = '+' + pulseVal.toFixed(2) + '%';
             priceChange.className = 'change up';
 
-            // Fallback nations from embedded data
             renderNationsFromEmbed();
 
             updateChartWithPrice(t2);
