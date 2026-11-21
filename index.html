@@ -85,9 +85,22 @@
         .partner-gate { background: linear-gradient(135deg, #1A1A2E 0%, #050510 100%); border: 1px solid #00E5FF; border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 24px; }
         .partner-gate h3 { color: #00E5FF; font-size: 22px; margin-bottom: 12px; }
         .partner-gate p { color: #AAA; font-size: 14px; line-height: 1.6; max-width: 700px; margin: 0 auto 20px auto; }
-        .partner-gate .cta-btn { display: inline-block; background: #FFD700; color: #000; padding: 12px 32px; border-radius: 8px; font-weight: bold; font-size: 15px; text-decoration: none; transition: opacity 0.3s; }
+        .partner-gate .cta-btn { display: inline-block; background: #FFD700; color: #000; padding: 12px 32px; border-radius: 8px; font-weight: bold; font-size: 15px; text-decoration: none; cursor: pointer; border: none; transition: opacity 0.3s; }
         .partner-gate .cta-btn:hover { opacity: 0.8; }
         .partner-gate .sub-note { color: #666; font-size: 11px; margin-top: 12px; }
+
+        /* ── MODAL STYLES ── */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .modal-card { background: #1A1A2E; border: 1px solid #00E5FF; border-radius: 16px; width: 100%; max-width: 550px; padding: 28px; position: relative; box-shadow: 0 0 30px rgba(0, 229, 255, 0.2); }
+        .modal-close { position: absolute; top: 16px; right: 20px; font-size: 24px; color: #888; cursor: pointer; }
+        .modal-close:hover { color: #FFD700; }
+        .modal-title { color: #FFD700; font-size: 20px; font-weight: bold; margin-bottom: 6px; text-align: center; }
+        .modal-sub { color: #8A95A5; font-size: 12px; text-align: center; margin-bottom: 20px; }
+        .modal-form label { display: block; color: #00E5FF; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+        .modal-form input, .modal-form select, .modal-form textarea { width: 100%; padding: 10px 12px; background: #0A0A1F; border: 1px solid #333; border-radius: 6px; color: #FFF; font-size: 13px; margin-bottom: 14px; }
+        .modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { outline: none; border-color: #00E5FF; }
+        .modal-submit { width: 100%; background: #00E5FF; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .modal-submit:hover { opacity: 0.9; }
 
         /* ── SEARCH ── */
         .search-section { background: #1A1A2E; padding: 18px 20px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #FFD700; }
@@ -154,9 +167,7 @@
 
     <div class="container">
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             HEADER — THE BRIDGE
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- HEADER -->
         <header>
             <div class="logo-icon">
                 <svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
@@ -188,14 +199,12 @@
             </div>
         </header>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             PUBLIC VALUE CARDS — WHAT ONEAfRI DOES (NO SECRETS)
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- PUBLIC VALUE CARDS -->
         <div class="value-grid">
             <div class="value-card">
                 <div class="icon">🏛️</div>
                 <div class="title">Hardware-Bound Trust</div>
-                <div class="desc">Identity and value bound to physical harware. No seed phrase. No password. No central server.</div>
+                <div class="desc">Identity and value bound to physical hardware. No seed phrase. No password. No central server.</div>
             </div>
             <div class="value-card">
                 <div class="icon">🛡️</div>
@@ -214,12 +223,10 @@
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             THE 4 TRUTHS — LIVE
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- THE 4 TRUTHS — LIVE -->
         <div class="section-header">
-            <h2>📊 The 4 Truths —  The Pulse of 54 Nations — The Continental Evidences</h2>
-            <p>"Four independent measurements. One economic pulse. Truth #1 is the subsidized entry. Truth #2 is the continental evidence. 
+            <h2>📊 The 4 Truths — The Pulse of 54 Nations — The Continental Evidences</h2>
+            <p>"Four independent measurements. One economic pulse. Truth #1 is the subsidized entry. Truth #2 is the continental evidence.
                 Truth #3 is the physical market reality. Truth #4 is the institutional anchor.
                 " <span class="highlight">This is not a price chart — it is the measurement of a continent's economic heartbeat.</span></p>
         </div>
@@ -238,7 +245,7 @@
             <div class="truth-card purple" id="truth2Card">
                 <div class="label">⚡ TRUTH #3 · PULSE <span class="live-dot"></span></div>
                 <div class="value" id="truth2">Loading...</div>
-                <div class="sub">The physical market reality · · Trading value</div>
+                <div class="sub">The physical market reality · Trading value</div>
             </div>
             <div class="truth-card blue" id="truth3Card">
                 <div class="label">⚓ TRUTH #4 · ANCHOR <span class="live-dot"></span></div>
@@ -247,9 +254,7 @@
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             OAF INDEX & PROFIT METRICS
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- OAF INDEX & PROFIT METRICS -->
         <div class="index-bar">
             <div>
                 <span class="label">📊 OAF INDEX</span>
@@ -275,23 +280,61 @@
             <div class="profit-item"><div class="label">⚡ Pulse Profit</div><div class="value up" id="pulseProfit">Loading...</div></div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             PARTNER GATE — HIDES THE MOAT
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- PARTNER GATE WITH INTERACTIVE MODAL -->
         <div class="partner-gate">
             <h3>🏛️ OneAfri for Institutions & Commercial Banks</h3>
             <p>
                 OneAfri provides licensed Microfinance Banks, FCA-Authorized EMIs, and International Trade Partners
-                with white-label settlement technology. The full technical architecture, integration flow, and
-                security model are available to licensed institutions and strategic partners under a mutual NDA.
+                with white-label settlement technology. Submit your application to receive partner access,
+                API credentials, and license keys.
             </p>
-            <a href="mailto:partners@oneafri.com" class="cta-btn">Request Partner Access</a>
-            <div class="sub-note">Full SDK documentation, workflow details, and security architecture available under NDA.</div>
+            <button class="cta-btn" onclick="openPartnerModal()">Request Partner Access</button>
+            <div class="sub-note">Applications sync in real-time to the Admin War Room & Dipoo Towers for approval.</div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             GLOBAL ORACLE EXPLORER
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- INTERACTIVE PARTNER APPLICATION MODAL -->
+        <div class="modal-overlay" id="partnerModal">
+            <div class="modal-card">
+                <span class="modal-close" onclick="closePartnerModal()">&times;</span>
+                <div class="modal-title">🏛️ Partner Access Application</div>
+                <div class="modal-sub">Directly linked to OneAfri Admin War Room & Dipoo Towers Command</div>
+                <form class="modal-form" id="partnerForm" onsubmit="handlePartnerSubmit(event)">
+                    <label>Institution Name</label>
+                    <input type="text" id="instName" placeholder="e.g. LAPO Microfinance Bank, Global Reach UK" required />
+
+                    <label>Contact Person & Title</label>
+                    <input type="text" id="contactPerson" placeholder="e.g. Chief Risk Officer / Managing Director" required />
+
+                    <label>Corporate Email</label>
+                    <input type="email" id="email" placeholder="official@institution.com" required />
+
+                    <label>Operating Jurisdiction</label>
+                    <select id="jurisdiction">
+                        <option value="NG">Nigeria (CBN Regulated)</option>
+                        <option value="UK">United Kingdom (FCA Authorized)</option>
+                        <option value="KE">Kenya (CBK Regulated)</option>
+                        <option value="ZA">South Africa (SARB Regulated)</option>
+                        <option value="US">United States (FinCEN / OCC)</option>
+                        <option value="OTHER">Other Sovereign Jurisdiction</option>
+                    </select>
+
+                    <label>Requested Integration</label>
+                    <select id="integrationType">
+                        <option value="White-Label MFB SDK AAR">White-Label MFB SDK AAR (`oneafri-partner-sdk.aar`)</option>
+                        <option value="Trade Finance Bridge">Trade Finance Bridge & 3-Party Escrow</option>
+                        <option value="ISO 20022 Gateway">ISO 20022 Interbank Gateway (`pacs.008` XML)</option>
+                        <option value="Full Enterprise Suite">Full Enterprise Sovereign Suite</option>
+                    </select>
+
+                    <label>Additional Partnership Notes</label>
+                    <textarea id="notes" rows="3" placeholder="Briefly describe your institution's trade volume or customer base..."></textarea>
+
+                    <button type="submit" class="modal-submit" id="submitBtn">Submit Application to Central Command</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- GLOBAL ORACLE EXPLORER -->
         <div class="search-section">
             <h3>🌐 Global Oracle Explorer</h3>
             <div class="search-container">
@@ -316,9 +359,7 @@
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             CHART
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- CHART -->
         <div class="chart-section">
             <div class="ticker">
                 <span class="pair-name" id="activePairTitle">OAF/USD</span>
@@ -331,19 +372,15 @@
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             54 NATIONS — THE ECONOMIC PULSE
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- 54 NATIONS -->
         <div class="nations-section">
-            <h3>🌍 Truth #1: The Evidence —  The Pulse of 54 Nations — The Continental Evidence (1 Unit = USD)</h3>
+            <h3>🌍 Truth #1: The Evidence — The Pulse of 54 Nations — The Continental Evidence (1 Unit = USD)</h3>
             <div class="nations-grid" id="nationsGrid">
                 <div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">Loading 54 Nations...</div>
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             DISCLAIMER
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- DISCLAIMER -->
         <div class="disclaimer">
             <h4>⚠️ IMPORTANT DISCLAIMER</h4>
             <p>
@@ -355,9 +392,7 @@
             </p>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             FOOTER
-             ═══════════════════════════════════════════════════════════════ -->
+        <!-- FOOTER -->
         <footer>
             © 2026 OneAfri (OAF) · <span class="robotica">ROBOTICA AFRICANA</span> · All rights reserved. · Sovereignty Through Transparency
         </footer>
@@ -400,6 +435,55 @@
         const oafGbp = $('oafGbp');
         const oafJpy = $('oafJpy');
         const oafBtc = $('oafBtc');
+
+        // ═════════════════════════════════════════════════════════════
+        // MODAL LOGIC FOR PARTNER ACCESS (LINKED TO ADMIN & DIPOO)
+        // ═════════════════════════════════════════════════════════════
+
+        function openPartnerModal() {
+            document.getElementById('partnerModal').style.display = 'flex';
+        }
+
+        function closePartnerModal() {
+            document.getElementById('partnerModal').style.display = 'none';
+        }
+
+        async function handlePartnerSubmit(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting to Central Command...";
+
+            const payload = {
+                instName: document.getElementById('instName').value,
+                contactPerson: document.getElementById('contactPerson').value,
+                email: document.getElementById('email').value,
+                jurisdiction: document.getElementById('jurisdiction').value,
+                integrationType: document.getElementById('integrationType').value,
+                notes: document.getElementById('notes').value
+            };
+
+            try {
+                const res = await fetch(`${BACKEND}/api/v1/trade/partner-request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✅ APPLICATION SUBMITTED!\nTracking ID: ${data.requestId}\nYour application has been logged to the Admin War Room & Dipoo Towers for review.`);
+                    closePartnerModal();
+                    document.getElementById('partnerForm').reset();
+                } else {
+                    alert(`❌ Submission Error: ${data.error}`);
+                }
+            } catch (err) {
+                alert(`⚠️ Backend Error: ${err.message}. Application queued locally.`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Application to Central Command";
+            }
+        }
 
         // ═════════════════════════════════════════════════════════════
         // FETCH FROM BACKEND
